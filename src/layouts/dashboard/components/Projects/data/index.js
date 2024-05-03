@@ -167,10 +167,9 @@ export const GRID_KEYS = {
   additionR: 0,
 };
 
-export const GRID_KEYS_LIST =  ['dateReceived','dueDateByKAM','projectLevel','tat',
+export const GRID_KEYS_LIST =  ['dateReceived',
 'projectLWC','status','customer','region','kamOwner','sector',
-'pstAssign','requirement','psrUpdates','proposedSolution','srdiother','submissionTo',
-'additionR']
+'pstAssign','requirement']
     
 export const GRID_KEYS_Values = {
   dateReceived: 'Date Received', // date

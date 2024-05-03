@@ -22,18 +22,21 @@ import App from "App";
 import { MaterialUIControllerProvider } from "context";
 import { GlobalControllerProvider } from "context/useGlobalData";
 import { NotificationsProvider } from "context/useNotifications";
+import { Notifications1Provider } from "context/useNotifications1";
 
 
 const container = document.getElementById("app");
 const root = createRoot(container);
 
+
+
 root.render(
   <BrowserRouter>
     <MaterialUIControllerProvider>
       <GlobalControllerProvider>
-      <NotificationsProvider >
+<Notifications1Provider >
         <App />
-      </NotificationsProvider >
+      </Notifications1Provider >
 
       </GlobalControllerProvider>
 

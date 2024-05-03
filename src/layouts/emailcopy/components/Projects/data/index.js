@@ -33,6 +33,7 @@ import team1 from "assets/images/team-1.jpg";
 import team2 from "assets/images/team-2.jpg";
 import team3 from "assets/images/team-3.jpg";
 import team4 from "assets/images/team-4.jpg";
+import { getStartWeekDate, getEndWeekDate } from './../../../../../helper/func';
 
 
 
@@ -327,3 +328,43 @@ export const MonthlySummaryDataDummy = [
         rfpCancel: 0,
     }
 ]
+
+
+
+
+export default function data() {
+  return {
+    columns: [
+      { Header: "Deshboard", accessor: "deshboard", width: "45%", align: "left" },
+      { Header: "From", accessor: "from", width: "10%", align: "left" },
+      { Header: "To", accessor: "to", align: "center" },
+      { Header: "In-Progress", accessor: "inProgress", align: "center" },
+      { Header: "Parked", accessor: "parked", align: "center" },
+      { Header: "Total", accessor: "total", align: "center" },
+    ],
+
+    rows: [
+      {
+        deshboard:  <MDTypography variant="caption" color="text" fontWeight="medium">
+        Active
+      </MDTypography>,
+        from:  <MDTypography variant="caption" color="text" fontWeight="medium">
+                    {getStartWeekDate()}
+
+      </MDTypography>,
+       to:  <MDTypography variant="caption" color="text" fontWeight="medium">
+               {getEndWeekDate()}
+
+     </MDTypography>,
+       inProgress:  <MDTypography variant="caption" color="text" fontWeight="medium">
+     </MDTypography>,
+       parked:  <MDTypography variant="caption" color="text" fontWeight="medium">
+       Active
+     </MDTypography>,
+      total:  <MDTypography variant="caption" color="text" fontWeight="medium">
+      Active
+    </MDTypography>,
+      },
+    ],
+  };
+}

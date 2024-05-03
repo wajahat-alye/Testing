@@ -48,8 +48,10 @@ const NotificationsProvider = ({ children }:any) => {
 
   return (
    <>
-      
-    {successSB && (
+       <NotificationsContext.Provider value={value}>
+       
+        {children}
+        {successSB && (
         <MDSnackbar
           color="success"
           icon="check"
@@ -57,13 +59,17 @@ const NotificationsProvider = ({ children }:any) => {
           content="Hello, world! This is a success notification message"
           dateTime="11 mins ago"
           open={successSB}
-          onClose={closeSuccessSB}
-          close={closeSuccessSB}
+          // onClose={closeSuccessSB}
+          // close={closeSuccessSB}
           // bgWhite
         />
+        // <h1>asdfasdfasdf</h1>
       )}
+      </NotificationsContext.Provider>
+      
+    
 
-      {infoSB && (
+      {/* {infoSB && (
         <MDSnackbar
           icon="notifications"
           title="Material Dashboard"
@@ -101,10 +107,8 @@ const NotificationsProvider = ({ children }:any) => {
           close={closeErrorSB}
           // bgWhite
         />
-      )}
-      <NotificationsContext.Provider value={value}>
-        {children}
-      </NotificationsContext.Provider>
+      )} */}
+  
    </>
   );
 };

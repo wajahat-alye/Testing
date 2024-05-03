@@ -45,7 +45,9 @@ function reducer(state, action) {
         return { ...state, gridData: action.value };
       }
   
-  
+      case "DESHBOARD_TOAST": {
+        return { ...state, deshboardToast: action.value };
+      }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
     }
@@ -59,6 +61,7 @@ function GlobalControllerProvider({ children }) {
     KMOwnerList: [],
     sectorList: [],
     gridData: [],
+    deshboardToast: false
   };
 
   const [controller, dispatch] = useReducer(reducer, initialState);
@@ -91,6 +94,7 @@ const setCustomerList = (dispatch, value) => dispatch({ type: "GET_CUSTOMER_LIST
 const setKMOwnerList = (dispatch, value) => dispatch({ type: "GET_KMOWNER_LIST", value });
 const setSectorList = (dispatch, value) => dispatch({ type: "GET_SECTOR_LIST", value });
 const setGridData = (dispatch, value) => dispatch({ type: "GET_GRID_DATA", value });
+const setDeshboardToast = (dispatch, value) => dispatch({ type: "DESHBOARD_TOAST", value });
 
 export {
   GlobalControllerProvider,
@@ -98,5 +102,6 @@ export {
   setCustomerList,
   setKMOwnerList,
   setSectorList,
-  setGridData
+  setGridData,
+  setDeshboardToast
 };

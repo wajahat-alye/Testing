@@ -59,7 +59,7 @@ function EditToolbar({ setRows, setRowModesModel }:any) {
 
 
 
-function GridUI3({ addMemberHandler }: any) {
+function GridUI3({ }: any) {
   const [rowModesModel, setRowModesModel] = React.useState({});
   const {customerListRedux,rows,setRows, KMOwnerListRedux,sectorListRedux} = useData();
 
@@ -218,6 +218,7 @@ for(let i=0; i< GRID_KEYS_LIST.length; i++){
     { editable: true, type: 'number', field: 'projectLWC', headerName: 'Project Life (Work Days)', width: 130 },
     { editable: true, type: 'singleSelect', valueOptions: dp_status, field: 'status', headerName: 'Status/Dependencies', width: 130 },
     { editable: true,  type: 'singleSelect', valueOptions: customerListRedux.map(e => e.customerName), field: 'customer', headerName: 'Customer', width: 130 },
+    // { editable: true, field: 'customer', headerName: 'Customer', width: 130 },
     { editable: true, type: 'singleSelect', valueOptions: dp_region, field: 'region', headerName: 'Region', width: 130 },
     {editable: true, type: 'singleSelect',field: 'kamOwner', valueOptions: KMOwnerListRedux.map(e => e.ownerName), headerName: 'KAM/ Owner', width: 130 },
     { editable: true, type: 'singleSelect', valueOptions: sectorListRedux.map(e => e.sectorName), field: 'sector', headerName: 'Sector', width: 130 },

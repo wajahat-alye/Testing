@@ -39,6 +39,8 @@ import PreSalesWeeklySummary from './components/Projects/PreSalesWeeklySummary';
 import DeshboardSummary from './components/Projects/DeshboardSummary';
 import { GRID_KEYS } from './../dashboard/components/Projects/data/index';
 import { TQRRWChart } from './../graphs/components/charts/index';
+import TableTempalte from './components/Projects/TableTempalte';
+import FooterUI from './../../examples/Footer/FooterUI';
 
 
 
@@ -78,6 +80,10 @@ function EmailCopy() {
   },
 ];
 
+
+
+
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -88,6 +94,9 @@ function EmailCopy() {
         
       </MDBox>
    
+
+    <TableTempalte title={"Deshboard Summary"} />
+
       <MDBox py={3}>
         
         <MDBox>
@@ -146,9 +155,16 @@ function EmailCopy() {
       </MDBox>
 
 
+      <FooterUI company= {{ href: "https://www.creative-tim.com/", name: "Creative Tim" }}
+  links= {[
+    { href: "https://www.creative-tim.com/", name: "Creative Tim" },
+    { href: "https://www.creative-tim.com/presentation", name: "About Us" },
+    { href: "https://www.creative-tim.com/blog", name: "Blog" },
+    { href: "https://www.creative-tim.com/license", name: "License" },
+  ]} />
 
 
-      <Footer />
+      {/* <Footer /> */}
     </DashboardLayout>
   );
 }

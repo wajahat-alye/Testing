@@ -49,7 +49,7 @@ import * as reduxData from "context/useGlobalData";
     const saveSummaryData = async (grid) => {
       try {
         const collectionRef = collection(db, "Records");
-        const docRef = doc(collectionRef, "documentId"); // Replace "documentId" with the desired document ID
+        const docRef = doc(collectionRef, "DeshboardData");
         await setDoc(docRef, { grid });
         // Success("Successfully Saved Records");
       } catch (e) {
