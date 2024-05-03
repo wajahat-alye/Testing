@@ -191,3 +191,139 @@ export const GRID_KEYS_Values = {
   submissionTo: 'Submission to KAM/ Owner', // date
   additionR: 'Additional Remarks',
 };
+
+
+export const DeshboardSummaryData = {
+    id: 0,
+    deshboard: '',
+    from: '', // date
+    to: '', // date
+    inProgress: 0,
+    parked: 0,
+    total: 0,
+}
+
+
+
+export const DeshboardSummaryDataDummy = [{
+    id: 1,
+    deshboard: '1',
+    from: '2000/01/01',
+    to: '2000/01/01',
+    inProgress: 1,
+    parked: 1,
+    total: 1,
+}
+,{
+    id: 2,
+
+    deshboard: '1',
+    from: '2000/01/01',
+    to: '2000/01/01',
+    inProgress: 1,
+    parked: 1,
+    total: 1,
+}
+,{
+    id: 3,
+
+    deshboard: '1',
+    from: '2000/01/01',
+    to: '2000/01/01',
+    inProgress: 1,
+    parked: 1,
+    total: 1,
+}
+]
+
+
+export const WeekSummaryData = {
+    id: 0,
+    week: '',
+    from: '', // date
+    to: '', // date
+    weekNum: 0,
+    new: 0,
+    completed: 0,
+    rfpCancel: 0,
+}
+
+
+
+export const WeekSummaryDataDummy = [
+    {
+        id: 1,
+        week: '1',
+        from: '1', // date
+        to: '1', // date
+        weekNum: 0,
+        new: 0,
+        completed: 0,
+        rfpCancel: 0,
+    },
+    {
+        id: 2,
+        week: '1',
+        from: '1', // date
+        to: '1', // date
+        weekNum: 0,
+        new: 0,
+        completed: 0,
+        rfpCancel: 0,
+    },{
+        id: 3,
+        week: '1',
+        from: '1', // date
+        to: '1', // date
+        weekNum: 0,
+        new: 0,
+        completed: 0,
+        rfpCancel: 0,
+    }
+]
+
+
+export const MonthlySummaryData = {
+    id: 0,
+    month: '',
+    from: '', // date
+    to: '', // date
+    monthNum: 0,
+    new: 0,
+    completed: 0,
+    rfpCancel: 0,
+}
+
+
+
+export const MonthlySummaryDataDummy = [
+    {
+        id: 1,
+        month: '1',
+        from: '1', // date
+        to: '1', // date
+        monthNum: 0,
+        new: 0,
+        completed: 0,
+        rfpCancel: 0,
+    },
+    {
+        id: 2,
+        month: '1',
+        from: '1', // date
+        to: '1', // date
+        monthNum: 0,
+        new: 0,
+        completed: 0,
+        rfpCancel: 0,
+    },{
+        id: 3,
+        month: '1',
+        from: '1', // date
+        to: '1', // date
+        monthNum: 0,
+        new: 0,
+        completed: 0,
+        rfpCancel: 0,
+    }
+]

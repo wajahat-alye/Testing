@@ -41,7 +41,10 @@ function reducer(state, action) {
       }
       case "GET_SECTOR_LIST": {
         return { ...state, sectorList: action.value };
+      }case "GET_GRID_DATA": {
+        return { ...state, gridData: action.value };
       }
+  
   
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
@@ -55,6 +58,7 @@ function GlobalControllerProvider({ children }) {
     customerList: [],
     KMOwnerList: [],
     sectorList: [],
+    gridData: [],
   };
 
   const [controller, dispatch] = useReducer(reducer, initialState);
@@ -86,11 +90,13 @@ GlobalControllerProvider.propTypes = {
 const setCustomerList = (dispatch, value) => dispatch({ type: "GET_CUSTOMER_LIST", value });
 const setKMOwnerList = (dispatch, value) => dispatch({ type: "GET_KMOWNER_LIST", value });
 const setSectorList = (dispatch, value) => dispatch({ type: "GET_SECTOR_LIST", value });
+const setGridData = (dispatch, value) => dispatch({ type: "GET_GRID_DATA", value });
 
 export {
   GlobalControllerProvider,
   useGlobalController,
   setCustomerList,
   setKMOwnerList,
-  setSectorList
+  setSectorList,
+  setGridData
 };

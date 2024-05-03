@@ -29,13 +29,11 @@ import MDTypography from "components/MDTypography";
 import DataTable from "examples/Tables/DataTable";
 
 // Data
-import data from "layouts/dashboard/components/Projects/data";
 // import GridUI3 from 'layouts/dashboard/components/Projects/GridUI3';
 import GridUI3 from './GridUI3';
 import { GRID_KEYS } from './data/index';
 
 function Projects() {
-  const { columns, rows } = data();
   const [menu, setMenu] = useState(null);
 
   const openMenu = ({ currentTarget }) => setMenu(currentTarget);

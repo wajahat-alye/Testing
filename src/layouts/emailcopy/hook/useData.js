@@ -46,15 +46,33 @@ import * as reduxData from "context/useGlobalData";
     const gridData = controller.gridData;
 
 
+    const saveSummaryData = async (grid) => {
+      try {
+        const collectionRef = collection(db, "Records");
+        const docRef = doc(collectionRef, "documentId"); // Replace "documentId" with the desired document ID
+        await setDoc(docRef, { grid });
+        // Success("Successfully Saved Records");
+      } catch (e) {
+        console.log(e);
+        // Warn("Failed to Save Records");
+      }
+    }
+  
+    const getSummaryData = async () => {
+      const q = query(collection(db, "Records"));
+      const querySnapshot = await getDocs(q);
+      let data = [];
+      querySnapshot.forEach((doc) => {
+        const prevRecord = doc.data().grid;
+        data = [...data, ...prevRecord]
+      });
+  
+      return data;
+    }
+
+
   return {
-    customerList,
-    customerListRedux,
-    KMOwnerListRedux,
-    sectorListRedux,
-    rows,
-    setRows,
-    gridData,
-    setCustomerList,KMOwnerList,setKMOwnerList,sectorList,setSectorList
+    saveSummaryData,getSummaryData
   };
 };
 

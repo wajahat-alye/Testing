@@ -7,6 +7,7 @@ import MDBox from "components/MDBox";
 import Card from "@mui/material/Card";
 import MDTypography from "components/MDTypography";
 import useGraph from './hook/useGraph';
+import { Template } from './../../../globalcomponents/Templates';
 
 const minMaxYear = (min, max) => {
   const years = [];
@@ -128,21 +129,7 @@ export const TPYW = ({ series }: any) => {
 
 
 
-const Wrapper = ({ children }: any) => {
-  return (
-    <Grid item xs={12} md={12} lg={6} spacing={3}>
-      <Card>
-        <MDBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
-          <MDTypography variant="h6" gutterBottom>
-            Projects
-          </MDTypography>
-        </MDBox>
 
-        <MDBox>{children}</MDBox>
-      </Card>{" "}
-    </Grid>
-  );
-};
 
 const Charts = () => {
 
@@ -151,49 +138,118 @@ const Charts = () => {
 
   return (
     <>
-      <Grid container spacing={3}>
-        <Wrapper>
-          <MVWSChart  series={MVWSChartData} />
-        </Wrapper>
-        <Wrapper>
-          <MRWSChart dataset={MRWSChartData} />
-        </Wrapper>
-      </Grid>
-      <Grid container spacing={3}>
-        <Wrapper>
-        <TQRRWChart  series={TQRRWChartData}/>
-        </Wrapper>
-        <Wrapper>
-        <TPYRWChart min={2019} max={2024} series={TPYRWChartData}/>
-        </Wrapper>
-      </Grid>
-      <Grid container spacing={3}>
-        <Wrapper>
-        <TVSChart series={TVSChartData}/>
-        </Wrapper>
-        <Wrapper>
-          
-          <MWTPS series={MVWSChartData}/>
-          
-        </Wrapper>
-      </Grid>
-      <Grid container spacing={3}>
-        <Wrapper>
-        <MAPYWSChart series={MAPYWSChartData}/>
 
-        </Wrapper>
-        <Wrapper>
-        <ACDPPPY series={MAPYWSChartData}/>
-
-        </Wrapper>
-      </Grid>
-      <Grid container spacing={3}>
-        <Wrapper>
-        <TPYW series={MAPYWSChartData}/>
-
-        </Wrapper>
+<MDBox py={3}>
         
-      </Grid>
+        <MDBox>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6} lg={6}>
+            <Template title={'Customer'}> 
+          <MVWSChart  series={MVWSChartData} />
+            
+            </Template>
+            </Grid>
+            <Grid item xs={12} md={6} lg={6}>
+            <Template title={'KAM/Owner'}>
+            <MRWSChart dataset={MRWSChartData} />
+            </Template>
+            </Grid>
+          </Grid>
+        </MDBox>
+
+      </MDBox>
+
+
+      <MDBox py={3}>
+        
+        <MDBox>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6} lg={6}>
+            <Template title={'Customer'}> 
+            <TQRRWChart  series={TQRRWChartData}/>
+            
+            </Template>
+            </Grid>
+            <Grid item xs={12} md={6} lg={6}>
+            <Template title={'KAM/Owner'}>
+            <TPYRWChart min={2019} max={2024} series={TPYRWChartData}/>
+
+            </Template>
+            </Grid>
+          </Grid>
+        </MDBox>
+
+      </MDBox>
+
+
+
+
+      <MDBox py={3}>
+        
+        <MDBox>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6} lg={6}>
+            <Template title={'Customer'}> 
+            <TVSChart series={TVSChartData}/>
+
+            </Template>
+            </Grid>
+            <Grid item xs={12} md={6} lg={6}>
+            <Template title={'KAM/Owner'}>
+            <MWTPS series={MVWSChartData}/>
+            </Template>
+            </Grid>
+          </Grid>
+        </MDBox>
+
+      </MDBox>
+
+
+  
+
+      <MDBox py={3}>
+        
+        <MDBox>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6} lg={6}>
+            <Template title={'Customer'}> 
+            <MAPYWSChart series={MAPYWSChartData}/>
+
+            </Template>
+            </Grid>
+            <Grid item xs={12} md={6} lg={6}>
+            <Template title={'KAM/Owner'}>
+            <ACDPPPY series={MAPYWSChartData}/>
+
+            </Template>
+            </Grid>
+          </Grid>
+        </MDBox>
+
+      </MDBox>
+
+
+
+
+      <MDBox py={3}>
+        
+        <MDBox>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6} lg={6}>
+            <Template title={'Customer'}> 
+            <TPYW series={MAPYWSChartData}/>
+
+
+            </Template>
+            </Grid>
+            
+          </Grid>
+        </MDBox>
+
+      </MDBox>
+
+
+
     </>
   );
 };

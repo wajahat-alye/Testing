@@ -59,10 +59,9 @@ function EditToolbar({ setRows, setRowModesModel }:any) {
 
 
 
-function GridUI3({ addMemberHandler, rows, setRows, handleDelete }: any) {
-  // const [rows, setRows1] = React.useState(gridData);
+function GridUI3({ addMemberHandler }: any) {
   const [rowModesModel, setRowModesModel] = React.useState({});
-  const {customerListRedux, KMOwnerListRedux,sectorListRedux} = useData();
+  const {customerListRedux,rows,setRows, KMOwnerListRedux,sectorListRedux} = useData();
 
 
   const handleRowEditStop = (params, event) => {

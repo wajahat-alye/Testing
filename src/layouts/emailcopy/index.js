@@ -29,21 +29,20 @@ import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatist
 
 
 // Dashboard components
-import Projects from "layouts/dashboard/components/Projects";
 import { useState } from 'react';
-import { GRID_KEYS } from './components/Projects/data/index';
-import CustomerUI from './components/Projects/CustomerUI';
-import KMOwner from './components/Projects/KMOwner';
-import Sector from './components/Projects/Sector';
 import Card from '@mui/material/Card';
 import MDTypography from 'components/MDTypography';
 import Icon from '@mui/material/Icon';
 import { Template } from './../globalcomponents/Templates';
+import MonthlySummary from './components/Projects/MonthlySummary';
+import PreSalesWeeklySummary from './components/Projects/PreSalesWeeklySummary';
+import DeshboardSummary from './components/Projects/DeshboardSummary';
+import { GRID_KEYS } from './../dashboard/components/Projects/data/index';
+import { TQRRWChart } from './../graphs/components/charts/index';
 
 
 
-
-function Dashboard() {
+function EmailCopy() {
 
 
   const [isDisable, setDisable] = useState(false);
@@ -65,51 +64,88 @@ function Dashboard() {
     setGsHandler('openSlideout', true);
   }
 
-  // const saveHandler = () => { 
-  //   setGridData(p => ([...p, formData]))
-  //   setGsHandler('openSlideout', false);
-  //   setFormData(GRID_KEYS);
-  // }
 
-  // const onSaveHandler = () => {
-  //   saveGridData(gridData);
-  // }
+  let currentDate = new Date().toJSON().slice(0, 10);
+
+
+ const TQRRWChartData = [
+  {
+    data: [
+      { id: 0, value: 3, label: 'South' },
+      { id: 1, value:4, label: 'North' },
+      { id: 2, value: 5, label: 'Central' },
+    ],
+  },
+];
 
   return (
     <DashboardLayout>
       <DashboardNavbar />
+      <MDBox>
+        <MDTypography variant="h6" gutterBottom>
+        Current Date: {currentDate}
+        </MDTypography>
+        
+      </MDBox>
+   
       <MDBox py={3}>
+        
         <MDBox>
           <Grid container spacing={3}>
             <Grid item xs={12} md={12} lg={12}>
-              <Template><Projects addMemberHandler={addMemberHandler}  /> </Template>
+              <Template title={'Deshboard Summary'}><DeshboardSummary addMemberHandler={addMemberHandler}  /> </Template>
             </Grid>
+          <Grid item xs={12} md={6} lg={6}>
+          <Template  title={'Pre-Sales Weekly Summary'}><PreSalesWeeklySummary /></Template>
+
+            </Grid>
+            
+            <Grid item xs={12} md={6} lg={6}>
+            <Template title={'Monthly Summary'}><MonthlySummary  /></Template>
+
+            </Grid>
+            
           </Grid>
         </MDBox>
+
       </MDBox>
+      
+
       <MDBox py={3}>
         
         <MDBox>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={6}>
-            <Template title={'Customer'}><CustomerUI  /></Template>
+            <Template title={'Customer'}> 
+           
+            <TQRRWChart  series={TQRRWChartData}/>
+            
+            </Template>
             </Grid>
             <Grid item xs={12} md={6} lg={6}>
-            <Template title={'KAM/Owner'}><KMOwner /></Template>
+            <Template title={'KAM/Owner'}>
+            <TQRRWChart  series={TQRRWChartData}/>
+
+            </Template>
+            </Grid>
+            <Grid item xs={12} md={6} lg={6}>
+            <Template title={'KAM/Owner'}>
+            <TQRRWChart  series={TQRRWChartData}/>
+
+            </Template>
+            </Grid>
+            <Grid item xs={12} md={6} lg={6}>
+            <Template title={'KAM/Owner'}>
+            <TQRRWChart  series={TQRRWChartData}/>
+
+            </Template>
             </Grid>
           </Grid>
         </MDBox>
 
       </MDBox>
-      <MDBox py={3}>
-      <MDBox>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={6}>
-            <Template title={'KAM/Owner'}><Sector  /></Template>
-            </Grid>
-          </Grid>
-        </MDBox>
-        </MDBox>
+
+
 
 
       <Footer />
@@ -117,4 +153,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default EmailCopy;

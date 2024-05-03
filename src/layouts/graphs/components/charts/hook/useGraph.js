@@ -28,12 +28,9 @@ import { useGlobalController } from 'context/useGlobalData';
     const [controller, dispatch] = useGlobalController();
 
     useEffect(()=>{
-        setTPYRWChartDataHandler();
-    },[]);
+      setTPYRWChartDataHandler();
+    },[controller.gridData]);
 
-    // useEffect(()=>{
-
-    // },[controller.])
 
     const setTPYRWChartDataHandler = async ()=>{
 
@@ -47,7 +44,20 @@ import { useGlobalController } from 'context/useGlobalData';
       const prevRecord = doc.data().grid;
       data = [...data, ...prevRecord]
     });
-
+    
+    const South = [];
+    const North = [];
+    const Central = [];
+    for(let i=0; i<controller.gridData.length; i++){
+      if(controller.gridData[i]['region'] == 'South'){
+        South.push(controller.gridData[i]);
+      }else if(controller.gridData[i]['region'] == 'North'){
+        North.push(controller.gridData[i]);
+      }else{
+        // Central
+        Central.push(controller.gridData[i]);
+      }
+    }
 
     
         setTPYRWChartData( [
@@ -59,9 +69,9 @@ import { useGlobalController } from 'context/useGlobalData';
           setTQRRWChartData([
             {
               data: [
-                { id: 0, value: 3, label: 'South' },
-                { id: 1, value: 5, label: 'North' },
-                { id: 2, value: 1, label: 'Central' },
+                { id: 0, value: South.length, label: 'South' },
+                { id: 1, value: North.length, label: 'North' },
+                { id: 2, value: Central.length, label: 'Central' },
               ],
             },
           ])

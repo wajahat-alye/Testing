@@ -4,8 +4,10 @@ import CancelIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
+import { exportToCSV } from './../../../../helper/ExportCSVHelper';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import { importExportBtnStyle } from './../styles.js/TablesStyles';
 import {
   DataGrid,
   GridActionsCellItem,
@@ -20,13 +22,15 @@ import {
   GridSlots,
   GridToolbarContainer,
 } from '@mui/x-data-grid';
-
+import Grid from '@mui/material/Grid';
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import MDSnackbar from 'components/MDSnackbar';
 import useData from './../../hook/useData';
 import { useGlobalController } from 'context/useGlobalData';
-import { useCallback } from 'react';
+import { useCallback, useRef, useState } from 'react';
+import SymbolAccordion from 'layouts/globalcomponents/SymbolAccordionRowView';
+
 
 const generateRandomId = () => {
   const randomId = Math.random().toString(36).substr(2, 6);
@@ -39,6 +43,7 @@ const Modal = {
 }
 
 function EditToolbar({ setCustomerList, setRowModesModel }:any) {
+	// const symbolAccordionRef = useRef(null);
 
   const handleClick = ()=>{
     const id = generateRandomId();
@@ -54,6 +59,7 @@ function EditToolbar({ setCustomerList, setRowModesModel }:any) {
       <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
         Add record
       </Button>
+      {/* <SymbolAccordion columns={['Id','Customer Name']} fileName={'Customer'} ref={symbolAccordionRef} /> */}
     </GridToolbarContainer>
   );
 }
@@ -227,14 +233,21 @@ function CustomerUI() {
     },
   };
 
+
+	const symbolAccordionRef = useRef(null);
+
   return (
     <>
+
     {renderErrorSB}
+              
+    <SymbolAccordion columns={['Id','Customer Name']} fileName={'Customer'} ref={symbolAccordionRef} />
+   
     <DataGrid
           rows={customerList}
           autoHeight={true}
           columns={columns}
-          editMode="row"
+          editMode='row'
           rowModesModel={rowModesModel}
           onRowModesModelChange={handleRowModesModelChange}
           onRowEditStop={handleRowEditStop}
