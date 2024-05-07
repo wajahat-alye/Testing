@@ -26,6 +26,9 @@ import { dp_customer, dp_kamOwner, GRID_KEYS_LIST, dp_pstAssign, dp_region, dp_s
 import Typography from '@mui/material/Typography';
 import MDSnackbar from 'components/MDSnackbar';
 import useData from './../../hook/useData';
+import { useEffect } from 'react';
+import * as reduxData from "context/useGlobalData";
+import { useState } from 'react';
 
 
 
@@ -61,8 +64,24 @@ function EditToolbar({ setRows, setRowModesModel }:any) {
 
 function GridUI3({ }: any) {
   const [rowModesModel, setRowModesModel] = React.useState({});
-  const {customerListRedux,rows,setRows, KMOwnerListRedux,sectorListRedux} = useData();
+  const [controller, dispatch] = reduxData.useGlobalController();
 
+  const {getDeshboardData,gridData,customerListRedux, KMOwnerListRedux,sectorListRedux} = useData();
+  const [rows, setRows] = useState([]);
+ 
+ 
+  useEffect(() => {
+    reduxData.setGridData(dispatch, rows);
+  }, [rows]);
+
+
+  useEffect(()=>{
+   const fetch = async ()=>{
+    const data = await getDeshboardData()
+    setRows(data);
+   }
+   fetch();
+  },[])
 
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {

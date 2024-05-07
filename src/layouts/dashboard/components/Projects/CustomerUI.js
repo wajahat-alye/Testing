@@ -28,8 +28,10 @@ import Typography from '@mui/material/Typography';
 import MDSnackbar from 'components/MDSnackbar';
 import useData from './../../hook/useData';
 import { useGlobalController } from 'context/useGlobalData';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import SymbolAccordion from 'layouts/globalcomponents/SymbolAccordionRowView';
+import * as reduxData from "context/useGlobalData";
+
 
 
 const generateRandomId = () => {
@@ -72,8 +74,23 @@ function CustomerUI() {
   const [controller, dispatch] = useGlobalController();
 
   const [rowModesModel, setRowModesModel] = React.useState({});
-  const {customerList, setCustomerList} = useData();
+  const {getFromFirebase} = useData();
+  const [customerList, setCustomerList] = useState([]);
+  
+  useEffect(() => {
+    reduxData.setCustomerList(dispatch, customerList);
+  }, [customerList]);
+
+  useEffect(()=>{
+    const fetch = async ()=>{
+     const data = await getFromFirebase()
+     setCustomerList(data);
+    }
+    fetch();
+   },[])
  
+
+
  
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {

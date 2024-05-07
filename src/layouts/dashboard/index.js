@@ -30,6 +30,13 @@ import GridUI3 from 'layouts/dashboard/components/Projects/GridUI3';
 
 function Dashboard() {
   const { successSB, closeSuccessSB } = useData();
+  const {getFromFirebase} = useData();
+
+
+  // useEffect(()=>{
+  //   getFromFirebase()
+  // },[])
+
   return (
     <>
       {successSB && (

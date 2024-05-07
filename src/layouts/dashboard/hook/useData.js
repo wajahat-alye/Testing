@@ -1,6 +1,6 @@
 "use client";
 
-import React,{ useEffect, useState,useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   addDoc,
   collection,
@@ -15,79 +15,146 @@ import {
 } from "firebase/firestore";
 import { db } from "layouts/authentication/firebase/firebase";
 import * as reduxData from "context/useGlobalData";
-import { useNotifications } from 'context/useNotifications';
-import { useNotifications1 } from 'context/useNotifications1';
+import { useNotifications } from "context/useNotifications";
+import { useNotifications1 } from "context/useNotifications1";
 
- const useData = () => {
-    const [controller, dispatch] = reduxData.useGlobalController();
-    const [customerList,setCustomerList] = useState([]);
-    const [KMOwnerList,setKMOwnerList] = useState([]);
-    const [sectorList,setSectorList] = useState([]);
-    const [rows, setRows] = useState([]);
-  // const { openSuccessSB, closeSuccessSB } = useNotifications();
-  // const { openSuccessSB, closeSuccessSB } = useNotifications1();
+const useData = () => {
+  const [controller, dispatch] = reduxData.useGlobalController();
+  // const [KMOwnerList, setKMOwnerList] = useState([]);
+  // const [sectorList, setSectorList] = useState([]);
 
-  // const [successSB, setSuccessSB] = useState(false);
+
+  // useEffect(() => {
+  //   reduxData.setKMOwnerList(dispatch, KMOwnerList);
+  // }, [KMOwnerList]);
+
+  // useEffect(() => {
+  //   reduxData.setSectorList(dispatch, sectorList);
+  // }, [sectorList]);
+
+
+
+  const customerListRedux = controller.customerList;
+  const KMOwnerListRedux = controller.KMOwnerList;
+  const sectorListRedux = controller.sectorList;
+  const gridData = controller.gridData;
+  const successSB = controller.deshboardToast;
+
+
   
+  const saveSectorToFirebase = async () => {
+    try {
+      const docRef = doc(db, "SectorData", "documentId");
+      await setDoc(docRef, { grid: sectorListRedux });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+
+  const getSectorFromFirebase = async () => {
+    const documentRef = doc(db, 'SectorData', 'documentId');
+    const documentSnapshot = await getDoc(documentRef);
+    if (documentSnapshot.exists()) {
+      const documentData = documentSnapshot.data();
+      return documentData.grid;
+    } else {
+      console.log('Document does not exist');
+    }
+    return [];
+  };
+
+
+
+  const saveKMOwnerToFirebase = async () => {
+    try {
+      const docRef = doc(db, "KMOwnerData", "documentId");
+      await setDoc(docRef, { grid: KMOwnerListRedux });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+
+  const getKMOwnerFromFirebase = async () => {
+    const documentRef = doc(db, 'KMOwnerData', 'documentId');
+    const documentSnapshot = await getDoc(documentRef);
+    if (documentSnapshot.exists()) {
+      const documentData = documentSnapshot.data();
+      return documentData.grid;
+    } else {
+      console.log('Document does not exist');
+    }
+    return [];
+  };
+
+
+  const saveCustomerToFirebase = async () => {
+    try {
+      const docRef = doc(db, "CustomerData", "documentId");
+      await setDoc(docRef, { grid: customerListRedux });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+
+  const getFromFirebase = async () => {
+    const documentRef = doc(db, 'CustomerData', 'documentId');
+    const documentSnapshot = await getDoc(documentRef);
+    if (documentSnapshot.exists()) {
+      const documentData = documentSnapshot.data();
+      return documentData.grid;
+    } else {
+      console.log('Document does not exist');
+    }
+    return [];
+  };
+
+  const saveToFirebase = async () => {
+    try {
+      const docRef = doc(db, "DeshboardData", "documentId");
+      await setDoc(docRef, { grid: gridData });
+    } catch (e) {
+      console.log(e);
+    }
+  };
   
-  // const openSuccessSB = () => setSuccessSB(true);
-  // const closeSuccessSB = () => setSuccessSB(false);
-
-
-    useEffect(()=>{
-      reduxData.setCustomerList(dispatch, customerList)
-    },[customerList])
-
-    useEffect(()=>{
-      reduxData.setKMOwnerList(dispatch, KMOwnerList)
-    },[KMOwnerList])
-
-    useEffect(()=>{
-      reduxData.setSectorList(dispatch, sectorList)
-    },[sectorList])
-
-    useEffect(()=>{
-      reduxData.setGridData(dispatch, rows)
-    },[rows])
-
-    const customerListRedux = controller.customerList;
-    const KMOwnerListRedux = controller.KMOwnerList;
-    const sectorListRedux = controller.sectorList;
-    const gridData = controller.gridData;
-    const successSB = controller.deshboardToast;
-
-
-    const saveToFirebase = async ()=>{
-
-      try {
-        const collectionRef = collection(db, "Records");
-        const docRef = doc(collectionRef, "DeshboardData");
-        await setDoc(docRef, { gridData });
-        // Success("Successfully Saved Records");
-        // openSuccessSB();
-        reduxData.setDeshboardToast(dispatch, true)
-      } catch (e) {
-        console.log(e);
-        // Warn("Failed to Save Records");
-      }
+  const getDeshboardData = async () => {
+    const documentRef = doc(db, 'DeshboardData', 'documentId');
+    const documentSnapshot = await getDoc(documentRef);
+    if (documentSnapshot.exists()) {
+      const documentData = documentSnapshot.data();
+      return documentData.grid;
+    } else {
+      console.log('Document does not exist');
     }
+    return [];
+  };
 
+  
+ 
 
-    const closeSuccessSB = ()=>{
-      reduxData.setDeshboardToast(dispatch, false)
-
-    }
+  const closeSuccessSB = () => {
+    reduxData.setDeshboardToast(dispatch, false);
+  };
 
   return {
-    customerList,
     customerListRedux,
     KMOwnerListRedux,
     sectorListRedux,
-    rows,
-    setRows,
+    getSectorFromFirebase,
+    saveSectorToFirebase,
+    getKMOwnerFromFirebase,
+    saveKMOwnerToFirebase,
     gridData,
-    saveToFirebase,successSB,closeSuccessSB,
-    setCustomerList,KMOwnerList,setKMOwnerList,sectorList,setSectorList
+    saveCustomerToFirebase,
+    saveToFirebase,
+    getFromFirebase,
+    getDeshboardData,
+    successSB,
+    closeSuccessSB,
+ 
   };
 };
 

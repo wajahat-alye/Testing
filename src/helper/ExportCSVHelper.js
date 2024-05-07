@@ -18,3 +18,4 @@ export const exportToCSV = (data, name) => {
 		alert("Your browser does not support downloading files..");
 	}
 };
+

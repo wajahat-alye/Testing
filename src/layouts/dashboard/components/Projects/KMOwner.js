@@ -4,8 +4,10 @@ import CancelIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
+import { exportToCSV } from './../../../../helper/ExportCSVHelper';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import { importExportBtnStyle } from './../styles.js/TablesStyles';
 import {
   DataGrid,
   GridActionsCellItem,
@@ -20,48 +22,75 @@ import {
   GridSlots,
   GridToolbarContainer,
 } from '@mui/x-data-grid';
-
+import Grid from '@mui/material/Grid';
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import MDSnackbar from 'components/MDSnackbar';
 import useData from './../../hook/useData';
+import { useGlobalController } from 'context/useGlobalData';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import SymbolAccordion from 'layouts/globalcomponents/SymbolAccordionRowView';
+import * as reduxData from "context/useGlobalData";
+
+
 
 const generateRandomId = () => {
   const randomId = Math.random().toString(36).substr(2, 6);
   return randomId;
 };
 
-
 const Modal = {
   ownerName: '',
   id: '',
-  type: ''
 }
 
 function EditToolbar({ setKMOwnerList, setRowModesModel }:any) {
+	// const symbolAccordionRef = useRef(null);
 
-  const handleClick = () => {
+  const handleClick = ()=>{
     const id = generateRandomId();
-    setKMOwnerList((oldRows) => [...oldRows, { ...Modal,id }]);
-    setRowModesModel((oldModel) => ({
-      ...oldModel,
-      [id]: { mode: GridRowModes.Edit, fieldToFocus: 'ownerName' },
-    }));
-  };
+      setKMOwnerList((oldRows) => [...oldRows, { ...Modal,id }]);
+      setRowModesModel((oldModel) => ({
+        ...oldModel,
+        [id]: { mode: GridRowModes.Edit, fieldToFocus: 'ownerName' },
+      }));
+  }
 
   return (
     <GridToolbarContainer>
       <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
         Add record
       </Button>
+      {/* <SymbolAccordion columns={['Id','Owner Name']} fileName={'Customer'} ref={symbolAccordionRef} /> */}
     </GridToolbarContainer>
   );
 }
 
 
+
+
+
 function KMOwner() {
-  const {KMOwnerList, setKMOwnerList} = useData();
+  const [controller, dispatch] = useGlobalController();
+
   const [rowModesModel, setRowModesModel] = React.useState({});
+  const {getKMOwnerFromFirebase} = useData();
+  const [KMOwnerList, setKMOwnerList] = useState([]);
+  
+  useEffect(() => {
+    reduxData.setKMOwnerList(dispatch, KMOwnerList);
+  }, [KMOwnerList]);
+
+  useEffect(()=>{
+    const fetch = async ()=>{
+     const data = await getKMOwnerFromFirebase();
+     setKMOwnerList(data);
+    }
+    fetch();
+   },[])
+ 
+
+
  
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -82,6 +111,9 @@ function KMOwner() {
   };
 
   const handleCancelClick = (id) => () => {
+   
+
+    
 
     const editedRow = KMOwnerList.find((row) => row.id === id);
 
@@ -218,14 +250,21 @@ function KMOwner() {
     },
   };
 
+
+	const symbolAccordionRef = useRef(null);
+
   return (
     <>
+
     {renderErrorSB}
+              
+    <SymbolAccordion columns={['Id','Owner Name']} fileName={'Customer'} ref={symbolAccordionRef} />
+   
     <DataGrid
           rows={KMOwnerList}
           autoHeight={true}
           columns={columns}
-          editMode="row"
+          editMode='row'
           rowModesModel={rowModesModel}
           onRowModesModelChange={handleRowModesModelChange}
           onRowEditStop={handleRowEditStop}

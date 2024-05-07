@@ -9,7 +9,7 @@ import { exportToCSV } from "../../../helper/ExportCSVHelper";
 import { importExportBtnStyle, symbolCardsContainer, symbolContainerStyles } from "./styles";
 import ConfirmationPopup from './../Popup/ConfirmationPopup';
 
-const SymbolAccordion = forwardRef((props, ref) => {
+const SymbolAccordion = forwardRef((props:any, ref) => {
 	const [state, setState] = useState(() => ({
 		stockSymbols: [],
 		stockSymbolsTemp: [],
@@ -97,7 +97,8 @@ const SymbolAccordion = forwardRef((props, ref) => {
 			Papa.parse(file, {
 				complete: function ({ meta: { fields }, data }) {
 					if (validateCsv(fields)) {
-						const columnValues = data.filter(({ Symbols }) => Symbols).map(({ Symbols }) => Symbols);
+						const columnValues = data.map(e=>[e.id,e['Sector Name']])
+
 
 						setState((prevState) => ({
 							...prevState,
@@ -119,17 +120,20 @@ const SymbolAccordion = forwardRef((props, ref) => {
 
 	const validateCsv = (headers) => {
 		// Check if there is only one column and its header is 'Symbols'
-		return headers.length === 1 && headers[0] === "Symbols";
-		// return ['Symbol'].includes(headers);
+		return headers[0] === "id";
+		// return ['id','Sector Name'].includes(headers);
 	};
 
 	const handleImportClick = () => {
 		fileInputRef.current.click();
 	};
 
+
 	const exportCSV = () => {
-		// exportToCSV([['Symbols'], ...state.stockSymbols.map((symbol) => [symbol])],  `${fileName}.csv`);
-		exportToCSV([['Symbols'], ...state.stockSymbols.map((symbol) => [symbol])],  `abcd.csv`);
+		if(!props?.data && !props?.data?.length) { return };
+		const content = props.data.map(e => [e.id,`="${e.sectorName}"`,]);
+		exportToCSV(([['id','Sector Name'], ...content ]),  `sector.csv`);
+
 	};
 
 	const message1 = `You are about to delete the Symbol: ${stockSymbols[selectedSymbolIndex]} it will be remove for restricted symbol`;

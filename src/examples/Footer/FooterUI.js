@@ -39,10 +39,21 @@ import Button from "@mui/material/Button";
 import MDButton from "components/MDButton";
 import useData from "./../../layouts/dashboard/hook/useData";
 import Card from '@mui/material/Card';
+import * as reduxData from "context/useGlobalData";
 
 function FooterUI({}) {
-  const { saveToFirebase } = useData();
-  const [controller, dispatch] = useMaterialUIController();
+  const { saveToFirebase,saveSectorToFirebase, saveKMOwnerToFirebase,saveCustomerToFirebase } = useData();
+  const [controller, dispatch] = reduxData.useGlobalController();
+
+
+  const saveData = async () =>{
+    await saveToFirebase();
+    await saveCustomerToFirebase();
+    await saveKMOwnerToFirebase();
+    await saveSectorToFirebase();
+    reduxData.setDeshboardToast(dispatch, true);
+
+  }
 
   return (
     <AppBar
@@ -65,7 +76,7 @@ function FooterUI({}) {
             target="_blank"
             rel="noreferrer"
             variant="gradient"
-            onClick={saveToFirebase}
+            onClick={saveData}
             fullWidth
           >
             Save

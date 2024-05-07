@@ -4,8 +4,10 @@ import CancelIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
+import { exportToCSV } from './../../../../helper/ExportCSVHelper';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import { importExportBtnStyle } from './../styles.js/TablesStyles';
 import {
   DataGrid,
   GridActionsCellItem,
@@ -20,17 +22,22 @@ import {
   GridSlots,
   GridToolbarContainer,
 } from '@mui/x-data-grid';
-
+import Grid from '@mui/material/Grid';
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import MDSnackbar from 'components/MDSnackbar';
 import useData from './../../hook/useData';
+import { useGlobalController } from 'context/useGlobalData';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import SymbolAccordion from 'layouts/globalcomponents/SymbolAccordionRowView';
+import * as reduxData from "context/useGlobalData";
+
+
 
 const generateRandomId = () => {
   const randomId = Math.random().toString(36).substr(2, 6);
   return randomId;
 };
-
 
 const Modal = {
   sectorName: '',
@@ -38,29 +45,52 @@ const Modal = {
 }
 
 function EditToolbar({ setSectorList, setRowModesModel }:any) {
+	// const symbolAccordionRef = useRef(null);
 
-  const handleClick = () => {
+  const handleClick = ()=>{
     const id = generateRandomId();
-    setSectorList((oldRows) => [...oldRows, { ...Modal,id }]);
-    setRowModesModel((oldModel) => ({
-      ...oldModel,
-      [id]: { mode: GridRowModes.Edit, fieldToFocus: 'sectorName' },
-    }));
-  };
+      setSectorList((oldRows) => [...oldRows, { ...Modal,id }]);
+      setRowModesModel((oldModel) => ({
+        ...oldModel,
+        [id]: { mode: GridRowModes.Edit, fieldToFocus: 'sectorName' },
+      }));
+  }
 
   return (
     <GridToolbarContainer>
       <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
         Add record
       </Button>
+      {/* <SymbolAccordion columns={['Id','Sector Name']} fileName={'Customer'} ref={symbolAccordionRef} /> */}
     </GridToolbarContainer>
   );
 }
 
 
-function Sector() {
+
+
+
+function KMOwner() {
+  const [controller, dispatch] = useGlobalController();
+
   const [rowModesModel, setRowModesModel] = React.useState({});
-  const {sectorList, setSectorList} = useData();
+  const {getSectorFromFirebase} = useData();
+  const [sectorList, setSectorList] = useState([]);
+  
+  useEffect(() => {
+    reduxData.setSectorList(dispatch, sectorList);
+  }, [sectorList]);
+
+  useEffect(()=>{
+    const fetch = async ()=>{
+     const data = await getSectorFromFirebase();
+     setSectorList(data);
+    }
+    fetch();
+   },[])
+ 
+
+
  
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -81,6 +111,9 @@ function Sector() {
   };
 
   const handleCancelClick = (id) => () => {
+   
+
+    
 
     const editedRow = sectorList.find((row) => row.id === id);
 
@@ -217,14 +250,21 @@ function Sector() {
     },
   };
 
+
+	const symbolAccordionRef = useRef(null);
+
   return (
     <>
+
     {renderErrorSB}
+              
+    <SymbolAccordion data={sectorList} columns={['Id','Sector Name']} fileName={'Customer'} ref={symbolAccordionRef} />
+   
     <DataGrid
           rows={sectorList}
           autoHeight={true}
           columns={columns}
-          editMode="row"
+          editMode='row'
           rowModesModel={rowModesModel}
           onRowModesModelChange={handleRowModesModelChange}
           onRowEditStop={handleRowEditStop}
@@ -241,5 +281,5 @@ function Sector() {
 }
 
 
-export default  Sector;
+export default  KMOwner;
 
