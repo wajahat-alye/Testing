@@ -59,15 +59,16 @@ import * as reduxData from "context/useGlobalData";
     }
   
     const getSummaryData = async () => {
-      const q = query(collection(db, "Records"));
-      const querySnapshot = await getDocs(q);
-      let data = [];
-      querySnapshot.forEach((doc) => {
-        const prevRecord = doc.data().grid;
-        data = [...data, ...prevRecord]
-      });
+      // const q = query(collection(db, "Records"));
+      // const querySnapshot = await getDocs(q);
+      // let data = [];
+      // querySnapshot.forEach((doc) => {
+      //   const prevRecord = doc.data().grid;
+      //   data = [...data, ...prevRecord]
+      // });
   
-      return data;
+      // return data;
+      return [];
     }
 
 

@@ -95,11 +95,12 @@ const SymbolAccordion = forwardRef((props:any, ref) => {
 
 		if (file) {
 			Papa.parse(file, {
-				complete: function ({ meta: { fields }, data }) {
+				complete: function (ele) {
+					const { meta: { fields }, data } = ele;
 					if (validateCsv(fields)) {
 						const columnValues = data.map(e=>[e.id,e['Sector Name']])
 
-
+						props?.getData(data);
 						setState((prevState) => ({
 							...prevState,
 							stockSymbolsTemp: [...prevState.stockSymbolsTemp, ...columnValues],

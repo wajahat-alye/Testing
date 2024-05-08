@@ -40,10 +40,10 @@ import { useGlobalController } from 'context/useGlobalData';
         const q = query(collection(db, "Records"));
     const querySnapshot = await getDocs(q);
     let data = [];
-    querySnapshot.forEach((doc) => {
-      const prevRecord = doc.data().grid;
-      data = [...data, ...prevRecord]
-    });
+    // querySnapshot.forEach((doc) => {
+    //   const prevRecord = doc.data().grid;
+    //   data = [...data, ...prevRecord]
+    // });
     
     const South = [];
     const North = [];

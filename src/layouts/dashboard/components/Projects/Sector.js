@@ -45,7 +45,6 @@ const Modal = {
 }
 
 function EditToolbar({ setSectorList, setRowModesModel }:any) {
-	// const symbolAccordionRef = useRef(null);
 
   const handleClick = ()=>{
     const id = generateRandomId();
@@ -72,6 +71,7 @@ function EditToolbar({ setSectorList, setRowModesModel }:any) {
 
 function KMOwner() {
   const [controller, dispatch] = useGlobalController();
+	const symbolAccordionRef = useRef(null);
 
   const [rowModesModel, setRowModesModel] = React.useState({});
   const {getSectorFromFirebase} = useData();
@@ -251,14 +251,13 @@ function KMOwner() {
   };
 
 
-	const symbolAccordionRef = useRef(null);
 
   return (
     <>
 
     {renderErrorSB}
               
-    <SymbolAccordion data={sectorList} columns={['Id','Sector Name']} fileName={'Customer'} ref={symbolAccordionRef} />
+    <SymbolAccordion getData={setSectorList}  data={sectorList} columns={['Id','Sector Name']} fileName={'Customer'} ref={symbolAccordionRef} />
    
     <DataGrid
           rows={sectorList}
