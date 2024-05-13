@@ -108,10 +108,10 @@ const SymbolAccordion = forwardRef((props:any, ref) => {
 			// ht.push(GRID_KEYS_Values[ele]);
 
 			if(ele == 'id'){
-				ht[GRID_KEYS_Keys[ele]] = ele;
+				ht[ele] = x[ele];
 
 			}else{
-				ht[GRID_KEYS_Keys[ele]] = ele;
+				ht[GRID_KEYS_Keys[ele]] = x[ele];
 			}
 		}
 		return ht;
