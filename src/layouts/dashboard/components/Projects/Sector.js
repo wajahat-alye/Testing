@@ -60,7 +60,6 @@ function EditToolbar({ setSectorList, setRowModesModel }:any) {
       <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
         Add record
       </Button>
-      {/* <SymbolAccordion columns={['Id','Sector Name']} fileName={'Customer'} ref={symbolAccordionRef} /> */}
     </GridToolbarContainer>
   );
 }
@@ -257,7 +256,7 @@ function KMOwner() {
 
     {renderErrorSB}
               
-    <SymbolAccordion getData={setSectorList}  data={sectorList} columns={['Id','Sector Name']} fileName={'Customer'} ref={symbolAccordionRef} />
+    <SymbolAccordion getData={setSectorList}  data={sectorList}  ref={symbolAccordionRef} />
    
     <DataGrid
           rows={sectorList}

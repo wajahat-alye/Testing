@@ -23,11 +23,13 @@ import { MaterialUIControllerProvider } from "context";
 import { GlobalControllerProvider } from "context/useGlobalData";
 import { NotificationsProvider } from "context/useNotifications";
 import { Notifications1Provider } from "context/useNotifications1";
+// import { fileURLToPath } from 'node:url';
 
 
 const container = document.getElementById("app");
 const root = createRoot(container);
 
+// const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 
 root.render(
@@ -42,4 +44,5 @@ root.render(
 
     </MaterialUIControllerProvider>
   </BrowserRouter>
+  // ,`${__dirname}/recharts-basic.pdf`
 );

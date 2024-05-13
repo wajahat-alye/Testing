@@ -257,9 +257,8 @@ function CustomerUI() {
     <>
 
     {renderErrorSB}
-              
-    <SymbolAccordion columns={['Id','Customer Name']} fileName={'Customer'} ref={symbolAccordionRef} />
-   
+  <SymbolAccordion gridType={2} getData={setCustomerList}  data={customerList}  ref={symbolAccordionRef} />
+     
     <DataGrid
           rows={customerList}
           autoHeight={true}

@@ -30,12 +30,14 @@ import { makeDate } from './../../../../helper/func';
 import { useEffect, useState } from 'react';
 import useData from './../../hook/useData';
 import {DeshboardSummaryDataDummy} from './data';
+import * as reduxData from "context/useGlobalData";
+
 
 function DeshboardSummary({ addMemberHandler }: any) {
   // const { openErrorSB, closeErrorSB } = useNotifications();
   const {saveSummaryData,getSummaryData} = useData();
   const [gridData, setGridData] = useState([]);
-
+  const [controller, dispatch] = reduxData.useGlobalController();
 
 
 
@@ -53,8 +55,11 @@ function DeshboardSummary({ addMemberHandler }: any) {
     {  field: 'to', headerName: 'To', flex: 1  },
     { type: 'number',  field: 'inProgress', headerName: 'In-Progress', flex: 1  },
     {  type: 'number', field: 'parked', headerName: 'Parked', flex: 1  },
-    {  type: 'number', field: 'total', headerName: 'Total', flex: 1  },
+    {  type: 'number', field: 'total', headerName: 'Total', flex: 1, valueGetter: (_,rowData)=>{
+      return rowData.inProgress + rowData.parked;
+    }  },
   ];
+
 
   return (
     <>

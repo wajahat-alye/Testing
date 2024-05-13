@@ -1,31 +1,78 @@
-import React from 'react';
-import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
+import React from "react";
+import { PDFViewer, Document, Page, View, Text, Image, StyleSheet } from "@react-pdf/renderer";
 
-// Create styles
-const styles = StyleSheet.create({
-  page: {
-    flexDirection: 'row',
-    backgroundColor: '#E4E4E4',
-  },
-  section: {
-    margin: 10,
-    padding: 10,
-    flexGrow: 1,
-  },
-});
+import { Bar, Pie } from "react-chartjs-2";
+import { Modal, Button } from "@mui/material";
+import { useState } from "react";
+import ReactPDFChart from "react-pdf-charts";
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
+import { PieChart } from "react-minimal-pie-chart";
+import PieChartUI from "./PieChartUI";
 
-// Create Document Component
-const MyDocument = () => (
-  <Document>
-    <Page size="A4" style={styles.page}>
-      <View style={styles.section}>
-        <Text>Section #1</Text>
-      </View>
-      <View style={styles.section}>
-        <Text>Section #2</Text>
-      </View>
-    </Page>
-  </Document>
-);
+const MyDocument = () => {
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+
+
+  const data11 = {
+    labels: ["Red", "Blue", "Yellow"],
+    datasets: [
+      {
+        label: "My First Dataset",
+        data: [300, 50, 100],
+        backgroundColor: ["red", "blue", "yellow"],
+        hoverOffset: 4,
+      },
+    ],
+  };
+
+  return (
+    <div>
+      <Button variant="contained" onClick={handleOpen}>
+        Download PDF
+      </Button>
+      <Modal open={open} onClose={handleClose}>
+        <div style={{ width: "100%", height: "100%" }}>
+          <div style={{ display: "flex", justifyContent: "flex-end", backgroundColor: "white" }}>
+            <Button variant="contained" onClick={handleClose}>
+              Close
+            </Button>
+          </div>
+
+          <PDFViewer width="100%" height="100%">
+            <Document>
+              <Page size="A4">
+                {/* <ReactPDFChart> */}
+                  {/* <PieChartUI /> */}
+                  {/* <LineChart data={data} height={300} width={500}>
+        <XAxis dataKey='name' />
+        <YAxis />
+        <CartesianGrid stroke='#eee' strokeDasharray='5' />
+        <Line type='monotone' dataKey='uv' stroke='#8884d8' />
+        <Line type='monotone' dataKey='pv' stroke='#82ca9d' />
+        
+      </LineChart>  */}
+                {/* </ReactPDFChart> */}
+                <Text>Pie Chart Example</Text>
+
+                {/* <Pie data={data11} /> */}
+
+              </Page>
+            </Document>
+          </PDFViewer>
+        </div>
+      </Modal>
+
+    </div>
+  );
+};
 
 export default MyDocument;

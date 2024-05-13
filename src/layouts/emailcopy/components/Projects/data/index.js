@@ -35,6 +35,8 @@ import team3 from "assets/images/team-3.jpg";
 import team4 from "assets/images/team-4.jpg";
 import { getStartWeekDate, getEndWeekDate } from './../../../../../helper/func';
 
+import * as reduxData from "context/useGlobalData";
+import { useEffect, useState, memo } from 'react';
 
 
 export const TABLE_HEAD = ["S/N", "Date Received", "Due Date by KAM /Customer", "Project Level", "TAT", "Project Life (Work Days)", "Status/Dependencies", "Customer", "Region", "KAM/ Owner", "Sector", "Pre-Sales task Assigned to", "Requirement / Query", "Pre-Sales Remarks / Updates", "Proposed Solution", 'Sale/ Rental/ Demo/ In-House/ Other', 'Submission to KAM/ Owner', 'Additional Remarks'];
@@ -332,7 +334,37 @@ export const MonthlySummaryDataDummy = [
 
 
 
-export default function data() {
+ const data = () => {
+  // const [controller, dispatch] = reduxData.useGlobalController();
+
+  // // const customerListRedux = controller.customerList;
+  // // const KMOwnerListRedux = controller.KMOwnerList;
+  // // const sectorListRedux = controller.sectorList;
+  // // const successSB = controller.deshboardToast;
+
+  // // status
+
+
+  // const [inProgress1, setinProgress] = useState(0);
+  // const [inParked, setinParked] = useState(0);
+
+  // useEffect(()=>{
+  //   let inP = 0;
+  //   let parked = 0;
+  //   for(let i=0; i < gridData.length; i++){
+  //     if(gridData[i].status === "In Progress"){
+  //       inP++;
+  //     }
+  //     if(gridData[i].status.includes('Parked')){
+  //       parked++;
+  //     }
+  //   }
+  //   setinProgress(inP);
+  //   setinParked(parked)
+  // },[gridData])
+
+  // console.log(inParked, inProgress1, gridData);
+
   return {
     columns: [
       { Header: "Deshboard", accessor: "deshboard", width: "45%", align: "left" },
@@ -343,28 +375,27 @@ export default function data() {
       { Header: "Total", accessor: "total", align: "center" },
     ],
 
-    rows: [
-      {
-        deshboard:  <MDTypography variant="caption" color="text" fontWeight="medium">
-        Active
-      </MDTypography>,
-        from:  <MDTypography variant="caption" color="text" fontWeight="medium">
-                    {getStartWeekDate()}
-
-      </MDTypography>,
-       to:  <MDTypography variant="caption" color="text" fontWeight="medium">
-               {getEndWeekDate()}
-
-     </MDTypography>,
-       inProgress:  <MDTypography variant="caption" color="text" fontWeight="medium">
-     </MDTypography>,
-       parked:  <MDTypography variant="caption" color="text" fontWeight="medium">
-       Active
-     </MDTypography>,
-      total:  <MDTypography variant="caption" color="text" fontWeight="medium">
-      Active
-    </MDTypography>,
-      },
+    columns1: [
+      { Header: "Week", accessor: "week", width: "45%", align: "left" },
+      { Header: "From", accessor: "from", width: "10%", align: "left" },
+      { Header: "To", accessor: "to", align: "center" },
+      { Header: "Week#", accessor: "weekNum", align: "center" },
+      { Header: "New", accessor: "new", align: "center" },
+      { Header: "Completed", accessor: "completed", align: "center" },
+      { Header: "RFP Cancelled", accessor: "rfpCancelled", align: "center" },
+    
+    ],
+    columns2: [
+      { Header: "Month", accessor: "month", width: "45%", align: "left" },
+      { Header: "From", accessor: "from", width: "10%", align: "left" },
+      { Header: "To", accessor: "to", align: "center" },
+      { Header: "Month#", accessor: "monthNum", align: "center" },
+      { Header: "New", accessor: "new", align: "center" },
+      { Header: "Completed", accessor: "completed", align: "center" },
+      { Header: "RFP Cancelled", accessor: "rfpCancelled", align: "center" },
+    
     ],
   };
 }
+
+export default data;

@@ -257,8 +257,10 @@ function KMOwner() {
     <>
 
     {renderErrorSB}
-              
-    <SymbolAccordion columns={['Id','Owner Name']} fileName={'Customer'} ref={symbolAccordionRef} />
+    <SymbolAccordion gridType={3} getData={setKMOwnerList}  data={KMOwnerList}  ref={symbolAccordionRef} />
+
+   
+
    
     <DataGrid
           rows={KMOwnerList}

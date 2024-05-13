@@ -137,7 +137,7 @@ export const TABLE_ROWS = [
     }
 ];
 
-export const dp_status = ['In Progress','End Progress', 'Parked with'];
+export const dp_status = ['Completed','Parked with KAM / Customer','Parked with Vendor / Procurement / Product Team','Feasibilities / Infra-Structure','RFP Cancelled', 'In Progress'];
 export const dp_customer = [];
 export const dp_region = ['Central','North','South'];
 export const dp_kamOwner = [];
@@ -189,4 +189,28 @@ export const GRID_KEYS_Values = {
   srdiother: 'Sale/ Rental/ Demo/ In-House/ Other',
   submissionTo: 'Submission to KAM/ Owner', // date
   additionR: 'Additional Remarks',
+  sn: 'S/N'
 };
+
+
+export const GRID_KEYS_Keys = {
+    'Date Received': 'dateReceived',
+    'Due Date by KAM /Customer': 'dueDateByKAM',
+    'Project Level': 'projectLevel',
+    'TAT': 'tat',
+    'Project Life (Work Days)': 'projectLWC',
+    'Status/Dependencies': 'status',
+    'Customer': 'customer',
+    'Region': 'region',
+    'KAM/ Owner': 'kamOwner',
+    'Sector': 'sector',
+    'Pre-Sales task Assigned to': 'pstAssign',
+    'Requirement / Query': 'requirement',
+    'Pre-Sales Remarks / Updates': 'psrUpdates',
+    'Proposed Solution': 'proposedSolution',
+    'Sale/ Rental/ Demo/ In-House/ Other': 'srdiother',
+    'Submission to KAM/ Owner': 'submissionTo',
+    'Additional Remarks': 'additionR',
+   'S/N': 'sn'
+
+  }

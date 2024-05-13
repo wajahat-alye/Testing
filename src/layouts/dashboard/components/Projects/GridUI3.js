@@ -26,9 +26,10 @@ import { dp_customer, dp_kamOwner, GRID_KEYS_LIST, dp_pstAssign, dp_region, dp_s
 import Typography from '@mui/material/Typography';
 import MDSnackbar from 'components/MDSnackbar';
 import useData from './../../hook/useData';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import * as reduxData from "context/useGlobalData";
-import { useState } from 'react';
+import { useState,memo } from 'react';
+import SymbolAccordion from 'layouts/globalcomponents/SymbolAccordionRowView';
 
 
 
@@ -62,7 +63,7 @@ function EditToolbar({ setRows, setRowModesModel }:any) {
 
 
 
-function GridUI3({ }: any) {
+const GridUI3 = ({ }: any) => {
   const [rowModesModel, setRowModesModel] = React.useState({});
   const [controller, dispatch] = reduxData.useGlobalController();
 
@@ -155,19 +156,26 @@ for(let i=0; i< GRID_KEYS_LIST.length; i++){
 
 
   const makeDate = (date) => {
-    if (date?.seconds) {
-      return date.toDate();
+    if (typeof date === 'number') {
+      date = date.toDate();
+    }else if (typeof date === 'string') {
+      const timestamp = 'Timestamp(seconds=1715108400, nanoseconds=0)';
+const seconds = parseInt(timestamp.match(/seconds=(\d+)/)[1]);
+const nanoseconds = parseInt(timestamp.match(/nanoseconds=(\d+)/)[1]);
+const milliseconds = seconds * 1000 + Math.floor(nanoseconds / 1000000);
+date = new Date(milliseconds);
+
+    }else if (typeof date === 'object') {
+      if(date?.seconds){
+        date = date.toDate();
+      }
     }
     return date;
   }
 
-  const valueGetter  = (e)=>{
-    console.log('valuevaluevaluevalueGetter',e);
-  }
+ 
 
-  const valueSetter  = (e)=>{
-    console.log('valuevaluevaluevalueSetter',e);
-  }
+
 
   const columns= [
     {
@@ -263,9 +271,14 @@ for(let i=0; i< GRID_KEYS_LIST.length; i++){
     },
   };
 
+	const symbolAccordionRef = useRef(null);
+
   return (
     <>
     {renderErrorSB}
+
+    <SymbolAccordion gridType={4} getData={setRows}  data={rows}  ref={symbolAccordionRef} />
+
     <DataGrid
           rows={rows}
           autoHeight={true}
@@ -287,5 +300,5 @@ for(let i=0; i< GRID_KEYS_LIST.length; i++){
 }
 
 
-export default  GridUI3;
+export default  memo(GridUI3);
 

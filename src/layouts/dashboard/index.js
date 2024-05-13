@@ -27,6 +27,7 @@ import useData from "./hook/useData";
 import MDSnackbar from "components/MDSnackbar";
 import { useEffect } from "react";
 import GridUI3 from 'layouts/dashboard/components/Projects/GridUI3';
+import MyDocument from './../../PDF/MyDocument';
 
 function Dashboard() {
   const { successSB, closeSuccessSB } = useData();
@@ -54,6 +55,14 @@ function Dashboard() {
 
       <DashboardLayout>
         <DashboardNavbar />
+        {/* <MDBox py={3}> */}
+          {/* <MDBox>
+          <Grid item xs={12} md={12} lg={12}>
+                <MyDocument />
+              </Grid>
+          </MDBox> */}
+        {/* </MDBox> */}
+        
         <MDBox py={3}>
           <MDBox>
             <Grid container spacing={3}>

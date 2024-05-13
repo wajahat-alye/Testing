@@ -41,6 +41,7 @@ import { GRID_KEYS } from './../dashboard/components/Projects/data/index';
 import { TQRRWChart } from './../graphs/components/charts/index';
 import TableTempalte from './components/Projects/TableTempalte';
 import FooterUI from './../../examples/Footer/FooterUI';
+import MyDocument from './../../PDF/MyDocument';
 
 
 
@@ -93,11 +94,18 @@ function EmailCopy() {
         </MDTypography>
         
       </MDBox>
+
+
+      <MDBox>
+          <Grid item xs={12} md={12} lg={12}>
+                <MyDocument />
+              </Grid>
+          </MDBox> 
    
 
     <TableTempalte title={"Deshboard Summary"} />
 
-      <MDBox py={3}>
+      {/* <MDBox py={3}>
         
         <MDBox>
           <Grid container spacing={3}>
@@ -117,7 +125,7 @@ function EmailCopy() {
           </Grid>
         </MDBox>
 
-      </MDBox>
+      </MDBox> */}
       
 
       <MDBox py={3}>
