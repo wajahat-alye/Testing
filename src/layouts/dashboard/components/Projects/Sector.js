@@ -170,12 +170,7 @@ function KMOwner() {
   };
 
 
-  const makeDate = (date) => {
-    if (date?.seconds) {
-      return date.toDate();
-    }
-    return date;
-  }
+
 
   const columns= [
     {

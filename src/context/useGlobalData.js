@@ -48,11 +48,27 @@ function reducer(state, action) {
       case "DESHBOARD_TOAST": {
         return { ...state, deshboardToast: action.value };
       }
+      
+      case "CURRENT_WEEK_PIE": {
+        return { ...state, currentWeekPie: action.value };
+      }
+      case "PREVIOUS_WEEK_PIE": {
+        return { ...state, previousWeekPie: action.value };
+      }
+      case "CURRENT_MONTH_PIE": {
+        return { ...state, currentMonthPie: action.value };
+      }
+      case "PREVIOUS_MONTH_PIE": {
+        return { ...state, previousMonthPie: action.value };
+      }
+
+
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
     }
   }
 }
+
 
 // Material Dashboard 2 React context provider
 function GlobalControllerProvider({ children }) {
@@ -61,7 +77,14 @@ function GlobalControllerProvider({ children }) {
     KMOwnerList: [],
     sectorList: [],
     gridData: [],
-    deshboardToast: false
+    deshboardToast: false,
+
+    currentWeekPie: [],
+    previousWeekPie: [],
+    currentMonthPie: [],
+    previousMonthPie: [],
+
+
   };
 
   const [controller, dispatch] = useReducer(reducer, initialState);
@@ -96,6 +119,11 @@ const setSectorList = (dispatch, value) => dispatch({ type: "GET_SECTOR_LIST", v
 const setGridData = (dispatch, value) => dispatch({ type: "GET_GRID_DATA", value });
 const setDeshboardToast = (dispatch, value) => dispatch({ type: "DESHBOARD_TOAST", value });
 
+const setcurrentWeekPie = (dispatch, value) => dispatch({ type: "CURRENT_WEEK_PIE", value });
+const setpreviousWeekPie = (dispatch, value) => dispatch({ type: "PREVIOUS_WEEK_PIE", value });
+const setcurrentMonthPie = (dispatch, value) => dispatch({ type: "CURRENT_MONTH_PIE", value });
+const setpreviousMonthPie = (dispatch, value) => dispatch({ type: "PREVIOUS_MONTH_PIE", value });
+
 export {
   GlobalControllerProvider,
   useGlobalController,
@@ -103,5 +131,10 @@ export {
   setKMOwnerList,
   setSectorList,
   setGridData,
-  setDeshboardToast
+  setDeshboardToast,
+
+  setcurrentWeekPie,
+  setpreviousWeekPie,
+  setcurrentMonthPie,
+  setpreviousMonthPie,
 };

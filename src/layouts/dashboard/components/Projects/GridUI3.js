@@ -30,6 +30,7 @@ import { useEffect, useRef } from 'react';
 import * as reduxData from "context/useGlobalData";
 import { useState,memo } from 'react';
 import SymbolAccordion from 'layouts/globalcomponents/SymbolAccordionRowView';
+import { makeDate } from './../../../../helper/func';
 
 
 
@@ -45,7 +46,7 @@ function EditToolbar({ setRows, setRowModesModel }:any) {
 
   const handleClick = () => {
     const id = generateRandomId();
-    setRows((oldRows) => [...oldRows, { ...GRID_KEYS, id,sn: id }]);
+    setRows((oldRows) => [...oldRows, { ...GRID_KEYS, id,sn: id, isNew: true }]);
     setRowModesModel((oldModel) => ({
       ...oldModel,
       [id]: { mode: GridRowModes.Edit, fieldToFocus: 'dateReceived' },
@@ -153,25 +154,6 @@ for(let i=0; i< GRID_KEYS_LIST.length; i++){
   const handleRowModesModelChange = (newRowModesModel) => {
     setRowModesModel(newRowModesModel);
   };
-
-
-  const makeDate = (date) => {
-    if (typeof date === 'number') {
-      date = date.toDate();
-    }else if (typeof date === 'string') {
-      const timestamp = 'Timestamp(seconds=1715108400, nanoseconds=0)';
-const seconds = parseInt(timestamp.match(/seconds=(\d+)/)[1]);
-const nanoseconds = parseInt(timestamp.match(/nanoseconds=(\d+)/)[1]);
-const milliseconds = seconds * 1000 + Math.floor(nanoseconds / 1000000);
-date = new Date(milliseconds);
-
-    }else if (typeof date === 'object') {
-      if(date?.seconds){
-        date = date.toDate();
-      }
-    }
-    return date;
-  }
 
  
 

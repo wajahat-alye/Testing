@@ -13,7 +13,6 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-
 // @mui material components
 import Card from "@mui/material/Card";
 import Icon from "@mui/material/Icon";
@@ -26,455 +25,515 @@ import MDTypography from "components/MDTypography";
 
 // Material Dashboard 2 React examples
 import DataTable from "examples/Tables/DataTable";
-import data from './data/index';
+import data from "./data/index";
 import * as reduxData from "context/useGlobalData";
-import { useEffect, useState, memo } from 'react';
-import { getStartWeekDate, getEndWeekDate } from './../../../../helper/func';
-import useData from './../../../dashboard/hook/useData';
-
+import { useEffect, useState, memo } from "react";
+import {
+  getPreviousWeekStartDate,
+  getPreviousWeekEndDate,
+  getCurrentWeekStartDate,
+  getCurrentWeekEndDate,
+  getPreviousMonthStartDate,
+  getPreviousMonthEndDate,
+  getCurrentMonthStartDate,
+  getCurrentMonthEndDate,
+} from "./../../../../helper/func";
+import useData from "./../../../dashboard/hook/useData";
+import { makeDate } from "./../../../../helper/func";
+import moment from "moment/moment";
 // Data
 
-function TableTempalte({ title }:any) {
-  const {columns,columns1,columns2 } = data();
+function TableTempalte({ title }: any) {
+  const { columns, columns1, columns2 } = data();
   const [controller, dispatch] = reduxData.useGlobalController();
-
-
 
   const [inProgress1, setinProgress] = useState(0);
   const [inParked, setinParked] = useState(0);
-  const [rows, setRows] = useState([])
-  const [rows1, setRows1] = useState([])
-  const [rows2, setRows2] = useState([])
+  const [rows, setRows] = useState([]);
+  const [rows1, setRows1] = useState([]);
+  const [rows2, setRows2] = useState([]);
 
+  const { getDeshboardData, gridData, customerListRedux, KMOwnerListRedux, sectorListRedux } =
+    useData();
 
-  const {getDeshboardData,gridData,customerListRedux, KMOwnerListRedux,sectorListRedux} = useData();
-  
-  
-
-  useEffect(()=>{
-    const fetch = async ()=>{
-     const data = await getDeshboardData()
-     setRows(data);
-     setDatas(data);
-    }
+  useEffect(() => {
+    const fetch = async () => {
+      const data = await getDeshboardData();
+      setRows(data);
+      setDatas(data);
+    };
     fetch();
-   },[])
-
-  
+  }, []);
 
 
-   const setDatas = (gridd)=>{
-
-const weekStart = getStartWeekDate();
-const weekEnd = getStartWeekDate();
+  const [ currentWeekPie,  setcurrentWeekPie]= useState([]);
+  const [ previousWeekPie, setpreviousWeekPie] = useState([]);
+  const [ currentMonthPie, setcurrentMonthPie] = useState([]);
+  const [ previousMonthPie, setpreviousMonthPie] = useState([]);
 
 
 
-const prevStart = getStartWeekDate();
-const prevEnd = getStartWeekDate();
+  useEffect(() => {
+    reduxData.setcurrentWeekPie(dispatch, currentWeekPie);
+  }, [currentWeekPie]);
 
-    let inP = 0;
-    let parked11 = 0;
-    let completedOfCurrentWeek = 0;
-    let completedOfPrevWeek = 0;
-
-    let newOfCurrentWeek = 0;
-    let newOfPrevWeek = 0;
-
-    let rfpOfCurrentWeek = 0;
-    let rpfOfPrevWeek = 0;
+  useEffect(() => {
+    reduxData.setpreviousWeekPie(dispatch, previousWeekPie);
+  }, [previousWeekPie]);
 
 
+  useEffect(() => {
+    reduxData.setcurrentMonthPie(dispatch, currentMonthPie);
+  }, [currentMonthPie]);
 
 
-    let completedOfCurrentMonth = 0;
-    let completedOfPrevMonth = 0;
+  useEffect(() => {
+    reduxData.setpreviousMonthPie(dispatch, previousMonthPie);
+  }, [previousMonthPie]);
 
-    let newOfCurrentMonth = 0;
-    let newOfPrevMonth = 0;
 
-    let rfpOfCurrentMonth = 0;
-    let rpfOfPrevMonth = 0;
+
+  const setDatas = (gridd) => {
+    
+    
+    let current_week_new_counter = 0;
+    let current_week_completed_counter = 0;
+    let current_week_rfp_cancelled_counter = 0;
+    
+    let previous_week_new_counter = 0;
+    let previous_week_completed_counter = 0;
+    let previous_week_rpf_cancelled_counter = 0;
+    
+    
+    let current_week_in_progress_counter = 0;
+    let current_week_parked_counter = 0;
+
+
+
+    let current_month_new_counter = 0;
+    let current_month_completed_counter = 0;
+    let current_month_rfp_cancelled_counter = 0;
+
+    let previous_month_new_counter = 0;
+    let previous_month_completed_counter = 0;
+    let previous_month_rfp_cancelled_counter = 0;
+
+
 
     const currentDate = new Date();
 
-    
-const monthCurrentStart = getStartWeekDate();
-const monthCurrentEnd = getStartWeekDate();
+
+    const current_week_start = getCurrentWeekStartDate();
+    const current_week_end = getCurrentWeekEndDate();
+
+    const previous_week_start = getPreviousWeekStartDate();
+    const previous_week_end = getPreviousWeekEndDate();
+
+    const current_month_start = getCurrentMonthStartDate();
+    const current_month_end = getCurrentMonthEndDate();
+
+    const previous_month_start = getPreviousMonthStartDate();
+    const previous_month_end = getPreviousMonthEndDate();
 
 
+    let dp_MRWSChartData_pie =  [
+      {
+        value: 0,
+        label: 'Central',
+      },
+      {
+        value: 0,
+        label: 'North',
+      },
+      {
+        value: 0,
+        label: 'South',
+      },
+    ]; 
+    // kamOwner
 
-const monthPrevStart = getStartWeekDate();
-const monthPrevEnd = getStartWeekDate();
+    let current_month_kamOwnerKV = {}
+    let previous_month_kamOwnerKV = {}
 
+    let current_week_kamOwnerKV = {}
+    let previous_week_kamOwnerKV = {}
 
+    for (let i = 0; i < gridd.length; i++) {
+      const dateReceived = moment(makeDate(gridd[i].dateReceived));
 
-    for(let i=0; i < gridd.length; i++){
-     
+      // if(gridd[i].status === 'Central'){
+      //   dp_MRWSChartData_pie[0].value++;
+      // }else if(gridd[i].status === 'North'){
+      //   dp_MRWSChartData_pie[1].value++;
 
+      // }else if(gridd[i].status === 'South'){
 
-const isBetweenCurrentweek = gridd[i].dateReceived > weekStart && gridd[i].dateReceived < weekEnd;
-      if(isBetweenCurrentweek){
-
-
-        if(gridd[i].status === "In Progress"){
-          inP++;
-        }
-        if(gridd[i].status.includes('Parked')){
-          parked11++;
-        }
-
-
-        // if(){  // week#
-
-        // }
-
-          // if(){  // month#
-
-        // }
-
-        if(gridd[i].dateReceived === currentDate){ // new
-          newOfCurrentWeek++;
-          newOfCurrentMonth++;
-        }
-        
-        if(gridd[i].status.includes('Completed')){ // completed
-          completedOfCurrentWeek++;
-          completedOfCurrentMonth++;
-        }
-
-        if(gridd[i].status.includes('RFP Cancelled')){
-          rfpOfCurrentWeek++; // RFP
-          rfpOfCurrentMonth++; 
-        }
-
-        
-
-
-        
-      //   const isBetweenCurrenMonth = gridd[i].dateReceived > monthCurrentStart && gridd[i].dateReceived < monthCurrentEnd;
-      // if(isBetweenCurrenMonth){
-
+      //   dp_MRWSChartData_pie[2].value++;
       // }
 
 
-      }else{
-        const isBetweenPrevweek = gridd[i].dateReceived > prevStart && gridd[i].dateReceived < prevEnd;
-      if(isBetweenPrevweek){
 
-
-// if(){  // week#
-
-        // }
-
-
-        // if(){  // new# week
-
-        // }
-
- // if(){  // month#
-
-        // }
-
-
-        // if(){  // new# month
-
-        // }
-
-
-        if(gridd[i].status.includes('Completed')){
-          completedOfPrevWeek++;
-          completedOfCurrentMonth++;
+      const isBetweenCurrentweek = (dateReceived >= current_week_start && dateReceived <= current_week_end);
+      if (isBetweenCurrentweek) {
+        if (gridd[i].status === "In Progress") {
+          current_week_in_progress_counter++;
+        }
+        if (gridd[i].status.includes("Parked")) {
+          current_week_parked_counter++;
         }
 
-        if(gridd[i].status.includes('RFP Cancelled')){
-          rpfOfPrevWeek++;
-          rpfOfPrevMonth++;
+        if (dateReceived === currentDate) { // New
+          current_week_new_counter++;
+        }
+
+        if (gridd[i].status.includes("Completed")) {
+          // completed
+          current_week_completed_counter++;
+        }
+
+        if (gridd[i].status.includes("RFP Cancelled")) {
+          current_week_rfp_cancelled_counter++; // RFP
+        }
+
+        if(current_week_kamOwnerKV[gridd[i].kamOwner]){
+          current_week_kamOwnerKV[gridd[i].kamOwner].value++;
+        }else{
+          current_week_kamOwnerKV[gridd[i].kamOwner] = { value: 1, label: gridd[i].kamOwner}
         }
 
 
+      } else if(dateReceived >= previous_week_start && dateReceived <= previous_week_end){
 
+          if (gridd[i].status.includes("Completed")) {
+            previous_week_completed_counter++;
+          }
 
-      }
+          if (gridd[i].status.includes("RFP Cancelled")) {
+            previous_week_rpf_cancelled_counter++;
+          }
 
-
-      const isBetweenPrevmonth = gridd[i].dateReceived > monthPrevStart && gridd[i].dateReceived < monthPrevEnd;
-      if(isBetweenPrevmonth){
-
-
-        if(gridd[i].status.includes('Completed')){
-          completedOfPrevWeek++;
-          completedOfPrevMonth++;
-        }
-
-        if(gridd[i].status.includes('RFP Cancelled')){
-          rpfOfPrevWeek++;
-          rpfOfPrevMonth++;
-        }
-
-
-      }
+          if(previous_week_kamOwnerKV[gridd[i].kamOwner]){
+            previous_week_kamOwnerKV[gridd[i].kamOwner].value++;
+          }else{
+            previous_week_kamOwnerKV[gridd[i].kamOwner] = { value: 1, label: gridd[i].kamOwner}
+          }
 
       }
 
 
 
-
-
+      const isBetweenCurrentMonth = (dateReceived >= current_month_start && dateReceived <= current_month_end);
+      if (isBetweenCurrentMonth) {
       
 
+        if (dateReceived === currentDate) { // New
+          current_month_new_counter++;
+        }
+
+        if (gridd[i].status.includes("Completed")) {
+          // completed
+          current_month_completed_counter++;
+        }
+
+        if (gridd[i].status.includes("RFP Cancelled")) {
+          current_month_rfp_cancelled_counter++; // RFP
+        }
+
+        if(current_month_kamOwnerKV[gridd[i].kamOwner]){
+          current_month_kamOwnerKV[gridd[i].kamOwner].value++;
+        }else{
+          current_month_kamOwnerKV[gridd[i].kamOwner] = { value: 1, label: gridd[i].kamOwner}
+        }
+
+      } else if(dateReceived >= previous_month_start && dateReceived <= previous_month_end){
+
+          if (gridd[i].status.includes("Completed")) {
+            previous_month_completed_counter++;
+          }
+
+          if (gridd[i].status.includes("RFP Cancelled")) {
+            previous_month_rfp_cancelled_counter++;
+          }
+
+          if(previous_month_kamOwnerKV[gridd[i].kamOwner]){
+            previous_month_kamOwnerKV[gridd[i].kamOwner].value++;
+          }else{
+            previous_month_kamOwnerKV[gridd[i].kamOwner] = { value: 1, label: gridd[i].kamOwner}
+          }
+
+      }
+
+
+
     }
-    // setinProgress(inP);
-    // setinParked(parked)
 
-setRows([{
-  deshboard:  <MDTypography variant="caption" color="text" fontWeight="medium">
-  Active
-</MDTypography>,
-  from:  <MDTypography variant="caption" color="text" fontWeight="medium">
-              {weekStart}
 
-</MDTypography>,
- to:  <MDTypography variant="caption" color="text" fontWeight="medium">
-         {weekEnd}
-
-</MDTypography>,
- inProgress:  <MDTypography variant="caption" color="text" fontWeight="medium">
-  {inP}
-</MDTypography>,
- parked:  <MDTypography variant="caption" color="text" fontWeight="medium">
- {parked11}
-</MDTypography>,
-total:  <MDTypography variant="caption" color="text" fontWeight="medium">
-{parked11 + inP}
-</MDTypography>,
-},])
-
-
-setRows1([{
-  week:  <MDTypography variant="caption" color="text" fontWeight="medium">
-  Current
-</MDTypography>,
- 
- from:  <MDTypography variant="caption" color="text" fontWeight="medium">
-  {weekStart}
-</MDTypography>,
-
-
-to:  <MDTypography variant="caption" color="text" fontWeight="medium">
- {weekEnd}
-</MDTypography>,
-
-
-weekNum:  <MDTypography variant="caption" color="text" fontWeight="medium">
-Current
-</MDTypography>,
-
-
-
-new:  <MDTypography variant="caption" color="text" fontWeight="medium">
-{newOfCurrentWeek}
-</MDTypography>,
-
-
-
-completed:  <MDTypography variant="caption" color="text" fontWeight="medium">
-{completedOfCurrentWeek}
-</MDTypography>,
-
-
-rfpCancelled:  <MDTypography variant="caption" color="text" fontWeight="medium">
-{rfpOfCurrentWeek}
-</MDTypography>,
- 
-},{
-  week:  <MDTypography variant="caption" color="text" fontWeight="medium">
-  Previous
-</MDTypography>,
- 
- from:  <MDTypography variant="caption" color="text" fontWeight="medium">
-  {weekStart}
-</MDTypography>,
-
-
-to:  <MDTypography variant="caption" color="text" fontWeight="medium">
- {weekEnd}
-</MDTypography>,
-
-
-weekNum:  <MDTypography variant="caption" color="text" fontWeight="medium">
-Current
-</MDTypography>,
-
-
-
-new:  <MDTypography variant="caption" color="text" fontWeight="medium">
-{newOfPrevWeek}
-</MDTypography>,
-
-
-
-completed:  <MDTypography variant="caption" color="text" fontWeight="medium">
-{completedOfPrevWeek}
-</MDTypography>,
-
-
-rfpCancelled:  <MDTypography variant="caption" color="text" fontWeight="medium">
-{rpfOfPrevWeek}
-</MDTypography>,
- 
-},])
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-setRows2([{
-  month:  <MDTypography variant="caption" color="text" fontWeight="medium">
-  Current
-</MDTypography>,
- 
- from:  <MDTypography variant="caption" color="text" fontWeight="medium">
-  {prevStart}
-</MDTypography>,
-
-
-to:  <MDTypography variant="caption" color="text" fontWeight="medium">
- {prevEnd}
-</MDTypography>,
-
-
-monthNum:  <MDTypography variant="caption" color="text" fontWeight="medium">
-{/* {completedOfCurrentMonth} */}
-sdfsdf
-
-</MDTypography>,
-
-
-
-new:  <MDTypography variant="caption" color="text" fontWeight="medium">
-{newOfCurrentMonth}
-</MDTypography>,
-
-
-
-completed:  <MDTypography variant="caption" color="text" fontWeight="medium">
-{completedOfCurrentMonth}
-</MDTypography>,
-
-
-rfpCancelled:  <MDTypography variant="caption" color="text" fontWeight="medium">
-{rfpOfCurrentMonth}
-</MDTypography>,
- 
-},{
-  month:  <MDTypography variant="caption" color="text" fontWeight="medium">
-  Previous
-</MDTypography>,
- 
- from:  <MDTypography variant="caption" color="text" fontWeight="medium">
-  {prevStart}
-</MDTypography>,
-
-
-to:  <MDTypography variant="caption" color="text" fontWeight="medium">
- {prevEnd}
-</MDTypography>,
-
-
-monthNum:  <MDTypography variant="caption" color="text" fontWeight="medium">
-Current
-</MDTypography>,
-
-
-
-new:  <MDTypography variant="caption" color="text" fontWeight="medium">
-{newOfPrevMonth}
-</MDTypography>,
-
-
-
-completed:  <MDTypography variant="caption" color="text" fontWeight="medium">
-{completedOfPrevMonth}
-</MDTypography>,
-
-
-rfpCancelled:  <MDTypography variant="caption" color="text" fontWeight="medium">
-{rpfOfPrevMonth}
-</MDTypography>,
- 
-},])
-
-
-
-
-
-
-
-
-
-
-
-   }
-
-
-
-
-
+    current_month_kamOwnerKV = Object.values(current_month_kamOwnerKV);
+    previous_month_kamOwnerKV = Object.values(previous_month_kamOwnerKV);
+
+    current_week_kamOwnerKV = Object.values(current_week_kamOwnerKV);
+    previous_week_kamOwnerKV = Object.values(previous_week_kamOwnerKV);
+
+
+
+    setcurrentWeekPie(current_month_kamOwnerKV);
+    setpreviousWeekPie(previous_month_kamOwnerKV);
+    setcurrentMonthPie(current_week_kamOwnerKV);
+    setpreviousMonthPie(previous_week_kamOwnerKV);
+
+
+    setRows([
+      {
+        deshboard: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            Active
+          </MDTypography>
+        ),
+        from: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            {current_week_start.format('MM/DD/YYYY')}
+          </MDTypography>
+        ),
+        to: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            {current_week_end.format('MM/DD/YYYY')}
+          </MDTypography>
+        ),
+        inProgress: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            {current_week_in_progress_counter}
+          </MDTypography>
+        ),
+        parked: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            {current_week_parked_counter}
+          </MDTypography>
+        ),
+        total: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            {current_week_parked_counter + current_week_in_progress_counter}
+          </MDTypography>
+        ),
+      },
+    ]);
+
+    setRows1([
+      {
+        week: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            Current
+          </MDTypography>
+        ),
+
+        from: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            {current_week_start.format('MM/DD/YYYY')}
+          </MDTypography>
+        ),
+
+        to: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            {current_week_end.format('MM/DD/YYYY')}
+          </MDTypography>
+        ),
+
+        weekNum: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            Current
+          </MDTypography>
+        ),
+
+        new: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            {current_week_new_counter}
+          </MDTypography>
+        ),
+
+        completed: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            {current_week_completed_counter}
+          </MDTypography>
+        ),
+
+        rfpCancelled: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            {current_week_rfp_cancelled_counter}
+          </MDTypography>
+        ),
+      },
+      {
+        week: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            Previous
+          </MDTypography>
+        ),
+
+        from: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            {previous_week_start.format('MM/DD/YYYY')}
+          </MDTypography>
+        ),
+
+        to: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            {previous_week_end.format('MM/DD/YYYY')}
+          </MDTypography>
+        ),
+
+        weekNum: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            Current
+          </MDTypography>
+        ),
+
+        new: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            {previous_week_new_counter}
+          </MDTypography>
+        ),
+
+        completed: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            {previous_week_completed_counter}
+          </MDTypography>
+        ),
+
+        rfpCancelled: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            {previous_week_rpf_cancelled_counter}
+          </MDTypography>
+        ),
+      },
+    ]);
+
+    setRows2([
+      {
+        month: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            Current
+          </MDTypography>
+        ),
+
+        from: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            {current_month_start.format('MM/DD/YYYY')}
+          </MDTypography>
+        ),
+
+        to: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            {current_month_end.format('MM/DD/YYYY')}
+          </MDTypography>
+        ),
+
+        monthNum: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            {/* {current_month_completed_counter} */}
+            sdfsdf
+          </MDTypography>
+        ),
+
+        new: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            {current_month_new_counter}
+          </MDTypography>
+        ),
+
+        completed: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            {current_month_completed_counter}
+          </MDTypography>
+        ),
+
+        rfpCancelled: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            {current_month_rfp_cancelled_counter}
+          </MDTypography>
+        ),
+      },
+      {
+        month: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            Previous
+          </MDTypography>
+        ),
+
+        from: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            {previous_month_start.format('MM/DD/YYYY')}
+          </MDTypography>
+        ),
+
+        to: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            {previous_month_end.format('MM/DD/YYYY')}
+          </MDTypography>
+        ),
+
+        monthNum: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            Current
+          </MDTypography>
+        ),
+
+        new: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            {previous_month_new_counter}
+          </MDTypography>
+        ),
+
+        completed: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            {previous_month_completed_counter}
+          </MDTypography>
+        ),
+
+        rfpCancelled: (
+          <MDTypography variant="caption" color="text" fontWeight="medium">
+            {previous_month_rfp_cancelled_counter}
+          </MDTypography>
+        ),
+      },
+    ]);
+  };
 
   return (
     <>
-    <Card>
-
-<MDBox>
-  <DataTable
-    table={{ columns, rows }}
-    showTotalEntries={false}
-    isSorted={false}
-    noEndBorder
-    entriesPerPage={false}
-  />
-</MDBox>
-</Card>
-    asdfasdfasdf
-<Card>
-
-      <MDBox>
-        <DataTable
-          table={{ columns: columns1, rows: rows1 }}
-          showTotalEntries={false}
-          isSorted={false}
-          noEndBorder
-          entriesPerPage={false}
-        />
-      </MDBox>
-    </Card>
-
-    asdfasdfasdfasdf
-    <Card>
-
-<MDBox>
-  <DataTable
-    table={{ columns: columns2, rows: rows2 }}
-    showTotalEntries={false}
-    isSorted={false}
-    noEndBorder
-    entriesPerPage={false}
-  />
-</MDBox>
-</Card> 
-
-
+      <Card>
+        <MDBox>
+          <DataTable
+            table={{ columns, rows }}
+            showTotalEntries={false}
+            isSorted={false}
+            noEndBorder
+            entriesPerPage={false}
+          />
+        </MDBox>
+      </Card>
+      asdfasdfasdf
+      <Card>
+        <MDBox>
+          <DataTable
+            table={{ columns: columns1, rows: rows1 }}
+            showTotalEntries={false}
+            isSorted={false}
+            noEndBorder
+            entriesPerPage={false}
+          />
+        </MDBox>
+      </Card>
+      asdfasdfasdfasdf
+      <Card>
+        <MDBox>
+          <DataTable
+            table={{ columns: columns2, rows: rows2 }}
+            showTotalEntries={false}
+            isSorted={false}
+            noEndBorder
+            entriesPerPage={false}
+          />
+        </MDBox>
+      </Card>
     </>
   );
 }

@@ -26,7 +26,6 @@ import { dp_customer, dp_kamOwner, GRID_KEYS_LIST, dp_pstAssign, dp_region, dp_s
 import Typography from '@mui/material/Typography';
 import MDSnackbar from 'components/MDSnackbar';
 import {useNotifications} from 'context/useNotifications';
-import { makeDate } from './../../../../helper/func';
 import { useEffect, useState } from 'react';
 import useData from './../../hook/useData';
 import {MonthlySummaryDataDummy} from './data';
@@ -47,9 +46,7 @@ function MonthlySummary({ addMemberHandler }: any) {
 
   const columns= [
     { field: 'month', headerName: 'Month', flex: 1  },
-    // { valueGetter: makeDate, type: 'data', field: 'from', headerName: 'From', flex: 1  },
     {  field: 'from', headerName: 'From', flex: 1  },
-    // { valueGetter: makeDate, type: 'data', field: 'to', headerName: 'To', flex: 1  },
     {  field: 'to', headerName: 'To', flex: 1  },
     { type: 'number',  field: 'monthNum', headerName: 'Month#', flex: 1  },
     {  type: 'number', field: 'new', headerName: 'New', flex: 1  },

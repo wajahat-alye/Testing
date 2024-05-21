@@ -27,34 +27,31 @@ import ReportsBarChart from "examples/Charts/BarCharts/ReportsBarChart";
 import ReportsLineChart from "examples/Charts/LineCharts/ReportsLineChart";
 import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
 
-
 // Dashboard components
-import { useState } from 'react';
-import Card from '@mui/material/Card';
-import MDTypography from 'components/MDTypography';
-import Icon from '@mui/material/Icon';
-import { Template } from './../globalcomponents/Templates';
-import MonthlySummary from './components/Projects/MonthlySummary';
-import PreSalesWeeklySummary from './components/Projects/PreSalesWeeklySummary';
-import DeshboardSummary from './components/Projects/DeshboardSummary';
-import { GRID_KEYS } from './../dashboard/components/Projects/data/index';
-import { TQRRWChart } from './../graphs/components/charts/index';
-import TableTempalte from './components/Projects/TableTempalte';
-import FooterUI from './../../examples/Footer/FooterUI';
-import MyDocument from './../../PDF/MyDocument';
-
-
+import { useState } from "react";
+import Card from "@mui/material/Card";
+import MDTypography from "components/MDTypography";
+import Icon from "@mui/material/Icon";
+import { Template } from "./../globalcomponents/Templates";
+import MonthlySummary from "./components/Projects/MonthlySummary";
+import PreSalesWeeklySummary from "./components/Projects/PreSalesWeeklySummary";
+import DeshboardSummary from "./components/Projects/DeshboardSummary";
+import { GRID_KEYS } from "./../dashboard/components/Projects/data/index";
+import { TQRRWChart } from "./../graphs/components/charts/index";
+import TableTempalte from "./components/Projects/TableTempalte";
+import FooterUI from "./../../examples/Footer/FooterUI";
+import MyDocument from "./../../PDF/MyDocument";
+import * as reduxData from "context/useGlobalData";
 
 function EmailCopy() {
-
-
+  const [controller, dispatch] = reduxData.useGlobalController();
   const [isDisable, setDisable] = useState(false);
 
   const [formData, setFormData] = useState(GRID_KEYS);
   const [gridData, setGridData] = useState([]);
   const [gs, setGs] = useState({
-    openSlideout: false
-  })
+    openSlideout: false,
+  });
 
   const setGsHandler = (name, value) => {
     setGs((prevData) => ({
@@ -64,46 +61,55 @@ function EmailCopy() {
   };
 
   const addMemberHandler = () => {
-    setGsHandler('openSlideout', true);
-  }
-
+    setGsHandler("openSlideout", true);
+  };
 
   let currentDate = new Date().toJSON().slice(0, 10);
 
+  const TQRRWChartData = [
+    {
+      data: [
+        { value: 3, label: "South" },
+        { value: 4, label: "North" },
+        { value: 5, label: "Central" },
+      ],
+    },
+  ];
 
- const TQRRWChartData = [
-  {
-    data: [
-      { id: 0, value: 3, label: 'South' },
-      { id: 1, value:4, label: 'North' },
-      { id: 2, value: 5, label: 'Central' },
-    ],
-  },
-];
+  const makeFormatter = (payload) => {
+    const make = [
+      {
+        data: payload,
+      },
+    ];
+    return make;
+  };
 
-
-
-
+  // console.log(
+  //   "controller?.currentWeekPie",
+  //   controller?.currentWeekPie,
+  //   controller?.previousWeekPie,
+  //   controller?.currentMonthPie,
+  //   controller?.previousMonthPie,
+  //   makeFormatter(controller?.previousWeekPie )
+  // );
 
   return (
     <DashboardLayout>
       <DashboardNavbar />
       <MDBox>
         <MDTypography variant="h6" gutterBottom>
-        Current Date: {currentDate}
+          Current Date: {currentDate}
         </MDTypography>
-        
       </MDBox>
 
-
       <MDBox>
-          <Grid item xs={12} md={12} lg={12}>
-                <MyDocument />
-              </Grid>
-          </MDBox> 
-   
+        <Grid item xs={12} md={12} lg={12}>
+          <MyDocument />
+        </Grid>
+      </MDBox>
 
-    <TableTempalte title={"Deshboard Summary"} />
+      <TableTempalte title={"Deshboard Summary"} />
 
       {/* <MDBox py={3}>
         
@@ -126,51 +132,47 @@ function EmailCopy() {
         </MDBox>
 
       </MDBox> */}
-      
 
       <MDBox py={3}>
-        
         <MDBox>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={6}>
-            <Template title={'Customer'}> 
-           
-            <TQRRWChart  series={TQRRWChartData}/>
-            
-            </Template>
+              <Template title={"Customer"}>
+                <TQRRWChart series={makeFormatter(controller?.currentWeekPie || [])} />
+                {/* <TQRRWChart series={aaaa} /> */}
+              </Template>
             </Grid>
             <Grid item xs={12} md={6} lg={6}>
-            <Template title={'KAM/Owner'}>
-            <TQRRWChart  series={TQRRWChartData}/>
-
-            </Template>
+              <Template title={"KAM/Owner"}>
+                <TQRRWChart series={makeFormatter(controller?.previousWeekPie || [])} />
+                {/* <TQRRWChart series={TQRRWChartData} /> */}
+              </Template>
             </Grid>
             <Grid item xs={12} md={6} lg={6}>
-            <Template title={'KAM/Owner'}>
-            <TQRRWChart  series={TQRRWChartData}/>
-
-            </Template>
+              <Template title={"KAM/Owner"}>
+                <TQRRWChart series={makeFormatter(controller?.currentMonthPie || [])} />
+                {/* <TQRRWChart series={TQRRWChartData} /> */}
+              </Template>
             </Grid>
             <Grid item xs={12} md={6} lg={6}>
-            <Template title={'KAM/Owner'}>
-            <TQRRWChart  series={TQRRWChartData}/>
-
-            </Template>
+              <Template title={"KAM/Owner"}>
+                <TQRRWChart series={makeFormatter(controller?.previousMonthPie || [])} />
+                {/* <TQRRWChart series={TQRRWChartData} /> */}
+              </Template>
             </Grid>
           </Grid>
         </MDBox>
-
       </MDBox>
 
-
-      <FooterUI company= {{ href: "https://www.creative-tim.com/", name: "Creative Tim" }}
-  links= {[
-    { href: "https://www.creative-tim.com/", name: "Creative Tim" },
-    { href: "https://www.creative-tim.com/presentation", name: "About Us" },
-    { href: "https://www.creative-tim.com/blog", name: "Blog" },
-    { href: "https://www.creative-tim.com/license", name: "License" },
-  ]} />
-
+      <FooterUI
+        company={{ href: "https://www.creative-tim.com/", name: "Creative Tim" }}
+        links={[
+          { href: "https://www.creative-tim.com/", name: "Creative Tim" },
+          { href: "https://www.creative-tim.com/presentation", name: "About Us" },
+          { href: "https://www.creative-tim.com/blog", name: "Blog" },
+          { href: "https://www.creative-tim.com/license", name: "License" },
+        ]}
+      />
 
       {/* <Footer /> */}
     </DashboardLayout>

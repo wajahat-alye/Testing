@@ -26,7 +26,6 @@ import { dp_customer, dp_kamOwner, GRID_KEYS_LIST, dp_pstAssign, dp_region, dp_s
 import Typography from '@mui/material/Typography';
 import MDSnackbar from 'components/MDSnackbar';
 import {useNotifications} from 'context/useNotifications';
-import { makeDate } from './../../../../helper/func';
 import { useEffect, useState } from 'react';
 import useData from './../../hook/useData';
 import {DeshboardSummaryDataDummy} from './data';
@@ -49,9 +48,7 @@ function DeshboardSummary({ addMemberHandler }: any) {
 
   const columns= [
     { field: 'deshboard', headerName: 'Deshboard', flex: 1  },
-    // { valueGetter: makeDate, type: 'data', field: 'from', headerName: 'From', flex: 1  },
     {  field: 'from', headerName: 'From', flex: 1  },
-    // { valueGetter: makeDate, type: 'data', field: 'to', headerName: 'To', flex: 1  },
     {  field: 'to', headerName: 'To', flex: 1  },
     { type: 'number',  field: 'inProgress', headerName: 'In-Progress', flex: 1  },
     {  type: 'number', field: 'parked', headerName: 'Parked', flex: 1  },
