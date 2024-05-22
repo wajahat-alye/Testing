@@ -137,25 +137,25 @@ function EmailCopy() {
         <MDBox>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={6}>
-              <Template title={"Customer"}>
+              <Template title={"Current Week Work Load Distribution"}>
                 <TQRRWChart series={makeFormatter(controller?.currentWeekPie || [])} />
                 {/* <TQRRWChart series={aaaa} /> */}
               </Template>
             </Grid>
             <Grid item xs={12} md={6} lg={6}>
-              <Template title={"KAM/Owner"}>
+              <Template title={"Previous Week Work Load Distribution"}>
                 <TQRRWChart series={makeFormatter(controller?.previousWeekPie || [])} />
                 {/* <TQRRWChart series={TQRRWChartData} /> */}
               </Template>
             </Grid>
             <Grid item xs={12} md={6} lg={6}>
-              <Template title={"KAM/Owner"}>
+              <Template title={"Current Month Work Load Distribution"}>
                 <TQRRWChart series={makeFormatter(controller?.currentMonthPie || [])} />
                 {/* <TQRRWChart series={TQRRWChartData} /> */}
               </Template>
             </Grid>
             <Grid item xs={12} md={6} lg={6}>
-              <Template title={"KAM/Owner"}>
+              <Template title={"Previous Month Work Load Distribution"}>
                 <TQRRWChart series={makeFormatter(controller?.previousMonthPie || [])} />
                 {/* <TQRRWChart series={TQRRWChartData} /> */}
               </Template>

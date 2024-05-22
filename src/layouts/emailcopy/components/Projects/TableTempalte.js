@@ -73,6 +73,21 @@ function TableTempalte({ title }: any) {
 
 
 
+  const [ PdfRows1, setPdfRows1] = useState([]);
+  const [ PdfRows2, setPdfRows2] = useState([]);
+  const [ PdfRows3, setPdfRows3] = useState([]);
+
+  useEffect(() => {
+    reduxData.setPdfRows1(dispatch, PdfRows1);
+  }, [PdfRows1]);
+  useEffect(() => {
+    reduxData.setPdfRows2(dispatch, PdfRows2);
+  }, [PdfRows2]);
+  useEffect(() => {
+    reduxData.setPdfRows3(dispatch, PdfRows3);
+  }, [PdfRows3]);
+
+
   useEffect(() => {
     reduxData.setcurrentWeekPie(dispatch, currentWeekPie);
   }, [currentWeekPie]);
@@ -281,7 +296,9 @@ function TableTempalte({ title }: any) {
     setcurrentMonthPie(current_week_kamOwnerKV);
     setpreviousMonthPie(previous_week_kamOwnerKV);
 
-
+    let _current_week_start = current_week_start.format('MM/DD/YYYY');
+    let _current_week_end = current_week_end.format('MM/DD/YYYY');
+    setPdfRows1(['Active',_current_week_start,_current_week_end, current_week_in_progress_counter, current_week_parked_counter, current_week_parked_counter + current_week_in_progress_counter])
     setRows([
       {
         deshboard: (
@@ -291,12 +308,12 @@ function TableTempalte({ title }: any) {
         ),
         from: (
           <MDTypography variant="caption" color="text" fontWeight="medium">
-            {current_week_start.format('MM/DD/YYYY')}
+            {_current_week_start}
           </MDTypography>
         ),
         to: (
           <MDTypography variant="caption" color="text" fontWeight="medium">
-            {current_week_end.format('MM/DD/YYYY')}
+            {_current_week_end}
           </MDTypography>
         ),
         inProgress: (
@@ -316,6 +333,22 @@ function TableTempalte({ title }: any) {
         ),
       },
     ]);
+
+
+     _current_week_start = current_week_start.format('MM/DD/YYYY')
+     _current_week_end = current_week_end.format('MM/DD/YYYY')
+
+
+     let _previous_week_start = previous_week_start.format('MM/DD/YYYY')
+     let _previous_week_end = previous_week_end.format('MM/DD/YYYY')
+
+    setPdfRows2([['Current',_current_week_start,_current_week_end, 
+    'Current', current_week_new_counter, current_week_completed_counter, current_week_rfp_cancelled_counter],
+
+    ['Previous',_previous_week_start,_previous_week_end, 
+    'Current', previous_week_new_counter, previous_week_completed_counter, previous_week_rpf_cancelled_counter]
+]
+    )
 
     setRows1([
       {
@@ -405,6 +438,21 @@ function TableTempalte({ title }: any) {
         ),
       },
     ]);
+
+    let _current_month_start = current_month_start.format('MM/DD/YYYY'); 
+    let _current_month_end = current_month_end.format('MM/DD/YYYY'); 
+
+
+    let _previous_month_start = previous_month_start.format('MM/DD/YYYY');
+    let _previous_month_end = previous_month_end.format('MM/DD/YYYY');
+    setPdfRows3([['Current',_current_month_start,_current_month_end, 
+    'sdfsdf', current_month_new_counter, current_month_completed_counter, current_month_rfp_cancelled_counter],
+
+    ['Previous',_previous_month_start,_previous_month_end, 
+    'Current', previous_month_new_counter, previous_month_completed_counter, previous_month_rfp_cancelled_counter]
+]
+    )
+
 
     setRows2([
       {
@@ -499,6 +547,7 @@ function TableTempalte({ title }: any) {
 
   return (
     <>
+    Dashboard Summary
       <Card>
         <MDBox>
           <DataTable
@@ -510,7 +559,7 @@ function TableTempalte({ title }: any) {
           />
         </MDBox>
       </Card>
-      asdfasdfasdf
+      Pre-Sales Weekly Summary 
       <Card>
         <MDBox>
           <DataTable
@@ -522,7 +571,7 @@ function TableTempalte({ title }: any) {
           />
         </MDBox>
       </Card>
-      asdfasdfasdfasdf
+      Monthly Summary
       <Card>
         <MDBox>
           <DataTable

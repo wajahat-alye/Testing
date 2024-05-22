@@ -62,6 +62,19 @@ function reducer(state, action) {
         return { ...state, previousMonthPie: action.value };
       }
 
+      case "PDF_MONTH_PIE1": {
+        return { ...state, PdfRows1: action.value };
+      }
+
+
+      case "PDF_MONTH_PIE2": {
+        return { ...state, PdfRows2: action.value };
+      }
+
+
+      case "PDF_MONTH_PIE3": {
+        return { ...state, PdfRows3: action.value };
+      }
 
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
@@ -83,6 +96,11 @@ function GlobalControllerProvider({ children }) {
     previousWeekPie: [],
     currentMonthPie: [],
     previousMonthPie: [],
+
+
+    PdfRows1: [],
+    PdfRows2: [],
+    PdfRows3: [],
 
 
   };
@@ -124,6 +142,11 @@ const setpreviousWeekPie = (dispatch, value) => dispatch({ type: "PREVIOUS_WEEK_
 const setcurrentMonthPie = (dispatch, value) => dispatch({ type: "CURRENT_MONTH_PIE", value });
 const setpreviousMonthPie = (dispatch, value) => dispatch({ type: "PREVIOUS_MONTH_PIE", value });
 
+
+const setPdfRows1 = (dispatch, value) => dispatch({ type: "PDF_MONTH_PIE1", value });
+const setPdfRows2 = (dispatch, value) => dispatch({ type: "PDF_MONTH_PIE2", value });
+const setPdfRows3 = (dispatch, value) => dispatch({ type: "PDF_MONTH_PIE3", value });
+
 export {
   GlobalControllerProvider,
   useGlobalController,
@@ -137,4 +160,8 @@ export {
   setpreviousWeekPie,
   setcurrentMonthPie,
   setpreviousMonthPie,
+
+  setPdfRows1,
+  setPdfRows2,
+  setPdfRows3,
 };
