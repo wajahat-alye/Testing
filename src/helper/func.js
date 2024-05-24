@@ -60,7 +60,11 @@ export const getCurrentMonthEndDate = () => {
 export const makeDate = (date) => {
   if(!date) return '';
   if (typeof date === 'number') {
-    date = date.toDate();
+    try {
+      date = date.toDate();
+    } catch (error) {
+      return ''
+    }
   }else if (typeof date === 'string') {
     const timestamp = 'Timestamp(seconds=1715108400, nanoseconds=0)';
 const seconds = parseInt(timestamp.match(/seconds=(\d+)/)[1]);
