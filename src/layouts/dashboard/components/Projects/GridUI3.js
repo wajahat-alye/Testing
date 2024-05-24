@@ -1,55 +1,43 @@
-
-import AddIcon from '@mui/icons-material/Add';
-import CancelIcon from '@mui/icons-material/Close';
-import DeleteIcon from '@mui/icons-material/DeleteOutlined';
-import EditIcon from '@mui/icons-material/Edit';
-import SaveIcon from '@mui/icons-material/Save';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import AddIcon from "@mui/icons-material/Add";
+import CancelIcon from "@mui/icons-material/Close";
+import DownloadIcon from "@mui/icons-material/Download";
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import EditIcon from "@mui/icons-material/Edit";
+import SaveIcon from "@mui/icons-material/Save";
+import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
+import Button from "@mui/material/Button";
 import {
   DataGrid,
   GridActionsCellItem,
-  GridColDef,
-  GridEventListener,
   GridRowEditStopReasons,
-  GridRowId,
-  GridRowModel,
   GridRowModes,
-  GridRowModesModel,
-  GridRowsProp,
-  GridSlots,
+  GridToolbarExport,
+  GridToolbarFilterButton,
   GridToolbarContainer,
-} from '@mui/x-data-grid';
-
-import * as React from 'react';
-import { dp_customer, dp_kamOwner, GRID_KEYS_LIST, dp_pstAssign, dp_region, dp_sector, dp_status, GRID_KEYS, GRID_KEYS_Values } from './data/index';
-import Typography from '@mui/material/Typography';
-import MDSnackbar from 'components/MDSnackbar';
-import useData from './../../hook/useData';
-import { useEffect, useRef } from 'react';
-import * as reduxData from "context/useGlobalData";
-import { useState,memo } from 'react';
-import SymbolAccordion from 'layouts/globalcomponents/SymbolAccordionRowView';
-import { makeDate } from './../../../../helper/func';
-
-
-
-
-const roles = ['Market', 'Finance', 'Development'];
+} from "@mui/x-data-grid";
+import * as React from "react";
+import MDSnackbar from "components/MDSnackbar";
+import { useState, memo } from "react";
+import { ExportJsonCsv } from "react-export-json-csv";
+import { CSVImporter } from "csv-import-react";
+import LinearProgress from "@mui/material/LinearProgress";
 
 const generateRandomId = () => {
   const randomId = Math.random().toString(36).substr(2, 6);
   return randomId;
 };
 
-function EditToolbar({ setRows, setRowModesModel }:any) {
+function EditToolbar({ setRows, headers, fileName, setRowModesModel, rows, fieldToFocus }: any) {
+  // const maxID = rows.length > 0 ? rows.reduce((prev, current) => (prev.id > current.id) ? prev : current).id : 1;
+  const gridKeys = headers.map((e) => e.key);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleClick = () => {
     const id = generateRandomId();
-    setRows((oldRows) => [...oldRows, { ...GRID_KEYS, id,sn: id, isNew: true }]);
+    setRows((oldRows) => [...oldRows, { ...gridKeys, id, isNew: true }]);
     setRowModesModel((oldModel) => ({
       ...oldModel,
-      [id]: { mode: GridRowModes.Edit, fieldToFocus: 'dateReceived' },
+      [id]: { mode: GridRowModes.Edit, fieldToFocus },
     }));
   };
 
@@ -58,32 +46,115 @@ function EditToolbar({ setRows, setRowModesModel }:any) {
       <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
         Add record
       </Button>
+      <GridToolbarFilterButton />
+      <Button
+        color="primary"
+        startIcon={<FileUploadOutlinedIcon />}
+        onClick={() => setIsOpen(true)}
+      >
+        Import
+      </Button>
+      <GridToolbarExport
+        slotProps={{
+          tooltip: { title: "Export data" },
+          csvOptions: { fileName: fileName }, 
+          printOptions: { fileName: fileName }
+        }}
+
+      />
+      {/* <Button color="primary" startIcon={<DownloadIcon />}>
+        <ExportJsonCsv headers={headers} items={rows}>
+          Export
+        </ExportJsonCsv>
+      </Button> */}
+      <CSVImporter
+        modalIsOpen={isOpen}
+        modalOnCloseTriggered={() => setIsOpen(false)}
+        darkMode={false}
+        showDownloadTemplateButton={false}
+        waitOnComplete={false}
+        onComplete={(data) => {
+          setRows(data.rows.map((e) => e.values));
+          console.log(data);
+          setIsOpen(false);
+        }}
+        template={{
+          columns: headers,
+        }}
+      />
     </GridToolbarContainer>
   );
 }
 
-
-
-const GridUI3 = ({ }: any) => {
+const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows }: any) => {
   const [rowModesModel, setRowModesModel] = React.useState({});
-  const [controller, dispatch] = reduxData.useGlobalController();
+  const [errorSB, setErrorSB] = React.useState(false);
+  const [gs, setGs] = useState({
+    title: "",
+    message: "",
+  });
 
-  const {getDeshboardData,gridData,customerListRedux, KMOwnerListRedux,sectorListRedux} = useData();
-  const [rows, setRows] = useState([]);
- 
- 
-  useEffect(() => {
-    reduxData.setGridData(dispatch, rows);
-  }, [rows]);
+  const openErrorSB = () => setErrorSB(true);
+  const closeErrorSB = () => setErrorSB(false);
 
+  const setGlobal = (key, value) => {
+    setGs((p) => ({ ...p, [key]: value }));
+  };
 
-  useEffect(()=>{
-   const fetch = async ()=>{
-    const data = await getDeshboardData()
-    setRows(data);
-   }
-   fetch();
-  },[])
+  columns = [
+    {
+      field: "actions",
+      type: "actions",
+      headerName: "Actions",
+      width: 100,
+      cellClassName: "actions",
+      sx: {
+        position: "sticky",
+      },
+      getActions: ({ id }) => {
+        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
+        if (isInEditMode) {
+          return [
+            <GridActionsCellItem
+              icon={<SaveIcon />}
+              label="Save"
+              sx={{
+                color: "primary.main",
+              }}
+              key={"Save_Button_ID"}
+              onClick={handleSaveClick(id)}
+            />,
+            <GridActionsCellItem
+              icon={<CancelIcon />}
+              label="Cancel"
+              className="textPrimary"
+              onClick={handleCancelClick(id)}
+              color="inherit"
+              key={"CANCEL_Button_ID"}
+            />,
+          ];
+        }
+        return [
+          <GridActionsCellItem
+            icon={<EditIcon />}
+            label="Edit"
+            className="textPrimary"
+            onClick={handleEditClick(id)}
+            color="inherit"
+            key={"Edit_Button_ID"}
+          />,
+          <GridActionsCellItem
+            icon={<DeleteIcon />}
+            label="Delete"
+            onClick={handleDeleteClick(id)}
+            color="inherit"
+            key={"Delete_Button_ID"}
+          />,
+        ];
+      },
+    },
+    ...columns,
+  ];
 
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -108,23 +179,18 @@ const GridUI3 = ({ }: any) => {
       ...rowModesModel,
       [id]: { mode: GridRowModes.View, ignoreModifications: true },
     });
-
     const editedRow = rows.find((row) => row.id === id);
-    if (editedRow.isNew){
+    if (editedRow.isNew) {
       setRows(rows.filter((row) => row.id !== id));
     }
   };
-  const [errorSB, setErrorSB] = React.useState(false);
-  const [message, setMessage] = React.useState('');
-  const openErrorSB = () => setErrorSB(true);
-  const closeErrorSB = () => setErrorSB(false);
 
   const renderErrorSB = (
     <MDSnackbar
       color="error"
       icon="warning"
-      title="Column Can't be empty Error"
-      content={message}
+      title={gs.title}
+      content={gs.message}
       // dateTime="11 mins ago"
       open={errorSB}
       onClose={closeErrorSB}
@@ -132,21 +198,19 @@ const GridUI3 = ({ }: any) => {
       bgWhite
     />
   );
-  
 
   const processRowUpdate = (newRow) => {
     const updatedRow = { ...newRow, isNew: false };
-
-
-
-for(let i=0; i< GRID_KEYS_LIST.length; i++){
-  if(updatedRow[GRID_KEYS_LIST[i]] == '' || updatedRow[GRID_KEYS_LIST[i]] == 0){
-    setMessage(`${GRID_KEYS_Values[GRID_KEYS_LIST[i]]} can't be empty`);
-    openErrorSB();
-    return null
-  }
-}
-
+    for (let i = 0; i < headers.length; i++) {
+      if (headers[i].required) {
+        if (updatedRow[headers[i].key] == "" || updatedRow[headers[i].key] == 0) {
+          setGlobal("title", "Column Error");
+          setGlobal("message", `${headers[i].name} can't be empty`);
+          openErrorSB();
+          return null;
+        }
+      }
+    }
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
     return updatedRow;
   };
@@ -155,132 +219,32 @@ for(let i=0; i< GRID_KEYS_LIST.length; i++){
     setRowModesModel(newRowModesModel);
   };
 
- 
-
-
-
-  const columns= [
-    {
-      field: 'actions',
-      type: 'actions',
-      headerName: 'Actions',
-      width: 100,
-      cellClassName: 'actions',
-      getActions: ({ id }) => {
-        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
-
-        if (isInEditMode) {
-          return [
-            <GridActionsCellItem
-              icon={<SaveIcon />}
-              label="Save"
-              sx={{
-                color: 'primary.main',
-              }}
-              key={'111'}
-              onClick={handleSaveClick(id)}
-            />,
-            <GridActionsCellItem
-              icon={<CancelIcon />}
-              label="Cancel"
-              className="textPrimary"
-              onClick={handleCancelClick(id)}
-              color="inherit"
-              key={'1111'}
-
-            />,
-          ];
-        }
-
-        return [
-          <GridActionsCellItem
-            icon={<EditIcon />}
-            label="Edit"
-            className="textPrimary"
-            onClick={handleEditClick(id)}
-            color="inherit"
-            key={'111111'}
-
-          />,
-          <GridActionsCellItem
-            icon={<DeleteIcon />}
-            label="Delete"
-            onClick={handleDeleteClick(id)}
-            color="inherit"
-            key={'111111'}
-
-          />,
-        ];
-      },
-    },
-    { editable: false, field: 'sn', headerName: 'S/N', width: 70 },
-    {
-      editable: true, valueGetter: makeDate, type: 'date', field: 'dateReceived', headerName: 'Date Received', width: 130
-    },
-    {
-      editable: true, valueGetter: makeDate, type: 'date', field: 'dueDateByKAM', headerName: 'Due Date by KAM /Customer', width: 130
-    },
-    {
-      editable: true, valueGetter: makeDate, type: 'date', field: 'projectLevel', headerName: 'Project Level', width: 130
-    },
-    { editable: true, field: 'tat', headerName: 'TAT', width: 130 },
-    { editable: true, type: 'number', field: 'projectLWC', headerName: 'Project Life (Work Days)', width: 130 },
-    { editable: true, type: 'singleSelect', valueOptions: dp_status, field: 'status', headerName: 'Status/Dependencies', width: 130 },
-    { editable: true,  type: 'singleSelect', valueOptions: customerListRedux.map(e => e.customerName), field: 'customer', headerName: 'Customer', width: 130 },
-    // { editable: true, field: 'customer', headerName: 'Customer', width: 130 },
-    { editable: true, type: 'singleSelect', valueOptions: dp_region, field: 'region', headerName: 'Region', width: 130 },
-    {editable: true, type: 'singleSelect',field: 'kamOwner', valueOptions: KMOwnerListRedux.map(e => e.ownerName), headerName: 'KAM/ Owner', width: 130 },
-    { editable: true, type: 'singleSelect', valueOptions: sectorListRedux.map(e => e.sectorName), field: 'sector', headerName: 'Sector', width: 130 },
-    { editable: true, type: 'singleSelect', valueOptions: KMOwnerListRedux.map(e => e.ownerName), field: 'pstAssign', headerName: 'Pre-Sales task Assigned to', width: 130 },
-    { editable: true, field: 'requirement', headerName: 'Requirement / Query', width: 130 },
-    { editable: true, type: 'number', field: 'psrUpdates', headerName: 'Pre-Sales Remarks / Updates', width: 130 },
-    { editable: true,  type: 'number', field: 'proposedSolution', headerName: 'Proposed Solution', width: 130 },
-    { editable: true,   type: 'number',field: 'srdiother', headerName: 'Sale/ Rental/ Demo/ In-House/ Other', width: 130 },
-    { editable: true,  type: 'number', valueGetter: makeDate, type: 'date', field: 'submissionTo', headerName: 'Submission to KAM/ Owner', width: 130 },
-    { editable: true, type: 'number', field: 'additionR', headerName: 'Additional Remarks', width: 130 },
-
-  ];
-
-  const boxClasses = {
-
-    margin: '10px 0px 0px 0px',
-    width: '100%',
-    '& .actions': {
-      color: 'text.secondary',
-    },
-    '& .textPrimary': {
-      color: 'text.primary',
-    },
-  };
-
-	const symbolAccordionRef = useRef(null);
-
   return (
     <>
-    {renderErrorSB}
+      {renderErrorSB}
 
-    <SymbolAccordion gridType={4} getData={setRows}  data={rows}  ref={symbolAccordionRef} />
-
-    <DataGrid
-          rows={rows}
-          autoHeight={true}
-          columns={columns}
-          editMode="row"
-          rowModesModel={rowModesModel}
-          onRowModesModelChange={handleRowModesModelChange}
-          onRowEditStop={handleRowEditStop}
-          processRowUpdate={processRowUpdate}
-          slots={{
-            toolbar: EditToolbar 
-          }}
-          slotProps={{
-            toolbar: { setRows, setRowModesModel },
-          }}
-        />
+      <DataGrid
+        rows={rows}
+        autoHeight={true}
+        columns={columns}
+        editMode="row"
+        rowModesModel={rowModesModel}
+        onRowModesModelChange={handleRowModesModelChange}
+        onRowEditStop={handleRowEditStop}
+        processRowUpdate={processRowUpdate}
+        slots={{
+          toolbar: EditToolbar,
+          loadingOverlay: LinearProgress,
+        }}
+        slotProps={{
+          toolbar: { setRows, headers, fileName, setRowModesModel, rows, fieldToFocus },
+        }}
+        initialState={{
+          pagination: { paginationModel: { pageSize: 25 } },
+        }}
+      />
     </>
   );
-}
+};
 
-
-export default  memo(GridUI3);
-
+export default memo(GridUI3);

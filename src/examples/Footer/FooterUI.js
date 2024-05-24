@@ -28,6 +28,9 @@ import MDTypography from "components/MDTypography";
 import typography from "assets/theme/base/typography";
 import AppBar from "@mui/material/AppBar";
 
+import { importExportBtnStyle } from './../../layouts/dashboard/components/styles.js/TablesStyles';
+
+
 // Material Dashboard 2 React context
 import {
   useMaterialUIController,
@@ -38,52 +41,48 @@ import {
 import Button from "@mui/material/Button";
 import MDButton from "components/MDButton";
 import useData from "./../../layouts/dashboard/hook/useData";
-import Card from '@mui/material/Card';
+import Card from "@mui/material/Card";
 import * as reduxData from "context/useGlobalData";
 
 function FooterUI({}) {
-  const { saveToFirebase,saveSectorToFirebase, saveKMOwnerToFirebase,saveCustomerToFirebase } = useData();
+  const { saveToFirebase, saveSectorToFirebase, saveKMOwnerToFirebase, saveCustomerToFirebase } =
+    useData();
   const [controller, dispatch] = reduxData.useGlobalController();
 
-
-  const saveData = async () =>{
+  const saveData = async () => {
     await saveToFirebase();
     await saveCustomerToFirebase();
     await saveKMOwnerToFirebase();
     await saveSectorToFirebase();
     reduxData.setDeshboardToast(dispatch, true);
-
-  }
+  };
 
   return (
-    <AppBar
-      position={"sticky"}
-      color="inherit"
-      style={{ bottom: "0.75rem" }}
-    >
+    <AppBar position={"sticky"} color="inherit" style={{ bottom: "0.75rem" }}>
       <Card>
-      <MDBox
-        width="100%"
-        display="flex"
-        flexDirection={{ xs: "column", lg: "row" }}
-        justifyContent="end"
-        alignItems="end"
-        px={1.5}
-      >
-        <MDBox p={2} mt="auto">
-          <MDButton
-            component="Button"
-            target="_blank"
-            rel="noreferrer"
-            variant="gradient"
-            onClick={saveData}
-            fullWidth
-          >
-            Save
-          </MDButton>
+        <MDBox
+          width="100%"
+          display="flex"
+          flexDirection={{ xs: "column", lg: "row" }}
+          justifyContent="end"
+          alignItems="end"
+          px={1.5}
+        >
+          <MDBox p={2} mt="auto">
+            <Button
+              variant="contained"
+              sx={importExportBtnStyle}
+              component="Button"
+              target="_blank"
+              rel="noreferrer"
+              onClick={saveData}
+              fullWidth
+            >
+              Save
+            </Button>
+          </MDBox>
         </MDBox>
-      </MDBox>
-        </Card>
+      </Card>
     </AppBar>
   );
 }

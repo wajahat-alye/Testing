@@ -26,7 +26,7 @@ import FooterUI from "./../../examples/Footer/FooterUI";
 import useData from "./hook/useData";
 import MDSnackbar from "components/MDSnackbar";
 import { useEffect } from "react";
-import GridUI3 from 'layouts/dashboard/components/Projects/GridUI3';
+import Deshboard from 'layouts/dashboard/components/Projects/Deshboard';
 import MyDocument from './../../PDF/MyDocument';
 
 function Dashboard() {
@@ -38,8 +38,12 @@ function Dashboard() {
   //   getFromFirebase()
   // },[])
 
+
+
   return (
     <>
+
+
       {successSB && (
         <MDSnackbar
           color="success"
@@ -68,7 +72,7 @@ function Dashboard() {
             <Grid container spacing={3}>
               <Grid item xs={12} md={12} lg={12}>
                 <Template title={"Deshboard"}>
-                  <GridUI3 />{" "}
+                  <Deshboard />{" "}
                 </Template>
               </Grid>
             </Grid>
