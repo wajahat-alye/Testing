@@ -12,6 +12,7 @@ const Deshboard = ({}: any) => {
   const [rows, setRows] = useState([]);
 
   useEffect(() => {
+    console.log('asdfasdfasdfasdf',rows)
     reduxData.setGridData(dispatch, rows);
   }, [rows]);
 

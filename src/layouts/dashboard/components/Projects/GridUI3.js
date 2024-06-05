@@ -28,12 +28,23 @@ const generateRandomId = () => {
 };
 
 function EditToolbar({ setRows, headers, fileName, setRowModesModel, rows, fieldToFocus }: any) {
-  // const maxID = rows.length > 0 ? rows.reduce((prev, current) => (prev.id > current.id) ? prev : current).id : 1;
+  
+  let maxID = 0;
+  if(rows?.rows){
+    rows.rows.forEach(e => {
+      if(e.values.id > maxID){
+        maxID = e.values.id
+      }
+    })
+  }else{
+    maxID = 1;
+  }
+  
   const gridKeys = headers.map((e) => e.key);
   const [isOpen, setIsOpen] = useState(false);
-
+  
   const handleClick = () => {
-    const id = generateRandomId();
+    const id = maxID;
     setRows((oldRows) => [...oldRows, { ...gridKeys, id, isNew: true }]);
     setRowModesModel((oldModel) => ({
       ...oldModel,
@@ -75,7 +86,7 @@ function EditToolbar({ setRows, headers, fileName, setRowModesModel, rows, field
         waitOnComplete={false}
         onComplete={(data) => {
           setRows(data.rows.map((e) => e.values));
-          console.log(data);
+          console.log('importing data',data);
           setIsOpen(false);
         }}
         template={{
@@ -240,7 +251,7 @@ const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows }: an
           toolbar: { setRows, headers, fileName, setRowModesModel, rows, fieldToFocus },
         }}
         initialState={{
-          pagination: { paginationModel: { pageSize: 25 } },
+          pagination: { paginationModel: { pageSize: 5 } },
         }}
       />
     </>

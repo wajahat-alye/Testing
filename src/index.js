@@ -25,11 +25,11 @@ import { NotificationsProvider } from "context/useNotifications";
 import { Notifications1Provider } from "context/useNotifications1";
 // import { fileURLToPath } from 'node:url';
 
-
 const container = document.getElementById("app");
 const root = createRoot(container);
 
 // const __dirname = fileURLToPath(new URL('.', import.meta.url));
+import { LoaderProvider } from 'hook/useLoader';
 
 
 root.render(
@@ -37,7 +37,10 @@ root.render(
     <MaterialUIControllerProvider>
       <GlobalControllerProvider>
 <Notifications1Provider >
+  <LoaderProvider >
         <App />
+  </LoaderProvider >
+
       </Notifications1Provider >
 
       </GlobalControllerProvider>

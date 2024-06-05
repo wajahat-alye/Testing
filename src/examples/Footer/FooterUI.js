@@ -43,21 +43,31 @@ import MDButton from "components/MDButton";
 import useData from "./../../layouts/dashboard/hook/useData";
 import Card from "@mui/material/Card";
 import * as reduxData from "context/useGlobalData";
+import { useLoader } from './../../hook/useLoader';
 
 function FooterUI({}) {
   const { saveToFirebase, saveSectorToFirebase, saveKMOwnerToFirebase, saveCustomerToFirebase } =
     useData();
   const [controller, dispatch] = reduxData.useGlobalController();
+  const { showLoader, hideLoader } = useLoader();
 
   const saveData = async () => {
-    await saveToFirebase();
-    await saveCustomerToFirebase();
-    await saveKMOwnerToFirebase();
-    await saveSectorToFirebase();
-    reduxData.setDeshboardToast(dispatch, true);
+    try{
+      showLoader();
+      await saveToFirebase();
+      await saveCustomerToFirebase();
+      await saveKMOwnerToFirebase();
+      await saveSectorToFirebase();
+      reduxData.setDeshboardToast(dispatch, true);
+    }catch(e){
+
+    }finally{
+      hideLoader();
+    }
   };
 
   return (
+   <>
     <AppBar position={"sticky"} color="inherit" style={{ bottom: "0.75rem" }}>
       <Card>
         <MDBox
@@ -84,6 +94,7 @@ function FooterUI({}) {
         </MDBox>
       </Card>
     </AppBar>
+   </>
   );
 }
 
