@@ -21,31 +21,70 @@ import { useState, memo } from "react";
 import { ExportJsonCsv } from "react-export-json-csv";
 import { CSVImporter } from "csv-import-react";
 import LinearProgress from "@mui/material/LinearProgress";
+import { GRID_KEYS } from "./data";
 
 const generateRandomId = () => {
   const randomId = Math.random().toString(36).substr(2, 6);
   return randomId;
 };
 
+const getDayCount = (startDateString)=>{
+
+// Convert the start date string to a Date object
+var startDate = new Date(startDateString);
+
+// Get the current date
+var currentDate = new Date();
+
+// Calculate the time difference in milliseconds
+var timeDifference = currentDate.getTime() - startDate.getTime();
+
+// Convert the time difference from milliseconds to days
+var dayDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+  return dayDifference;
+}
+
+
 function EditToolbar({ setRows, headers, fileName, setRowModesModel, rows, fieldToFocus }: any) {
   
-  let maxID = 0;
-  if(rows?.rows){
-    rows.rows.forEach(e => {
-      if(e.values.id > maxID){
-        maxID = e.values.id
-      }
-    })
-  }else{
-    maxID = 1;
-  }
+  // let maxID = 1; 
+  // if(rows?.rows){
+  //   rows.rows.forEach(e => {
+  //     if(e.values.id > maxID){
+  //       maxID = e.values.id
+  //     }
+  //   })
+  // }else{
+  //   maxID = 1;
+  // }
+  // if(rows && rows.length > 0){
+  //   rows.forEach(e => {
+  //     if(e.id > maxID){
+  //       maxID = e.id
+  //     }
+  //   })
+  // }
+  
   
   const gridKeys = headers.map((e) => e.key);
   const [isOpen, setIsOpen] = useState(false);
   
   const handleClick = () => {
-    const id = maxID;
-    setRows((oldRows) => [...oldRows, { ...gridKeys, id, isNew: true }]);
+    let a = headers;
+    let b =fileName;
+    let c = rows;
+    let d = fieldToFocus;
+    let maxID = 0;
+    if(rows && rows.length > 0){
+      rows.forEach(e => {
+        if(e.id > maxID){
+          maxID = e.id
+        }
+      })
+    }
+
+    let id = maxID + 1;
+    setRows((oldRows) => [...oldRows, { ...GRID_KEYS , id, isNew: true }]);
     setRowModesModel((oldModel) => ({
       ...oldModel,
       [id]: { mode: GridRowModes.Edit, fieldToFocus },
@@ -210,9 +249,41 @@ const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows }: an
     />
   );
 
+
+  function formatDateToTimestamp(date) {
+    // Get the Unix timestamp in seconds
+    const seconds = Math.floor(date.getTime() / 1000);
+    
+    // Construct the timestamp string
+    const timestampString = `Timestamp(seconds=${seconds}, nanoseconds=0)`;
+    
+    return timestampString;
+  }
+  
+    
+
+
   const processRowUpdate = (newRow) => {
-    const updatedRow = { ...newRow, isNew: false };
+    let updatedRow = { ...newRow, isNew: false };
+
+
+
     for (let i = 0; i < headers.length; i++) {
+
+      if(fileName === 'Deshboard'){
+        if(headers[i].key == "status"){
+          if(["Completed", "RFP Cancelled"].includes(updatedRow.status)){
+            updatedRow.submissionTo = formatDateToTimestamp(new Date());
+
+
+            
+          }else{
+            updatedRow.projectLWC = getDayCount(updatedRow.dateReceived);
+
+          }
+        }
+      }
+
       if (headers[i].required) {
         if (updatedRow[headers[i].key] == "" || updatedRow[headers[i].key] == 0) {
           setGlobal("title", "Column Error");
@@ -237,6 +308,7 @@ const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows }: an
       <DataGrid
         rows={rows}
         autoHeight={true}
+        checkboxSelection
         columns={columns}
         editMode="row"
         rowModesModel={rowModesModel}
