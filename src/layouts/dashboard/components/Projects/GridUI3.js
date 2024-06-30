@@ -323,7 +323,7 @@ const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows }: an
           toolbar: { setRows, headers, fileName, setRowModesModel, rows, fieldToFocus },
         }}
         initialState={{
-          pagination: { paginationModel: { pageSize: 5 } },
+          pagination: { paginationModel: { pageSize: 20 } },
         }}
       />
     </>
