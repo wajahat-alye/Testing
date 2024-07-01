@@ -22,6 +22,8 @@ import { ExportJsonCsv } from "react-export-json-csv";
 import { CSVImporter } from "csv-import-react";
 import LinearProgress from "@mui/material/LinearProgress";
 import { GRID_KEYS } from "./data";
+import { db } from "layouts/authentication/firebase/firebase";
+import { Timestamp } from "@firebase/firestore";
 
 const generateRandomId = () => {
   const randomId = Math.random().toString(36).substr(2, 6);
@@ -273,8 +275,8 @@ const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows }: an
       if(fileName === 'Deshboard'){
         if(headers[i].key == "status"){
           if(["Completed", "RFP Cancelled"].includes(updatedRow.status)){
-            updatedRow.submissionTo = formatDateToTimestamp(new Date());
-
+            updatedRow.submissionTo = Timestamp.fromDate(new Date());
+       
 
             
           }else{
@@ -325,6 +327,39 @@ const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows }: an
         initialState={{
           pagination: { paginationModel: { pageSize: 20 } },
         }}
+        // getCellClassName={(params) => {
+        //   if (params.field !== 'status' ) {
+        //     return '';
+        //   }
+
+
+        //   let cellStyle = {};
+  
+        //   switch (params.value) {
+        //     case 'Completed':
+        //       cellStyle.backgroundColor = '#dcedc8'; // Light green
+        //       break;
+        //     case 'Parked with KAM / Customer':
+        //       cellStyle.backgroundColor = '#ffcc80'; // Light orange
+        //       break;
+        //     case 'Parked with Vendor / Procurement / Product Team':
+        //       cellStyle.backgroundColor = '#ffe0b2'; // Light amber
+        //       break;
+        //     case 'Feasibilities / Infra-Structure':
+        //       cellStyle.backgroundColor = '#b3e5fc'; // Light blue
+        //       break;
+        //     case 'RFP Cancelled':
+        //       cellStyle.backgroundColor = '#ffcdd2'; // Light red
+        //       break;
+        //     case 'In Progress':
+        //       cellStyle.backgroundColor = '#f0f4c3'; // Light yellow
+        //       break;
+        //     default:
+        //       cellStyle.backgroundColor = 'inherit';
+        //   }
+
+        //   return params.value >= 15 ? 'hot' : 'cold';
+        // }}
       />
     </>
   );

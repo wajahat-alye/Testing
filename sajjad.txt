@@ -1,5 +1,5 @@
-1) submition date issue
-2) complete info color
+1) submition date issue (done)
+2) complete info color (done)
 3) presale assign task dropdown
 4) change Email copy to report
 5) satu, sunday remove on report

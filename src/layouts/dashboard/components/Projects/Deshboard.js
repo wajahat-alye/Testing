@@ -13,7 +13,12 @@ import {  Box, IconButton, TextField } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 // import MultiSelectDropdown from "MultiSelectDropdown";
 import Autocomplete from "@mui/material/Autocomplete";
-
+import {
+  FormControl,
+  InputLabel,
+  Chip,
+  styled
+} from "@mui/material";
 const names = [
   "Humaira Sims",
   "Santiago Solis",
@@ -38,7 +43,11 @@ const Deshboard = ({}: any) => {
   const { getDeshboardData, customerListRedux, KMOwnerListRedux, sectorListRedux } = useData();
   const [controller, dispatch] = reduxData.useGlobalController();
   const [rows, setRows] = useState([]);
-
+  const CustomFormControl = styled(FormControl)({
+    minWidth: 120,
+    maxWidth: 300,
+    margin: "8px"
+  });
   useEffect(() => {
     console.log('asdfasdfasdfasdf',rows)
     reduxData.setGridData(dispatch, rows);
@@ -53,26 +62,9 @@ const Deshboard = ({}: any) => {
   }, []);
 
 
-  
-const MultiSelectDropdown = ({ value, onChange, options }: any) => {
-  // Parse initial value if it's a JSON string
-  const parsedValue = typeof value === 'string' ? JSON.parse(value) : value;
 
-  const handleChange = (event, newValue) => {
-    onChange(JSON.stringify(newValue));
-  };
 
-  return (
-    <Autocomplete
-      multiple
-      fullWidth
-      value={parsedValue}
-      options={options}
-      renderInput={(params) => <TextField {...params} variant="standard" />}
-      onChange={handleChange}
-    />
-  );
-};
+
 
 
   const columns = [
@@ -116,6 +108,91 @@ const MultiSelectDropdown = ({ value, onChange, options }: any) => {
       field: "status",
       headerName: "Status/Dependencies",
       width: 130,
+      renderCell: (params) => {
+    let backgroundColor = "";
+  
+        switch (params.value) {
+          case 'Completed':
+            backgroundColor = '#dcedc8'; // Light green
+            break;
+          case 'Parked with KAM / Customer':
+            backgroundColor = '#ffcc80'; // Light orange
+            break;
+          case 'Parked with Vendor / Procurement / Product Team':
+            backgroundColor = '#ffe0b2'; // Light amber
+            break;
+          case 'Feasibilities / Infra-Structure':
+            backgroundColor = '#b3e5fc'; // Light blue
+            break;
+          case 'RFP Cancelled':
+            backgroundColor = '#ffcdd2'; // Light red
+            break;
+          case 'In Progress':
+            backgroundColor = '#f0f4c3'; // Light yellow
+            break;
+          default:
+            backgroundColor = 'inherit';
+        }
+        return (
+          <Box
+            sx={{
+              backgroundColor: backgroundColor,
+              width: "100%",
+              height: "100%"
+            }}
+          >
+            {params.value}
+          </Box>
+        );
+      }
+      // renderCell: (params) => {
+        
+  
+      //   let cellStyle = {};
+  
+      //   switch (selectedStatus) {
+      //     case 'Completed':
+      //       cellStyle.backgroundColor = '#dcedc8'; // Light green
+      //       break;
+      //     case 'Parked with KAM / Customer':
+      //       cellStyle.backgroundColor = '#ffcc80'; // Light orange
+      //       break;
+      //     case 'Parked with Vendor / Procurement / Product Team':
+      //       cellStyle.backgroundColor = '#ffe0b2'; // Light amber
+      //       break;
+      //     case 'Feasibilities / Infra-Structure':
+      //       cellStyle.backgroundColor = '#b3e5fc'; // Light blue
+      //       break;
+      //     case 'RFP Cancelled':
+      //       cellStyle.backgroundColor = '#ffcdd2'; // Light red
+      //       break;
+      //     case 'In Progress':
+      //       cellStyle.backgroundColor = '#f0f4c3'; // Light yellow
+      //       break;
+      //     default:
+      //       cellStyle.backgroundColor = 'inherit';
+      //   }
+  
+      //   return (
+      //     <div style={{ backgroundColor: cellStyle.backgroundColor }}>
+      //       <Select
+      //         value={selectedStatus}
+      //         onChange={handleChange}
+      //       >
+      //         <MenuItem value="">Select Status</MenuItem>
+      //         <MenuItem value="Completed">Completed</MenuItem>
+      //         <MenuItem value="Parked with KAM / Customer">Parked with KAM / Customer</MenuItem>
+      //         <MenuItem value="Parked with Vendor / Procurement / Product Team">Parked with Vendor / Procurement / Product Team</MenuItem>
+      //         <MenuItem value="Feasibilities / Infra-Structure">Feasibilities / Infra-Structure</MenuItem>
+      //         <MenuItem value="RFP Cancelled">RFP Cancelled</MenuItem>
+      //         <MenuItem value="In Progress">In Progress</MenuItem>
+      //       </Select>
+      //     </div>
+      //   );
+      // }
+  
+    
+      
     },
     {
       editable: true,
@@ -193,6 +270,7 @@ const MultiSelectDropdown = ({ value, onChange, options }: any) => {
       field: "proposedSolution",
       headerName: "Proposed Solution",
       width: 130,
+      
     },
     // {
     //   editable: true,
@@ -272,6 +350,7 @@ const MultiSelectDropdown = ({ value, onChange, options }: any) => {
       <GridUI3
         headers={headers}
         columns={columns}
+
         fieldToFocus={"dateReceived"}
         setRows={setRows}
         rows={rows}
