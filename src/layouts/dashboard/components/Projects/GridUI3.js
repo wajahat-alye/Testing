@@ -305,6 +305,8 @@ const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows }: an
 
   return (
     <>
+     {/* <div style={{ height: '100vh', width: '100%' }}> */}
+
       {renderErrorSB}
 
       <DataGrid
@@ -327,40 +329,9 @@ const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows }: an
         initialState={{
           pagination: { paginationModel: { pageSize: 20 } },
         }}
-        // getCellClassName={(params) => {
-        //   if (params.field !== 'status' ) {
-        //     return '';
-        //   }
-
-
-        //   let cellStyle = {};
-  
-        //   switch (params.value) {
-        //     case 'Completed':
-        //       cellStyle.backgroundColor = '#dcedc8'; // Light green
-        //       break;
-        //     case 'Parked with KAM / Customer':
-        //       cellStyle.backgroundColor = '#ffcc80'; // Light orange
-        //       break;
-        //     case 'Parked with Vendor / Procurement / Product Team':
-        //       cellStyle.backgroundColor = '#ffe0b2'; // Light amber
-        //       break;
-        //     case 'Feasibilities / Infra-Structure':
-        //       cellStyle.backgroundColor = '#b3e5fc'; // Light blue
-        //       break;
-        //     case 'RFP Cancelled':
-        //       cellStyle.backgroundColor = '#ffcdd2'; // Light red
-        //       break;
-        //     case 'In Progress':
-        //       cellStyle.backgroundColor = '#f0f4c3'; // Light yellow
-        //       break;
-        //     default:
-        //       cellStyle.backgroundColor = 'inherit';
-        //   }
-
-        //   return params.value >= 15 ? 'hot' : 'cold';
-        // }}
+      
       />
+       {/* </div> */}
     </>
   );
 };

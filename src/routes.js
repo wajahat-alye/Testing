@@ -82,7 +82,7 @@ const routes = [
     name: "Report",
     key: "Report",
     icon: <Icon fontSize="small">dashboard</Icon>,
-    route: "/emailcopy",
+    route: "/Report",
     component: <EmailCopy />,
   },
   {
