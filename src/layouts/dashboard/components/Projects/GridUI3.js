@@ -142,6 +142,9 @@ function EditToolbar({ setRows, headers, fileName, setRowModesModel, rows, field
   );
 }
 
+
+
+
 const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows }: any) => {
   const [rowModesModel, setRowModesModel] = React.useState({});
   const [errorSB, setErrorSB] = React.useState(false);
@@ -149,7 +152,16 @@ const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows }: an
     title: "",
     message: "",
   });
-
+  const classes ={root: {
+    // height: '100vh',  // Set height to full viewport height
+    // width: '100%',    // Ensure it takes full width of the page
+    // display: 'flex',
+    // flexDirection: 'column',
+  },
+  dataGridContainer: {
+    // flexGrow: 1,       // Ensure the container expands to fill available space
+    // marginTop: '20px', // Example margin top for spacing
+  },}
   const openErrorSB = () => setErrorSB(true);
   const closeErrorSB = () => setErrorSB(false);
 
@@ -318,7 +330,9 @@ const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows }: an
      {/* <div style={{ height: '100vh', width: '100%' }}> */}
 
       {renderErrorSB}
-
+      <div className={classes.root}>
+      {/* Container for the DataGrid */}
+      <div className={classes.dataGridContainer}>
       <DataGrid
         rows={rows}
         autoHeight={true}
@@ -343,6 +357,8 @@ const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows }: an
 
       
       />
+       </div>
+       </div>
        {/* </div> */}
     </>
   );
