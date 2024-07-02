@@ -21,6 +21,7 @@ import {
 import * as reduxData from "context/useGlobalData";
 import { MuiThemeProvider, createTheme } from '@mui/material/styles';
 import MUIDataTable from 'mui-datatables';
+import { importExportBtnStyle } from "layouts/globalcomponents/SymbolAccordionRowView/styles";
 
 
 const MyDocument = () => {
@@ -151,14 +152,33 @@ const MyDocument = () => {
 
   return (
     <div>
-      <Button variant="contained" onClick={handleOpen}>
-        Download PDF
-      </Button>
+     
+      <Button
+              variant="contained"
+              sx={importExportBtnStyle}
+              component="Button"
+              target="_blank"
+              rel="noreferrer"
+              onClick={handleOpen}
+              // fullWidth
+            >
+              Download PDF
+            </Button>
+
       <Modal open={open} onClose={handleClose}>
         <div style={{ width: "100%", height: "100%" }}>
           <div style={{ display: "flex", justifyContent: "flex-end", backgroundColor: "white" }}>
-            <Button variant="contained" onClick={handleClose}>
-              Close
+            
+            <Button
+              variant="contained"
+              sx={importExportBtnStyle}
+              component="Button"
+              target="_blank"
+              rel="noreferrer"
+              onClick={handleClose}
+              // fullWidth
+            >
+             Close
             </Button>
           </div>
 

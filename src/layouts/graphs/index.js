@@ -47,7 +47,7 @@ function GraphsUI() {
         <Charts />
         {/* </MDBox> */}
       </MDBox>
-      <Footer />
+      {/* <Footer /> */}
     </DashboardLayout>
   );
 }

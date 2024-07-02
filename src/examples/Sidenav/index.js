@@ -14,6 +14,7 @@ Coded by www.creative-tim.com
 */
 
 import { useEffect } from "react";
+import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
 
 // react-router-dom components
 import { useLocation, NavLink } from "react-router-dom";
@@ -162,6 +163,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
         </MDBox>
         <MDBox component={NavLink} to="/" display="flex" alignItems="center">
           {brand && <MDBox component="img" src={brand} alt="Brand" width="2rem" />}
+          {/* {brand &&  <FlightTakeoffIcon />} */}
           <MDBox
             width={!brandName && "100%"}
             sx={(theme) => sidenavLogoLabel(theme, { miniSidenav })}

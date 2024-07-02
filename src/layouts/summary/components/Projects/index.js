@@ -37,9 +37,9 @@ function Projects() {
   
   return (
     <>
+    {/* <TableTempalte title={'asdfasdf'}/>
     <TableTempalte title={'asdfasdf'}/>
-    <TableTempalte title={'asdfasdf'}/>
-    <TableTempalte title={'asdfasdf'}/>
+    <TableTempalte title={'asdfasdf'}/> */}
     </>
   );
 }

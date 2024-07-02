@@ -47,6 +47,11 @@ import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import ShowChartIcon from '@mui/icons-material/ShowChart';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import DescriptionIcon from '@mui/icons-material/Description';
+
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -57,7 +62,7 @@ const routes = [
     type: "collapse",
     name: "Dashboard",
     key: "dashboard",
-    icon: <Icon fontSize="small">dashboard</Icon>,
+    icon:  <DashboardIcon />,
     route: "/dashboard",
     component: <Dashboard />,
   },
@@ -65,7 +70,7 @@ const routes = [
     type: "collapse",
     name: "Graphs",
     key: "graphs",
-    icon: <Icon fontSize="small">dashboard</Icon>,
+    icon: <ShowChartIcon />,
     route: "/graphs",
     component: <GraphsUI />,
   },
@@ -81,7 +86,7 @@ const routes = [
     type: "collapse",
     name: "Report",
     key: "Report",
-    icon: <Icon fontSize="small">dashboard</Icon>,
+    icon:  <DescriptionIcon />,
     route: "/Report",
     component: <EmailCopy />,
   },
@@ -89,7 +94,7 @@ const routes = [
     type: "collapse",
     name: "Summary",
     key: "summary",
-    icon: <Icon fontSize="small">dashboard</Icon>,
+    icon: <AssignmentIcon />,
     route: "/summary",
     component: <Summary />,
   },
