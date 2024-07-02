@@ -160,11 +160,11 @@ export const GRID_KEYS = {
   sector: '', // dropdown
   pstAssign: '', // dropdown
   requirement: '',
-  psrUpdates: 0,
-  proposedSolution: 0,
-  srdiother: 0,
+  psrUpdates: "",
+  proposedSolution: '',
+  srdiother: '',
   submissionTo: '', // date
-  additionR: 0,
+  additionR: '',
 };
 
 export const GRID_KEYS_LIST =  ['dateReceived',

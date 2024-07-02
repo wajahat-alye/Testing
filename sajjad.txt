@@ -1,0 +1,10 @@
+1) submition date issue (done)
+2) complete info color (done)
+3) presale assign task dropdown
+4) change Email copy to report (done)
+5) satu, sunday remove on report (done)
+6) deshbaord show in whole page
+7) when new entry show always to (top row) desc while adding
+8) when pre-sale then report calculate should be dobubled
+9) report layout should be same as email copy excel  
+10) date range for export excel

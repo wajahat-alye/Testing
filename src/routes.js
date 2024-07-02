@@ -77,12 +77,12 @@ const routes = [
   //   route: "/dashboard1",
   //   component: <Dashboard1 />,
   // },
-  {
+  { 
     type: "collapse",
-    name: "Email Copy",
-    key: "EmailCopy",
+    name: "Report",
+    key: "Report",
     icon: <Icon fontSize="small">dashboard</Icon>,
-    route: "/emailcopy",
+    route: "/Report",
     component: <EmailCopy />,
   },
   {

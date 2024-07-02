@@ -210,10 +210,10 @@ function TableTempalte({ title }: any) {
           current_week_rfp_cancelled_counter++; // RFP
         }
 
-        if(current_week_kamOwnerKV[gridd[i].kamOwner]){
-          current_week_kamOwnerKV[gridd[i].kamOwner].value++;
+        if(current_week_kamOwnerKV[gridd[i].pstAssign]){
+          current_week_kamOwnerKV[gridd[i].pstAssign].value++;
         }else{
-          current_week_kamOwnerKV[gridd[i].kamOwner] = { value: 1, label: gridd[i].kamOwner}
+          current_week_kamOwnerKV[gridd[i].pstAssign] = { value: 1, label: gridd[i].pstAssign}
         }
 
 
@@ -227,10 +227,10 @@ function TableTempalte({ title }: any) {
             previous_week_rpf_cancelled_counter++;
           }
 
-          if(previous_week_kamOwnerKV[gridd[i].kamOwner]){
-            previous_week_kamOwnerKV[gridd[i].kamOwner].value++;
+          if(previous_week_kamOwnerKV[gridd[i].pstAssign]){
+            previous_week_kamOwnerKV[gridd[i].pstAssign].value++;
           }else{
-            previous_week_kamOwnerKV[gridd[i].kamOwner] = { value: 1, label: gridd[i].kamOwner}
+            previous_week_kamOwnerKV[gridd[i].pstAssign] = { value: 1, label: gridd[i].pstAssign}
           }
 
       }
@@ -254,10 +254,10 @@ function TableTempalte({ title }: any) {
           current_month_rfp_cancelled_counter++; // RFP
         }
 
-        if(current_month_kamOwnerKV[gridd[i].kamOwner]){
-          current_month_kamOwnerKV[gridd[i].kamOwner].value++;
+        if(current_month_kamOwnerKV[gridd[i].pstAssign]){
+          current_month_kamOwnerKV[gridd[i].pstAssign].value++;
         }else{
-          current_month_kamOwnerKV[gridd[i].kamOwner] = { value: 1, label: gridd[i].kamOwner}
+          current_month_kamOwnerKV[gridd[i].pstAssign] = { value: 1, label: gridd[i].pstAssign}
         }
 
       } else if(dateReceived >= previous_month_start && dateReceived <= previous_month_end){
@@ -270,10 +270,10 @@ function TableTempalte({ title }: any) {
             previous_month_rfp_cancelled_counter++;
           }
 
-          if(previous_month_kamOwnerKV[gridd[i].kamOwner]){
-            previous_month_kamOwnerKV[gridd[i].kamOwner].value++;
+          if(previous_month_kamOwnerKV[gridd[i].pstAssign]){
+            previous_month_kamOwnerKV[gridd[i].pstAssign].value++;
           }else{
-            previous_month_kamOwnerKV[gridd[i].kamOwner] = { value: 1, label: gridd[i].kamOwner}
+            previous_month_kamOwnerKV[gridd[i].pstAssign] = { value: 1, label: gridd[i].pstAssign}
           }
 
       }
@@ -291,10 +291,15 @@ function TableTempalte({ title }: any) {
 
 
 
-    setcurrentWeekPie(current_month_kamOwnerKV);
-    setpreviousWeekPie(previous_month_kamOwnerKV);
-    setcurrentMonthPie(current_week_kamOwnerKV);
-    setpreviousMonthPie(previous_week_kamOwnerKV);
+    // setcurrentWeekPie(current_month_kamOwnerKV);
+    // setpreviousWeekPie(previous_month_kamOwnerKV);
+    // setcurrentMonthPie(current_week_kamOwnerKV);
+    // setpreviousMonthPie(previous_week_kamOwnerKV);
+
+    setcurrentMonthPie(current_month_kamOwnerKV);
+    setpreviousMonthPie(previous_month_kamOwnerKV);
+    setcurrentWeekPie(current_week_kamOwnerKV);
+    setpreviousWeekPie(previous_week_kamOwnerKV);
 
     let _current_week_start = current_week_start.format('MM/DD/YYYY');
     let _current_week_end = current_week_end.format('MM/DD/YYYY');

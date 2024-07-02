@@ -85,14 +85,7 @@ function EmailCopy() {
     return make;
   };
 
-  // console.log(
-  //   "controller?.currentWeekPie",
-  //   controller?.currentWeekPie,
-  //   controller?.previousWeekPie,
-  //   controller?.currentMonthPie,
-  //   controller?.previousMonthPie,
-  //   makeFormatter(controller?.previousWeekPie )
-  // );
+
 
   return (
     <DashboardLayout>

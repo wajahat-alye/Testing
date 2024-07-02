@@ -140,7 +140,9 @@ export const TABLE_ROWS = [
     }
 ];
 
-export const dp_status = ['In Progress','End Progress', 'Parked with'];
+// export const dp_status = ['In Progress','End Progress', 'Parked with'];
+export const dp_status = ['Completed','Parked with KAM / Customer','Parked with Vendor / Procurement / Product Team','Feasibilities / Infra-Structure','RFP Cancelled', 'In Progress'];
+
 export const dp_customer = [];
 export const dp_region = ['Central','North','South'];
 export const dp_kamOwner = [];
@@ -163,11 +165,11 @@ export const GRID_KEYS = {
   sector: '', // dropdown
   pstAssign: '', // dropdown
   requirement: '',
-  psrUpdates: 0,
-  proposedSolution: 0,
-  srdiother: 0,
+  psrUpdates: "",
+  proposedSolution: '',
+  srdiother: '',
   submissionTo: '', // date
-  additionR: 0,
+  additionR: '',
 };
 
 export const GRID_KEYS_LIST =  ['dateReceived','dueDateByKAM','projectLevel','tat',
