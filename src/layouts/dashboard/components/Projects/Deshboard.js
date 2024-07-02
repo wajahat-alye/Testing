@@ -10,67 +10,6 @@ import { FormControl, styled } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 
-
-
-const names = [
-  "Humaira Sims",
-  "Santiago Solis",
-  "Dawid Floyd",
-  "Mateo Barlow",
-  "Samia Navarro",
-  "Kaden Fields",
-  "Genevieve Watkins",
-  "Mariah Hickman",
-  "Rocco Richardson",
-  "Harris Glenn"
-];
-
-
-
-
-
-
-function renderRatingEditInputCell(params) {
-  console.log("params",params)
-  return (
-    <Autocomplete
-      multiple
-      fullWidth
-      size="small"
-      options={[
-        "one",
-        "two",
-        "three",
-        "four",
-        "five",
-        "six",
-        "seven",
-        "eight",
-        "nine",
-        "ten",
-      ]}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          renderInput={(params) => (
-            <div
-              style={{
-                maxHeight: 200,
-                overflow: "auto",
-                backgroundColor: "blue",
-              }}
-            >
-              <TextField {...params} />
-            </div>
-          )}
-        />
-      )}
-      onChange={(e, nv) => console.log("New", nv)}
-    />
-  );
-}
-
-
 const Deshboard = ({ }: any) => {
   const { getDeshboardData, customerListRedux, KMOwnerListRedux, sectorListRedux } = useData();
   const [controller, dispatch] = reduxData.useGlobalController();
@@ -94,7 +33,50 @@ const Deshboard = ({ }: any) => {
   }, []);
 
 
+  const [open, setOpen] = useState(false);
 
+  const handleDoubleClick = () => {
+    setOpen(true); // Open Autocomplete on double click
+  };
+
+  const handleClose = () => {
+    setOpen(false); // Close Autocomplete when needed
+  };
+
+
+  console.log('KMOwnerListRedux', KMOwnerListRedux)
+
+  function renderRatingEditInputCell(params) {
+    console.log("params", params)
+    const { id, value, api } = params;
+    return (
+      <Autocomplete
+        multiple
+        fullWidth
+        disableCloseOnSelect
+        size="small"
+        getOptionLabel={(option) => option.pstAssign}
+        options={KMOwnerListRedux}
+        onDoubleClick={handleDoubleClick} // Handle double click event
+        open={open}
+        // onOpen={() => setOpen(true)}
+        onClose={() => setOpen(false)}
+        // value={params?.value?.filter(e => e?.pstAssign) || []}
+        value={value}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+          />
+        )}
+        onChange={(e, nv) => {
+          console.log("New", nv);
+          // const newValue = nv?.length > 0 ? nv[0].pstAssign : '';
+          api.setEditCellValue({ id, field: 'pstAssign', value: nv });
+          setOpen(false); // Close Autocomplete after selection
+        }}
+      />
+    );
+  }
 
 
 
@@ -177,7 +159,7 @@ const Deshboard = ({ }: any) => {
           </Box>
         );
       }
-     
+
 
     },
     {

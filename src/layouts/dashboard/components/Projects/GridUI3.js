@@ -95,6 +95,8 @@ function EditToolbar({ setRows, headers, fileName, setRowModesModel, rows, field
     }));
   };
 
+
+
   return (
     <GridToolbarContainer>
       <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
@@ -305,6 +307,12 @@ const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows }: an
     setRowModesModel(newRowModesModel);
   };
 
+  const handleCellEditCommit = (params) => {
+    const { id, field, value, api } = params;
+    api.setEditCellValue({ id, field, value });
+  };
+
+
   return (
     <>
      {/* <div style={{ height: '100vh', width: '100%' }}> */}
@@ -331,6 +339,8 @@ const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows }: an
         initialState={{
           pagination: { paginationModel: { pageSize: 20 } },
         }}
+        onCellEditCommit={handleCellEditCommit}
+
       
       />
        {/* </div> */}

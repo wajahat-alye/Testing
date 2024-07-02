@@ -25,16 +25,16 @@ function KMOwner() {
 
     {
       editable: true,
-      field: "ownerName",
-      headerName: "Owner Name",
+      field: "pstAssign",
+      headerName: "Pre-Sales task assigned to",
       width: 230,
     },
   ];
   const headers = [
     { key: "id", name: "id", required: true },
     {
-      key: "ownerName",
-      name: "Owner Name",
+      key: "pstAssign",
+      name: "Pre-Sales task assigned to",
       required: true,
     },
   ];
@@ -44,10 +44,10 @@ function KMOwner() {
       <GridUI3
         headers={headers}
         columns={columns}
-        fieldToFocus={"ownerName"}
+        fieldToFocus={"pstAssign"}
         setRows={setRows}
         rows={rows}
-        fileName={"Owner"}
+        fileName={"PreSales"}
       />
     </>
   );

@@ -1,6 +1,6 @@
 1) submition date issue (done)
 2) complete info color (done)
-3) presale assign task dropdown
+3) presale assign task dropdown (done)
 4) change Email copy to report (done)
 5) satu, sunday remove on report (done)
 6) deshbaord show in whole page
