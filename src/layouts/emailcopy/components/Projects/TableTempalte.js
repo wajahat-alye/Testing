@@ -210,10 +210,10 @@ function TableTempalte({ title }: any) {
           }
         }
         gridd[i]?.pstAssign?.forEach((item)=>{
-          if(current_week_kamOwnerKV[item.pstAssign]){
-            current_week_kamOwnerKV[item.pstAssign].value++;
+          if(current_week_kamOwnerKV[item]){
+            current_week_kamOwnerKV[item].value++;
           }else{
-            current_week_kamOwnerKV[item.pstAssign] = { value: 1, label: item.pstAssign}
+            current_week_kamOwnerKV[item] = { value: 1, label: item}
           }
         })
         
@@ -233,10 +233,10 @@ function TableTempalte({ title }: any) {
           
 
           gridd[i]?.pstAssign?.forEach((item)=>{
-            if(previous_week_kamOwnerKV[item.pstAssign]){
-              previous_week_kamOwnerKV[item.pstAssign].value++;
+            if(previous_week_kamOwnerKV[item]){
+              previous_week_kamOwnerKV[item].value++;
             }else{
-              previous_week_kamOwnerKV[item.pstAssign] = { value: 1, label: item.pstAssign}
+              previous_week_kamOwnerKV[item] = { value: 1, label: item}
             }
           })
 
@@ -265,10 +265,10 @@ function TableTempalte({ title }: any) {
       
 
         gridd[i]?.pstAssign?.forEach((item)=>{
-          if(current_month_kamOwnerKV[item.pstAssign]){
-            current_month_kamOwnerKV[item.pstAssign].value++;
+          if(current_month_kamOwnerKV[item]){
+            current_month_kamOwnerKV[item].value++;
           }else{
-            current_month_kamOwnerKV[item.pstAssign] = { value: 1, label: item.pstAssign}
+            current_month_kamOwnerKV[item] = { value: 1, label: item}
           }
         })
 
@@ -290,10 +290,10 @@ function TableTempalte({ title }: any) {
 
 
           gridd[i]?.pstAssign?.forEach((item)=>{
-            if(previous_month_kamOwnerKV[item.pstAssign]){
-              previous_month_kamOwnerKV[item.pstAssign].value++;
+            if(previous_month_kamOwnerKV[item]){
+              previous_month_kamOwnerKV[item].value++;
             }else{
-              previous_month_kamOwnerKV[item.pstAssign] = { value: 1, label: item.pstAssign}
+              previous_month_kamOwnerKV[item] = { value: 1, label: item}
             }
           })
 

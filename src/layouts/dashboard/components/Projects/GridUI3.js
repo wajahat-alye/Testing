@@ -145,7 +145,7 @@ function EditToolbar({ setRows, headers, fileName, setRowModesModel, rows, field
 
 
 
-const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows }: any) => {
+const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows, vh=false }: any) => {
   const [rowModesModel, setRowModesModel] = React.useState({});
   const [errorSB, setErrorSB] = React.useState(false);
   const [gs, setGs] = useState({
@@ -153,12 +153,13 @@ const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows }: an
     message: "",
   });
   const classes ={root: {
-    // height: '100vh',  // Set height to full viewport height
+    height: '77vh',  // Set height to full viewport height
     // width: '100%',    // Ensure it takes full width of the page
     // display: 'flex',
     // flexDirection: 'column',
   },
   dataGridContainer: {
+    height: "250px",
     // flexGrow: 1,       // Ensure the container expands to fill available space
     // marginTop: '20px', // Example margin top for spacing
   },}
@@ -330,9 +331,8 @@ const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows }: an
      {/* <div style={{ height: '100vh', width: '100%' }}> */}
 
       {renderErrorSB}
-      <div className={classes.root}>
+      {/* <div className={classes.root}> */}
       {/* Container for the DataGrid */}
-      <div className={classes.dataGridContainer}>
       <DataGrid
         rows={rows}
         autoHeight={true}
@@ -353,12 +353,12 @@ const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows }: an
         initialState={{
           pagination: { paginationModel: { pageSize: 20 } },
         }}
+        style={vh ? classes.root : classes.dataGridContainer}
         onCellEditCommit={handleCellEditCommit}
 
       
       />
-       </div>
-       </div>
+       {/* </div> */}
        {/* </div> */}
     </>
   );

@@ -5,7 +5,7 @@ import GridUI3 from "layouts/dashboard/components/Projects/GridUI3";
 import { makeDate } from "../../../../helper/func";
 import useData from "./../../hook/useData";
 import { dp_status, dp_region } from "./../../../emailcopy/components/Projects/data/index";
-import { Box } from "@mui/material";
+import { Box, MenuItem, OutlinedInput, Select, Tooltip } from "@mui/material";
 import { FormControl, styled } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -44,36 +44,94 @@ const Deshboard = ({ }: any) => {
   };
 
 
+  const names = [
+    "Humaira Sims",
+    "Santiago Solis",
+    "Dawid Floyd",
+    "Mateo Barlow",
+    "Samia Navarro",
+    "Kaden Fields",
+    "Genevieve Watkins",
+    "Mariah Hickman",
+    "Rocco Richardson",
+    "Harris Glenn"
+  ];
+  const [selectedNames, setSelectedNames] = useState([]);
+
   console.log('KMOwnerListRedux', KMOwnerListRedux)
 
   function renderRatingEditInputCell(params) {
     console.log("params", params)
     const { id, value, api } = params;
     return (
-      <Autocomplete
-        multiple
-        fullWidth
-        disableCloseOnSelect
-        size="small"
-        getOptionLabel={(option) => option.pstAssign}
-        options={KMOwnerListRedux}
-        onDoubleClick={handleDoubleClick} // Handle double click event
-        open={open}
-        // onOpen={() => setOpen(true)}
-        onClose={() => setOpen(false)}
-        // value={params?.value?.filter(e => e?.pstAssign) || []}
-        value={value}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-          />
-        )}
-        onChange={(e, nv) => {
-          console.log("New", nv);
-          api.setEditCellValue({ id, field: 'pstAssign', value: nv });
-          setOpen(false); // Close Autocomplete after selection
-        }}
-      />
+      <Select
+      multiple
+      value={value}
+      onChange={(e) => {
+        // setSelectedNames(e.target.value)
+        api.setEditCellValue({ id, field: 'pstAssign', value: e.target.value });
+      }}
+      sx={{ width: "100%"}}
+      input={<OutlinedInput label="Multiple Select" />}
+    >
+      {KMOwnerListRedux.map((name) => (
+        <MenuItem key={name.pstAssign} value={name.pstAssign}>
+          {name.pstAssign}
+        </MenuItem>
+      ))}
+    </Select>
+      // <Autocomplete
+      //   multiple
+      //   fullWidth
+      //   disableCloseOnSelect
+      //   size="medium"
+      //   getOptionLabel={(option) => option.pstAssign}
+      //   options={KMOwnerListRedux}
+      //   // onDoubleClick={handleDoubleClick} // Handle double click event
+      //   // open={open}
+      //   // // onOpen={() => setOpen(true)}
+      //   // onClose={() => setOpen(false)}
+      //   // value={params?.value?.filter(e => e?.pstAssign) || []}
+      //   value={value || []}
+      //   // renderInput={(params) => (
+      //   //   <TextField
+      //   //     {...params}
+      //   //   />
+      //   //   // <p key={params.pstAssign}>{params.pstAssign},</p>
+      //   // )}
+      //   onChange={(e, nv) => {
+      //     console.log("New", nv);
+      //     api.setEditCellValue({ id, field: 'pstAssign', value: nv });
+      //     setOpen(false); // Close Autocomplete after selection
+      //   }}
+      // />
+    );
+  }
+
+
+  function renderRatingEditInputCell1(params) {
+    console.log("params", params)
+    const { id, value, api } = params;
+    const text =  value.join(",");
+    
+    return (
+      // <Autocomplete
+      //   multiple
+      //   fullWidth
+      //   disableCloseOnSelect
+      //   size="small"
+      //   getOptionLabel={(option) => option.pstAssign}
+      //   options={KMOwnerListRedux}
+      //   value={value || []}
+      //   renderInput={(params) => (
+      //     <TextField
+      //     {...params}
+      //     />
+      //   )}
+      // />
+       <Tooltip title={text}>
+      <div>{text}</div>
+    </Tooltip>
     );
   }
 
@@ -201,7 +259,7 @@ const Deshboard = ({ }: any) => {
       field: "pstAssign",
       headerName: "Pre-Sales task Assigned to",
       width: 130,
-      renderCell: renderRatingEditInputCell,
+      renderCell: renderRatingEditInputCell1,
       renderEditCell: renderRatingEditInputCell,
 
 
@@ -291,7 +349,7 @@ const Deshboard = ({ }: any) => {
 
     },
     {
-      key: "pstAssign", name: "Pre-Sales task Assigned to", suggested_mappings: ["Pre-Sales task Assigned to"]
+      key: "pstAssign", required: true, name: "Pre-Sales task Assigned to", suggested_mappings: ["Pre-Sales task Assigned to"]
       // required: true
     },
     {
@@ -315,6 +373,7 @@ const Deshboard = ({ }: any) => {
       setRows={setRows}
       rows={rows}
       fileName={"Deshboard"}
+      vh={true}
     />
     // </div>
   );
