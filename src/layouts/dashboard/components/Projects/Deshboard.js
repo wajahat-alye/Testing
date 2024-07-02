@@ -148,35 +148,39 @@ const Deshboard = ({}: any) => {
   ];
 
   const headers = [
-    { key: "id", name: "S/N", required: true },
+    { key: "id", name: "S/N", required: true, suggested_mappings: ["S/N"]  },
     {
       key: "dateReceived",
       name: "Date Received",
       required: true,
+      data_type: "date",
+      suggested_mappings: ["Date Received"] 
     },
     {
       key: "dueDateByKAM",
       name: "Due Date by KAM /Customer",
+      data_type: "date",suggested_mappings: ["Due Date by KAM / Customer"] 
     },
     {
       key: "projectLevel",
       name: "Project Level",
-      required: true,
+      data_type: "date",
+      required: true,suggested_mappings: ["Project Level"] 
     },
-    { key: "tat", name: "TAT" },
-    { key: "projectLWC", name: "Project Life (Work Days)" },
-    { key: "status", name: "Status/Dependencies", required: true },
-    { key: "customer", name: "Customer", required: true },
-    { key: "region", name: "Region", required: true },
-    { key: "kamOwner", name: "KAM/ Owner", required: true },
-    { key: "sector", name: "Sector", required: true },
-    { key: "pstAssign", name: "Pre-Sales task Assigned to", required: true },
-    { key: "requirement", name: "Requirement / Query", required: true },
-    { key: "psrUpdates", name: "Pre-Sales Remarks / Updates" },
-    { key: "proposedSolution", name: "Proposed Solution" },
-    { key: "srdiother", name: "Sale/ Rental/ Demo/ In-House/ Other" },
-    { key: "submissionTo", name: "Submission to KAM/ Owner" },
-    { key: "additionR", name: "Additional Remarks" },
+    { key: "tat", name: "TAT", suggested_mappings: ["TAT"] },
+    { key: "projectLWC", name: "Project Life (Work Days)" , suggested_mappings: ["Project Life (Work Days)"] },
+    { key: "status", name: "Status/Dependencies", required: true , suggested_mappings: ["Status/Dependencies"] },
+    { key: "customer", name: "Customer", required: true , suggested_mappings: ["Customer"] },
+    { key: "region", name: "Region", required: true , suggested_mappings: ["Region"] },
+    { key: "kamOwner", name: "KAM/ Owner", required: true , suggested_mappings: ["KAM / Owner"] },
+    { key: "sector", name: "Sector", required: true , suggested_mappings: ["Sector"] },
+    { key: "pstAssign", name: "Pre-Sales task Assigned to", required: true , suggested_mappings: ["Pre-Sales task Assigned to"] },
+    { key: "requirement", name: "Requirement / Query", required: true , suggested_mappings: ["Requirement / Query"] },
+    { key: "psrUpdates", name: "Pre-Sales Remarks / Updates" , suggested_mappings: ["Pre-Sales Remarks / Updates"] },
+    { key: "proposedSolution", name: "Proposed Solution" , suggested_mappings: ["Proposed Solution"] },
+    { key: "srdiother", name: "Sale/ Rental/ Demo/ In-House/ Other" , suggested_mappings: ["Sale / Rental / Demo / In-House / Other"] },
+    { key: "submissionTo", name: "Submission to KAM/ Owner", data_type: "date", suggested_mappings: ["Submission to KAM / Owner"] },
+    { key: "additionR", name: "Additional Remarks", suggested_mappings: ["Additional Remarks"] },
   ];
 
   return (
