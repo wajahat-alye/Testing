@@ -4,7 +4,9 @@
 4) change Email copy to report (done)
 5) satu, sunday remove on report (done)
 6) deshbaord show in whole page
-7) when new entry show always to (top row) desc while adding
+7) when new entry show always to (top row) desc while adding (done)
 8) when pre-sale then report calculate should be dobubled
-9) report layout should be same as email copy excel  
+9) report layout should be same as email copy excel  (done)
 10) date range for export excel
+11) login
+12) signup

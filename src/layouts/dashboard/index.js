@@ -87,7 +87,7 @@ function Dashboard() {
                 </Template>
               </Grid>
               <Grid item xs={12} md={6} lg={6}>
-                <Template title={"KAM/Owner"}>
+                <Template title={"Pre-Sales task Assigned to"}>
                   <KMOwner />
                 </Template>
               </Grid>

@@ -47,6 +47,8 @@ var dayDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
 }
 
 
+
+
 function EditToolbar({ setRows, headers, fileName, setRowModesModel, rows, fieldToFocus }: any) {
   
   // let maxID = 1; 
@@ -86,7 +88,7 @@ function EditToolbar({ setRows, headers, fileName, setRowModesModel, rows, field
     }
 
     let id = maxID + 1;
-    setRows((oldRows) => [...oldRows, { ...GRID_KEYS , id, isNew: true }]);
+    setRows((oldRows) => [{ ...GRID_KEYS , id, isNew: true }, ...oldRows ]);
     setRowModesModel((oldModel) => ({
       ...oldModel,
       [id]: { mode: GridRowModes.Edit, fieldToFocus },

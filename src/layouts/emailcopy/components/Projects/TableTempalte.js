@@ -165,7 +165,6 @@ function TableTempalte({ title }: any) {
         label: 'South',
       },
     ]; 
-    // kamOwner
 
     let current_month_kamOwnerKV = {}
     let previous_month_kamOwnerKV = {}
