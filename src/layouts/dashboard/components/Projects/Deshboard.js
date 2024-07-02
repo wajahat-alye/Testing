@@ -70,7 +70,6 @@ const Deshboard = ({ }: any) => {
         )}
         onChange={(e, nv) => {
           console.log("New", nv);
-          // const newValue = nv?.length > 0 ? nv[0].pstAssign : '';
           api.setEditCellValue({ id, field: 'pstAssign', value: nv });
           setOpen(false); // Close Autocomplete after selection
         }}

@@ -174,127 +174,136 @@ function TableTempalte({ title }: any) {
 
     for (let i = 0; i < gridd.length; i++) {
       const dateReceived = moment(makeDate(gridd[i].dateReceived));
-
-      // if(gridd[i].status === 'Central'){
-      //   dp_MRWSChartData_pie[0].value++;
-      // }else if(gridd[i].status === 'North'){
-      //   dp_MRWSChartData_pie[1].value++;
-
-      // }else if(gridd[i].status === 'South'){
-
-      //   dp_MRWSChartData_pie[2].value++;
-      // }
-
-
-
       const isBetweenCurrentweek = (dateReceived >= current_week_start && dateReceived <= current_week_end);
+      const pstCount = gridd[i].pstAssign.length - 1;
+      const pstApply = gridd[i].pstAssign.length > 1;
       if (isBetweenCurrentweek) {
         if (gridd[i].status === "In Progress") {
           current_week_in_progress_counter++;
+          if(pstApply){
+            current_week_in_progress_counter += pstCount
+          }
         }
         if (gridd[i].status.includes("Parked")) {
           current_week_parked_counter++;
+          if(pstApply){
+            current_week_parked_counter += pstCount
+          }
         }
-
         if (dateReceived === currentDate) { // New
           current_week_new_counter++;
+          if(pstApply){
+            current_week_new_counter += pstCount
+          }
         }
-
         if (gridd[i].status.includes("Completed")) {
           // completed
           current_week_completed_counter++;
+          if(pstApply){
+            current_week_completed_counter += pstCount
+          }
         }
-
         if (gridd[i].status.includes("RFP Cancelled")) {
           current_week_rfp_cancelled_counter++; // RFP
+          if(pstApply){
+            current_week_rfp_cancelled_counter += pstCount
+          }
         }
-
-        if(current_week_kamOwnerKV[gridd[i].pstAssign]){
-          current_week_kamOwnerKV[gridd[i].pstAssign].value++;
-        }else{
-          current_week_kamOwnerKV[gridd[i].pstAssign] = { value: 1, label: gridd[i].pstAssign}
-        }
-
-
+        gridd[i]?.pstAssign?.forEach((item)=>{
+          if(current_week_kamOwnerKV[item.pstAssign]){
+            current_week_kamOwnerKV[item.pstAssign].value++;
+          }else{
+            current_week_kamOwnerKV[item.pstAssign] = { value: 1, label: item.pstAssign}
+          }
+        })
+        
       } else if(dateReceived >= previous_week_start && dateReceived <= previous_week_end){
-
           if (gridd[i].status.includes("Completed")) {
             previous_week_completed_counter++;
+            if(pstApply){
+              previous_week_completed_counter += pstCount
+            }
           }
-
           if (gridd[i].status.includes("RFP Cancelled")) {
             previous_week_rpf_cancelled_counter++;
+            if(pstApply){
+              previous_week_rpf_cancelled_counter += pstCount
+            }
           }
+          
 
-          if(previous_week_kamOwnerKV[gridd[i].pstAssign]){
-            previous_week_kamOwnerKV[gridd[i].pstAssign].value++;
-          }else{
-            previous_week_kamOwnerKV[gridd[i].pstAssign] = { value: 1, label: gridd[i].pstAssign}
-          }
+          gridd[i]?.pstAssign?.forEach((item)=>{
+            if(previous_week_kamOwnerKV[item.pstAssign]){
+              previous_week_kamOwnerKV[item.pstAssign].value++;
+            }else{
+              previous_week_kamOwnerKV[item.pstAssign] = { value: 1, label: item.pstAssign}
+            }
+          })
 
       }
-
-
-
       const isBetweenCurrentMonth = (dateReceived >= current_month_start && dateReceived <= current_month_end);
       if (isBetweenCurrentMonth) {
-      
-
         if (dateReceived === currentDate) { // New
           current_month_new_counter++;
+          if(pstApply){
+            current_month_new_counter += pstCount
+          }
         }
-
         if (gridd[i].status.includes("Completed")) {
           // completed
           current_month_completed_counter++;
+          if(pstApply){
+            current_month_completed_counter += pstCount
+          }
         }
-
         if (gridd[i].status.includes("RFP Cancelled")) {
           current_month_rfp_cancelled_counter++; // RFP
+          if(pstApply){
+            current_month_rfp_cancelled_counter += pstCount
+          }
         }
+      
 
-        if(current_month_kamOwnerKV[gridd[i].pstAssign]){
-          current_month_kamOwnerKV[gridd[i].pstAssign].value++;
-        }else{
-          current_month_kamOwnerKV[gridd[i].pstAssign] = { value: 1, label: gridd[i].pstAssign}
-        }
+        gridd[i]?.pstAssign?.forEach((item)=>{
+          if(current_month_kamOwnerKV[item.pstAssign]){
+            current_month_kamOwnerKV[item.pstAssign].value++;
+          }else{
+            current_month_kamOwnerKV[item.pstAssign] = { value: 1, label: item.pstAssign}
+          }
+        })
+
 
       } else if(dateReceived >= previous_month_start && dateReceived <= previous_month_end){
-
           if (gridd[i].status.includes("Completed")) {
             previous_month_completed_counter++;
+            if(pstApply){
+              previous_month_completed_counter += pstCount
+            }
           }
-
           if (gridd[i].status.includes("RFP Cancelled")) {
             previous_month_rfp_cancelled_counter++;
+            if(pstApply){
+              previous_month_rfp_cancelled_counter += pstCount
+            }
           }
+    
 
-          if(previous_month_kamOwnerKV[gridd[i].pstAssign]){
-            previous_month_kamOwnerKV[gridd[i].pstAssign].value++;
-          }else{
-            previous_month_kamOwnerKV[gridd[i].pstAssign] = { value: 1, label: gridd[i].pstAssign}
-          }
+
+          gridd[i]?.pstAssign?.forEach((item)=>{
+            if(previous_month_kamOwnerKV[item.pstAssign]){
+              previous_month_kamOwnerKV[item.pstAssign].value++;
+            }else{
+              previous_month_kamOwnerKV[item.pstAssign] = { value: 1, label: item.pstAssign}
+            }
+          })
 
       }
-
-
-
     }
-
 
     current_month_kamOwnerKV = Object.values(current_month_kamOwnerKV);
     previous_month_kamOwnerKV = Object.values(previous_month_kamOwnerKV);
-
     current_week_kamOwnerKV = Object.values(current_week_kamOwnerKV);
     previous_week_kamOwnerKV = Object.values(previous_week_kamOwnerKV);
-
-
-
-    // setcurrentWeekPie(current_month_kamOwnerKV);
-    // setpreviousWeekPie(previous_month_kamOwnerKV);
-    // setcurrentMonthPie(current_week_kamOwnerKV);
-    // setpreviousMonthPie(previous_week_kamOwnerKV);
-
     setcurrentMonthPie(current_month_kamOwnerKV);
     setpreviousMonthPie(previous_month_kamOwnerKV);
     setcurrentWeekPie(current_week_kamOwnerKV);
