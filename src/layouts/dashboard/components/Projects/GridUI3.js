@@ -297,9 +297,9 @@ const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows, vh=f
 
             
           }else{
-            updatedRow.projectLWC = getDayCount(updatedRow.dateReceived);
-
+            
           }
+          updatedRow.projectLWC = getDayCount(updatedRow.dateReceived);
         }
       }
 

@@ -15,45 +15,39 @@ Coded by www.creative-tim.com
 
 // @mui material components
 import Card from "@mui/material/Card";
-import Icon from "@mui/material/Icon";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
 // Material Dashboard 2 React examples
-import DataTable from "examples/Tables/DataTable";
-import data from "./data/index";
 import * as reduxData from "context/useGlobalData";
-import { useEffect, useState, memo } from "react";
+import DataTable from "examples/Tables/DataTable";
+import moment from "moment/moment";
+import { useEffect, useState } from "react";
 import {
-  getPreviousWeekStartDate,
-  getPreviousWeekEndDate,
-  getCurrentWeekStartDate,
-  getCurrentWeekEndDate,
-  getPreviousMonthStartDate,
-  getPreviousMonthEndDate,
-  getCurrentMonthStartDate,
   getCurrentMonthEndDate,
+  getCurrentMonthStartDate,
+  getCurrentWeekEndDate,
+  getCurrentWeekStartDate,
+  getPreviousMonthEndDate,
+  getPreviousMonthStartDate,
+  getPreviousWeekEndDate,
+  getPreviousWeekStartDate,
+  makeDate,
 } from "./../../../../helper/func";
 import useData from "./../../../dashboard/hook/useData";
-import { makeDate } from "./../../../../helper/func";
-import moment from "moment/moment";
+import data from "./data/index";
 // Data
 
-function TableTempalte({ title }: any) {
+function TableTempalte({ title,isShow=true }: any) {
   const { columns, columns1, columns2 } = data();
   const [controller, dispatch] = reduxData.useGlobalController();
-
-  const [inProgress1, setinProgress] = useState(0);
-  const [inParked, setinParked] = useState(0);
   const [rows, setRows] = useState([]);
   const [rows1, setRows1] = useState([]);
   const [rows2, setRows2] = useState([]);
 
-  const { getDeshboardData, gridData, customerListRedux, KMOwnerListRedux, sectorListRedux } =
+  const { getDeshboardData } =
     useData();
 
   useEffect(() => {
@@ -66,16 +60,16 @@ function TableTempalte({ title }: any) {
   }, []);
 
 
-  const [ currentWeekPie,  setcurrentWeekPie]= useState([]);
-  const [ previousWeekPie, setpreviousWeekPie] = useState([]);
-  const [ currentMonthPie, setcurrentMonthPie] = useState([]);
-  const [ previousMonthPie, setpreviousMonthPie] = useState([]);
+  const [currentWeekPie, setcurrentWeekPie] = useState([]);
+  const [previousWeekPie, setpreviousWeekPie] = useState([]);
+  const [currentMonthPie, setcurrentMonthPie] = useState([]);
+  const [previousMonthPie, setpreviousMonthPie] = useState([]);
 
 
 
-  const [ PdfRows1, setPdfRows1] = useState([]);
-  const [ PdfRows2, setPdfRows2] = useState([]);
-  const [ PdfRows3, setPdfRows3] = useState([]);
+  const [PdfRows1, setPdfRows1] = useState([]);
+  const [PdfRows2, setPdfRows2] = useState([]);
+  const [PdfRows3, setPdfRows3] = useState([]);
 
   useEffect(() => {
     reduxData.setPdfRows1(dispatch, PdfRows1);
@@ -109,17 +103,17 @@ function TableTempalte({ title }: any) {
 
 
   const setDatas = (gridd) => {
-    
-    
+
+
     let current_week_new_counter = 0;
     let current_week_completed_counter = 0;
     let current_week_rfp_cancelled_counter = 0;
-    
+
     let previous_week_new_counter = 0;
     let previous_week_completed_counter = 0;
     let previous_week_rpf_cancelled_counter = 0;
-    
-    
+
+
     let current_week_in_progress_counter = 0;
     let current_week_parked_counter = 0;
 
@@ -151,20 +145,6 @@ function TableTempalte({ title }: any) {
     const previous_month_end = getPreviousMonthEndDate();
 
 
-    let dp_MRWSChartData_pie =  [
-      {
-        value: 0,
-        label: 'Central',
-      },
-      {
-        value: 0,
-        label: 'North',
-      },
-      {
-        value: 0,
-        label: 'South',
-      },
-    ]; 
 
     let current_month_kamOwnerKV = {}
     let previous_month_kamOwnerKV = {}
@@ -180,122 +160,122 @@ function TableTempalte({ title }: any) {
       if (isBetweenCurrentweek) {
         if (gridd[i].status === "In Progress") {
           current_week_in_progress_counter++;
-          if(pstApply){
+          if (pstApply) {
             current_week_in_progress_counter += pstCount
           }
         }
         if (gridd[i].status.includes("Parked")) {
           current_week_parked_counter++;
-          if(pstApply){
+          if (pstApply) {
             current_week_parked_counter += pstCount
           }
         }
         if (dateReceived === currentDate) { // New
           current_week_new_counter++;
-          if(pstApply){
+          if (pstApply) {
             current_week_new_counter += pstCount
           }
         }
         if (gridd[i].status.includes("Completed")) {
           // completed
           current_week_completed_counter++;
-          if(pstApply){
+          if (pstApply) {
             current_week_completed_counter += pstCount
           }
         }
         if (gridd[i].status.includes("RFP Cancelled")) {
           current_week_rfp_cancelled_counter++; // RFP
-          if(pstApply){
+          if (pstApply) {
             current_week_rfp_cancelled_counter += pstCount
           }
         }
-        gridd[i]?.pstAssign?.forEach((item)=>{
-          if(current_week_kamOwnerKV[item]){
+        gridd[i]?.pstAssign?.forEach((item) => {
+          if (current_week_kamOwnerKV[item]) {
             current_week_kamOwnerKV[item].value++;
-          }else{
-            current_week_kamOwnerKV[item] = { value: 1, label: item}
+          } else {
+            current_week_kamOwnerKV[item] = { value: 1, label: item }
           }
         })
-        
-      } else if(dateReceived >= previous_week_start && dateReceived <= previous_week_end){
-          if (gridd[i].status.includes("Completed")) {
-            previous_week_completed_counter++;
-            if(pstApply){
-              previous_week_completed_counter += pstCount
-            }
-          }
-          if (gridd[i].status.includes("RFP Cancelled")) {
-            previous_week_rpf_cancelled_counter++;
-            if(pstApply){
-              previous_week_rpf_cancelled_counter += pstCount
-            }
-          }
-          
 
-          gridd[i]?.pstAssign?.forEach((item)=>{
-            if(previous_week_kamOwnerKV[item]){
-              previous_week_kamOwnerKV[item].value++;
-            }else{
-              previous_week_kamOwnerKV[item] = { value: 1, label: item}
-            }
-          })
+      } else if (dateReceived >= previous_week_start && dateReceived <= previous_week_end) {
+        if (gridd[i].status.includes("Completed")) {
+          previous_week_completed_counter++;
+          if (pstApply) {
+            previous_week_completed_counter += pstCount
+          }
+        }
+        if (gridd[i].status.includes("RFP Cancelled")) {
+          previous_week_rpf_cancelled_counter++;
+          if (pstApply) {
+            previous_week_rpf_cancelled_counter += pstCount
+          }
+        }
+
+
+        gridd[i]?.pstAssign?.forEach((item) => {
+          if (previous_week_kamOwnerKV[item]) {
+            previous_week_kamOwnerKV[item].value++;
+          } else {
+            previous_week_kamOwnerKV[item] = { value: 1, label: item }
+          }
+        })
 
       }
       const isBetweenCurrentMonth = (dateReceived >= current_month_start && dateReceived <= current_month_end);
       if (isBetweenCurrentMonth) {
         if (dateReceived === currentDate) { // New
           current_month_new_counter++;
-          if(pstApply){
+          if (pstApply) {
             current_month_new_counter += pstCount
           }
         }
         if (gridd[i].status.includes("Completed")) {
           // completed
           current_month_completed_counter++;
-          if(pstApply){
+          if (pstApply) {
             current_month_completed_counter += pstCount
           }
         }
         if (gridd[i].status.includes("RFP Cancelled")) {
           current_month_rfp_cancelled_counter++; // RFP
-          if(pstApply){
+          if (pstApply) {
             current_month_rfp_cancelled_counter += pstCount
           }
         }
-      
 
-        gridd[i]?.pstAssign?.forEach((item)=>{
-          if(current_month_kamOwnerKV[item]){
+
+        gridd[i]?.pstAssign?.forEach((item) => {
+          if (current_month_kamOwnerKV[item]) {
             current_month_kamOwnerKV[item].value++;
-          }else{
-            current_month_kamOwnerKV[item] = { value: 1, label: item}
+          } else {
+            current_month_kamOwnerKV[item] = { value: 1, label: item }
           }
         })
 
 
-      } else if(dateReceived >= previous_month_start && dateReceived <= previous_month_end){
-          if (gridd[i].status.includes("Completed")) {
-            previous_month_completed_counter++;
-            if(pstApply){
-              previous_month_completed_counter += pstCount
-            }
+      } else if (dateReceived >= previous_month_start && dateReceived <= previous_month_end) {
+        if (gridd[i].status.includes("Completed")) {
+          previous_month_completed_counter++;
+          if (pstApply) {
+            previous_month_completed_counter += pstCount
           }
-          if (gridd[i].status.includes("RFP Cancelled")) {
-            previous_month_rfp_cancelled_counter++;
-            if(pstApply){
-              previous_month_rfp_cancelled_counter += pstCount
-            }
+        }
+        if (gridd[i].status.includes("RFP Cancelled")) {
+          previous_month_rfp_cancelled_counter++;
+          if (pstApply) {
+            previous_month_rfp_cancelled_counter += pstCount
           }
-    
+        }
 
 
-          gridd[i]?.pstAssign?.forEach((item)=>{
-            if(previous_month_kamOwnerKV[item]){
-              previous_month_kamOwnerKV[item].value++;
-            }else{
-              previous_month_kamOwnerKV[item] = { value: 1, label: item}
-            }
-          })
+
+        gridd[i]?.pstAssign?.forEach((item) => {
+          if (previous_month_kamOwnerKV[item]) {
+            previous_month_kamOwnerKV[item].value++;
+          } else {
+            previous_month_kamOwnerKV[item] = { value: 1, label: item }
+          }
+        })
 
       }
     }
@@ -311,7 +291,7 @@ function TableTempalte({ title }: any) {
 
     let _current_week_start = current_week_start.format('MM/DD/YYYY');
     let _current_week_end = current_week_end.format('MM/DD/YYYY');
-    setPdfRows1(['Active',_current_week_start,_current_week_end, current_week_in_progress_counter, current_week_parked_counter, current_week_parked_counter + current_week_in_progress_counter])
+    setPdfRows1(['Active', _current_week_start, _current_week_end, current_week_in_progress_counter, current_week_parked_counter, current_week_parked_counter + current_week_in_progress_counter])
     setRows([
       {
         deshboard: (
@@ -348,19 +328,19 @@ function TableTempalte({ title }: any) {
     ]);
 
 
-     _current_week_start = current_week_start.format('MM/DD/YYYY')
-     _current_week_end = current_week_end.format('MM/DD/YYYY')
+    _current_week_start = current_week_start.format('MM/DD/YYYY')
+    _current_week_end = current_week_end.format('MM/DD/YYYY')
 
 
-     let _previous_week_start = previous_week_start.format('MM/DD/YYYY')
-     let _previous_week_end = previous_week_end.format('MM/DD/YYYY')
+    let _previous_week_start = previous_week_start.format('MM/DD/YYYY')
+    let _previous_week_end = previous_week_end.format('MM/DD/YYYY')
 
-    setPdfRows2([['Current',_current_week_start,_current_week_end, 
-    'Current', current_week_new_counter, current_week_completed_counter, current_week_rfp_cancelled_counter],
+    setPdfRows2([['Current', _current_week_start, _current_week_end,
+      'Current', current_week_new_counter, current_week_completed_counter, current_week_rfp_cancelled_counter],
 
-    ['Previous',_previous_week_start,_previous_week_end, 
-    'Current', previous_week_new_counter, previous_week_completed_counter, previous_week_rpf_cancelled_counter]
-]
+    ['Previous', _previous_week_start, _previous_week_end,
+      'Current', previous_week_new_counter, previous_week_completed_counter, previous_week_rpf_cancelled_counter]
+    ]
     )
 
     setRows1([
@@ -452,18 +432,18 @@ function TableTempalte({ title }: any) {
       },
     ]);
 
-    let _current_month_start = current_month_start.format('MM/DD/YYYY'); 
-    let _current_month_end = current_month_end.format('MM/DD/YYYY'); 
+    let _current_month_start = current_month_start.format('MM/DD/YYYY');
+    let _current_month_end = current_month_end.format('MM/DD/YYYY');
 
 
     let _previous_month_start = previous_month_start.format('MM/DD/YYYY');
     let _previous_month_end = previous_month_end.format('MM/DD/YYYY');
-    setPdfRows3([['Current',_current_month_start,_current_month_end, 
-    'sdfsdf', current_month_new_counter, current_month_completed_counter, current_month_rfp_cancelled_counter],
+    setPdfRows3([['Current', _current_month_start, _current_month_end,
+      'sdfsdf', current_month_new_counter, current_month_completed_counter, current_month_rfp_cancelled_counter],
 
-    ['Previous',_previous_month_start,_previous_month_end, 
-    'Current', previous_month_new_counter, previous_month_completed_counter, previous_month_rfp_cancelled_counter]
-]
+    ['Previous', _previous_month_start, _previous_month_end,
+      'Current', previous_month_new_counter, previous_month_completed_counter, previous_month_rfp_cancelled_counter]
+    ]
     )
 
 
@@ -558,9 +538,9 @@ function TableTempalte({ title }: any) {
     ]);
   };
 
-  return (
-    <>
-    Dashboard Summary
+   
+  return isShow ? <>
+      Dashboard Summary
       <Card>
         <MDBox>
           <DataTable
@@ -572,7 +552,7 @@ function TableTempalte({ title }: any) {
           />
         </MDBox>
       </Card>
-      Pre-Sales Weekly Summary 
+      Pre-Sales Weekly Summary
       <Card>
         <MDBox>
           <DataTable
@@ -596,8 +576,8 @@ function TableTempalte({ title }: any) {
           />
         </MDBox>
       </Card>
-    </>
-  );
+    </> : <></>
+  
 }
 
 export default TableTempalte;

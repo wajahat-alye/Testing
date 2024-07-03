@@ -35,20 +35,22 @@ import Footer from "examples/Footer";
 // import Projects from "layouts/graphs/components/Projects";
 // import OrdersOverview from "layouts/graphs/components/OrdersOverview";
 import Charts from "layouts/graphs/components/charts";
+import EmailCopy from "layouts/emailcopy";
 
 function GraphsUI() {
   // const { sales, tasks } = reportsLineChartData;
 
   return (
-    <DashboardLayout>
-      <DashboardNavbar />
-      <MDBox py={3}>
-        {/* <MDBox> */}
-        <Charts />
-        {/* </MDBox> */}
-      </MDBox>
-      {/* <Footer /> */}
-    </DashboardLayout>
+    // <DashboardLayout>
+    //   <DashboardNavbar />
+    //   <MDBox py={3}>
+    //     {/* <MDBox> */}
+    //     <Charts />
+    //     {/* </MDBox> */}
+    //   </MDBox>
+    //   {/* <Footer /> */}
+    // </DashboardLayout>
+    <EmailCopy isShowSummary={false} isShowDownload={false}/>
   );
 }
 

@@ -33,24 +33,15 @@ import reportsLineChartData from "layouts/summary/data/reportsLineChartData";
 
 // Dashboard components
 import Projects from "layouts/summary/components/Projects";
+import { Card } from "@mui/material";
+import DataTable from "examples/Tables/DataTable";
+import EmailCopy from "layouts/emailcopy";
 
 function Summary() {
   const { sales, tasks } = reportsLineChartData;
 
   return (
-    <DashboardLayout>
-      <DashboardNavbar />
-      <MDBox py={3}>
-        <MDBox>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={12} lg={12}>
-              <Projects />
-            </Grid>
-          </Grid>
-        </MDBox>
-      </MDBox>
-      {/* <Footer /> */}
-    </DashboardLayout>
+   <EmailCopy isShowGraph={false}  isShowDownload={false}/>
   );
 }
 

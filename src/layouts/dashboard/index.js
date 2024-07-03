@@ -87,14 +87,17 @@ function Dashboard() {
                 </Template>
               </Grid>
               <Grid item xs={12} md={6} lg={6}>
-                <Template title={"Pre-Sales task Assigned to"}>
+                {/* <Template title={"Pre-Sales task Assigned to"}>
                   <KMOwner />
+                </Template> */}
+                <Template title={"Sector"}>
+                  <Sector />
                 </Template>
               </Grid>
             </Grid>
           </MDBox>
         </MDBox>
-        <MDBox py={3}>
+        {/* <MDBox py={3}>
           <MDBox>
             <Grid container spacing={3}>
               <Grid item xs={12} md={6} lg={6}>
@@ -104,7 +107,7 @@ function Dashboard() {
               </Grid>
             </Grid>
           </MDBox>
-        </MDBox>
+        </MDBox> */}
         <FooterUI />
       </DashboardLayout>
     </>
