@@ -293,13 +293,14 @@ const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows, vh=f
         if(headers[i].key == "status"){
           if(["Completed", "RFP Cancelled"].includes(updatedRow.status)){
             updatedRow.submissionTo = Timestamp.fromDate(new Date());
+            updatedRow.projectLWC = getDayCount(updatedRow.dateReceived);
        
 
             
           }else{
+          updatedRow.projectLWC = 0;
             
           }
-          updatedRow.projectLWC = getDayCount(updatedRow.dateReceived);
         }
       }
 
