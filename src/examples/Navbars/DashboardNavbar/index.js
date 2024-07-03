@@ -35,6 +35,7 @@ import MDInput from "components/MDInput";
 // Material Dashboard 2 React example components
 import Breadcrumbs from "examples/Breadcrumbs";
 import NotificationItem from "examples/Items/NotificationItem";
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
 // Custom styles for DashboardNavbar
 import {
@@ -104,11 +105,35 @@ function DashboardNavbar({ absolute, light, isMini }) {
       onClose={handleCloseMenu}
       sx={{ mt: 2 }}
     >
-      <NotificationItem icon={<Icon>email</Icon>} title="Check new messages" />
-      <NotificationItem icon={<Icon>podcasts</Icon>} title="Manage Podcast sessions" />
-      <NotificationItem icon={<Icon>shopping_cart</Icon>} title="Payment successfully completed" />
+      <NotificationItem icon={<Link to="/authentication/sign-in/basic">
+                {/* <IconButton sx={navbarIconButton} size="small" disableRipple> */}
+                  {/* <Icon sx={iconsStyle}>account_circle</Icon> */}
+                  <ExitToAppIcon />
+                {/* </IconButton> */}
+              </Link>} title="Logout" />
+      {/* <NotificationItem icon={<Icon>podcasts</Icon>} title="Manage Podcast sessions" />
+      <NotificationItem icon={<Icon>shopping_cart</Icon>} title="Payment successfully completed" /> */}
     </Menu>
   );
+
+
+  // const renderMenu = () => (
+  //   <Menu
+  //     anchorEl={openMenu}
+  //     anchorReference={null}
+  //     anchorOrigin={{
+  //       vertical: "bottom",
+  //       horizontal: "left",
+  //     }}
+  //     open={Boolean(openMenu)}
+  //     onClose={handleCloseMenu}
+  //     sx={{ mt: 2 }}
+  //   >
+  //     <NotificationItem icon={<Icon>email</Icon>} title="Check new messages" />
+  //     <NotificationItem icon={<Icon>podcasts</Icon>} title="Manage Podcast sessions" />
+  //     <NotificationItem icon={<Icon>shopping_cart</Icon>} title="Payment successfully completed" />
+  //   </Menu>
+  // );
 
   // Styles for the navbar icons
   const iconsStyle = ({ palette: { dark, white, text }, functions: { rgba } }) => ({
@@ -144,6 +169,18 @@ function DashboardNavbar({ absolute, light, isMini }) {
                   <Icon sx={iconsStyle}>account_circle</Icon>
                 </IconButton>
               </Link> */}
+              <IconButton
+                size="small"
+                disableRipple
+                color="inherit"
+                sx={navbarIconButton}
+                aria-controls="notification-menu"
+                aria-haspopup="true"
+                variant="contained"
+                onClick={handleOpenMenu}
+              >
+                 <Icon sx={iconsStyle}>account_circle</Icon>
+              </IconButton>
               <IconButton
                 size="small"
                 disableRipple
