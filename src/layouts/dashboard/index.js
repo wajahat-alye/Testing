@@ -2,7 +2,7 @@
 import Grid from "@mui/material/Grid";
 
 // Material Dashboard 2 React components
-import MDBox from "components/MDBox";
+// import MDBox from "components/MDBox";
 
 // Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -67,19 +67,19 @@ function Dashboard() {
           </MDBox> */}
         {/* </MDBox> */}
         
-        <MDBox py={3}>
-          <MDBox>
-            <Grid container spacing={3}>
+        {/* <MDBox py={3}>
+          <MDBox> */}
+            <Grid container spacing={3} mb={2}>
               <Grid item xs={12} md={12} lg={12}>
                 <Template title={"Deshboard"}>
                   <Deshboard />{" "}
                 </Template>
               </Grid>
             </Grid>
-          </MDBox>
-        </MDBox>
-        <MDBox py={3}>
-          <MDBox>
+          {/* </MDBox>
+        </MDBox> */}
+        {/* <MDBox py={3}>
+          <MDBox> */}
             <Grid container spacing={3}>
               <Grid item xs={12} md={6} lg={6}>
                 {/* <Template title={"Customer"}>
@@ -98,8 +98,8 @@ function Dashboard() {
                 </Template>
               </Grid>
             </Grid>
-          </MDBox>
-        </MDBox>
+          {/* </MDBox>
+        </MDBox> */}
         {/* <MDBox py={3}>
           <MDBox>
             <Grid container spacing={3}>
