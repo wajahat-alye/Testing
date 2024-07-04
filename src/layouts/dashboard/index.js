@@ -82,8 +82,11 @@ function Dashboard() {
           <MDBox>
             <Grid container spacing={3}>
               <Grid item xs={12} md={6} lg={6}>
-                <Template title={"Customer"}>
+                {/* <Template title={"Customer"}>
                   <CustomerUI />
+                </Template> */}
+                <Template title={"Pre-Sales task Assigned to"}>
+                  <KMOwner />
                 </Template>
               </Grid>
               <Grid item xs={12} md={6} lg={6}>
