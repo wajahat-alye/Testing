@@ -159,7 +159,7 @@ const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows, vh=f
     // flexDirection: 'column',
   },
   dataGridContainer: {
-    height: "250px",
+    // height: "250px",
     // flexGrow: 1,       // Ensure the container expands to fill available space
     // marginTop: '20px', // Example margin top for spacing
   },}
