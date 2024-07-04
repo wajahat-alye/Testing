@@ -96,7 +96,7 @@ function EmailCopy({isShowGraph=true, isShowSummary=true, isShowDownload=true}:a
           </Grid>
         </MDBox>
       </MDBox>}
-      <FooterUI />
+      {/* <FooterUI /> */}
     </DashboardLayout>
   );
 }
