@@ -161,8 +161,8 @@ export default function App() {
   
 
   return <>
-  {/* <DeshboardScreen /> */}
-  <Basic/>
+  <DeshboardScreen />
+  {/* <Basic/> */}
   </>
   
 }
