@@ -24,7 +24,8 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Icon from "@mui/material/Icon";
 
 // Material Dashboard 2 React components
-import MDBox from "components/MDBox";
+// import MDBox from "components/MDBox";
+import Grid  from "@mui/material/Grid";
 
 // Material Dashboard 2 React example components
 import Sidenav from "examples/Sidenav";
@@ -55,7 +56,14 @@ import brandWhite from "assets/images/logo-ct.png";
 import brandDark from "assets/images/logo-ct-dark.png";
 import MyDocument from "./PDF/MyDocument";
 import DeshboardScreen from "DeshboardScreen";
+import Basic from "layouts/authentication/sign-in";
 // import Basic from "layouts/authentication/sign-in";
+
+const MDBox = ({ children}: any)=>{
+  return <Grid>
+    {children}
+  </Grid>
+}
 
 
 export default function App() {
@@ -153,8 +161,8 @@ export default function App() {
   
 
   return <>
-  <DeshboardScreen />
-  {/* <Basic/> */}
+  {/* <DeshboardScreen /> */}
+  <Basic/>
   </>
   
 }

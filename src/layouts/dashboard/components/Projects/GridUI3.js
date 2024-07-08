@@ -30,19 +30,19 @@ const generateRandomId = () => {
   return randomId;
 };
 
-const getDayCount = (startDateString)=>{
+const getDayCount = (startDateString) => {
 
-// Convert the start date string to a Date object
-var startDate = new Date(startDateString);
+  // Convert the start date string to a Date object
+  var startDate = new Date(startDateString);
 
-// Get the current date
-var currentDate = new Date();
+  // Get the current date
+  var currentDate = new Date();
 
-// Calculate the time difference in milliseconds
-var timeDifference = currentDate.getTime() - startDate.getTime();
+  // Calculate the time difference in milliseconds
+  var timeDifference = currentDate.getTime() - startDate.getTime();
 
-// Convert the time difference from milliseconds to days
-var dayDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+  // Convert the time difference from milliseconds to days
+  var dayDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
   return dayDifference;
 }
 
@@ -50,45 +50,22 @@ var dayDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
 
 
 function EditToolbar({ setRows, headers, fileName, setRowModesModel, rows, fieldToFocus }: any) {
-  
-  // let maxID = 1; 
-  // if(rows?.rows){
-  //   rows.rows.forEach(e => {
-  //     if(e.values.id > maxID){
-  //       maxID = e.values.id
-  //     }
-  //   })
-  // }else{
-  //   maxID = 1;
-  // }
-  // if(rows && rows.length > 0){
-  //   rows.forEach(e => {
-  //     if(e.id > maxID){
-  //       maxID = e.id
-  //     }
-  //   })
-  // }
-  
-  
-  const gridKeys = headers.map((e) => e.key);
+
   const [isOpen, setIsOpen] = useState(false);
-  
+
   const handleClick = () => {
-    let a = headers;
-    let b =fileName;
-    let c = rows;
-    let d = fieldToFocus;
+
     let maxID = 0;
-    if(rows && rows.length > 0){
+    if (rows && rows.length > 0) {
       rows.forEach(e => {
-        if(e.id > maxID){
+        if (e.id > maxID) {
           maxID = e.id
         }
       })
     }
 
     let id = maxID + 1;
-    setRows((oldRows) => [{ ...GRID_KEYS , id, isNew: true }, ...oldRows ]);
+    setRows((oldRows) => [{ ...GRID_KEYS, id, isNew: true }, ...oldRows]);
     setRowModesModel((oldModel) => ({
       ...oldModel,
       [id]: { mode: GridRowModes.Edit, fieldToFocus },
@@ -113,7 +90,7 @@ function EditToolbar({ setRows, headers, fileName, setRowModesModel, rows, field
       <GridToolbarExport
         slotProps={{
           tooltip: { title: "Export data" },
-          csvOptions: { fileName: fileName }, 
+          csvOptions: { fileName: fileName },
           printOptions: { fileName: fileName }
         }}
 
@@ -131,7 +108,7 @@ function EditToolbar({ setRows, headers, fileName, setRowModesModel, rows, field
         waitOnComplete={false}
         onComplete={(data) => {
           setRows(data.rows.map((e) => e.values));
-          console.log('importing data',data);
+          console.log('importing data', data);
           setIsOpen(false);
         }}
         template={{
@@ -145,24 +122,26 @@ function EditToolbar({ setRows, headers, fileName, setRowModesModel, rows, field
 
 
 
-const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows, vh=false }: any) => {
+const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows, vh = false }: any) => {
   const [rowModesModel, setRowModesModel] = React.useState({});
   const [errorSB, setErrorSB] = React.useState(false);
   const [gs, setGs] = useState({
     title: "",
     message: "",
   });
-  const classes ={root: {
-    height: '77vh',  // Set height to full viewport height
-    // width: '100%',    // Ensure it takes full width of the page
-    // display: 'flex',
-    // flexDirection: 'column',
-  },
-  dataGridContainer: {
-    // height: "250px",
-    // flexGrow: 1,       // Ensure the container expands to fill available space
-    // marginTop: '20px', // Example margin top for spacing
-  },}
+  const classes = {
+    root: {
+      height: '77vh',  // Set height to full viewport height
+      // width: '100%',    // Ensure it takes full width of the page
+      // display: 'flex',
+      // flexDirection: 'column',
+    },
+    dataGridContainer: {
+      // height: "250px",
+      // flexGrow: 1,       // Ensure the container expands to fill available space
+      // marginTop: '20px', // Example margin top for spacing
+    },
+  }
   const openErrorSB = () => setErrorSB(true);
   const closeErrorSB = () => setErrorSB(false);
 
@@ -272,14 +251,14 @@ const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows, vh=f
   function formatDateToTimestamp(date) {
     // Get the Unix timestamp in seconds
     const seconds = Math.floor(date.getTime() / 1000);
-    
+
     // Construct the timestamp string
     const timestampString = `Timestamp(seconds=${seconds}, nanoseconds=0)`;
-    
+
     return timestampString;
   }
-  
-    
+
+
 
 
   const processRowUpdate = (newRow) => {
@@ -289,17 +268,17 @@ const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows, vh=f
 
     for (let i = 0; i < headers.length; i++) {
 
-      if(fileName === 'Deshboard'){
-        if(headers[i].key == "status"){
-          if(["Completed", "RFP Cancelled"].includes(updatedRow.status)){
+      if (fileName === 'Deshboard') {
+        if (headers[i].key == "status") {
+          if (["Completed", "RFP Cancelled"].includes(updatedRow.status)) {
             updatedRow.submissionTo = Timestamp.fromDate(new Date());
             updatedRow.projectLWC = getDayCount(updatedRow.dateReceived);
-       
 
-            
-          }else{
-          updatedRow.projectLWC = 0;
-            
+
+
+          } else {
+            updatedRow.projectLWC = 0;
+
           }
         }
       }
@@ -329,7 +308,7 @@ const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows, vh=f
 
   return (
     <>
-     {/* <div style={{ height: '100vh', width: '100%' }}> */}
+      {/* <div style={{ height: '100vh', width: '100%' }}> */}
 
       {renderErrorSB}
       {/* <div className={classes.root}> */}
@@ -357,10 +336,10 @@ const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows, vh=f
         style={vh ? classes.root : classes.dataGridContainer}
         onCellEditCommit={handleCellEditCommit}
 
-      
+
       />
-       {/* </div> */}
-       {/* </div> */}
+      {/* </div> */}
+      {/* </div> */}
     </>
   );
 };

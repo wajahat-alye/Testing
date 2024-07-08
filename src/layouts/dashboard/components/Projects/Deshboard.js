@@ -44,25 +44,15 @@ const Deshboard = ({ }: any) => {
   };
 
 
-  const names = [
-    "Humaira Sims",
-    "Santiago Solis",
-    "Dawid Floyd",
-    "Mateo Barlow",
-    "Samia Navarro",
-    "Kaden Fields",
-    "Genevieve Watkins",
-    "Mariah Hickman",
-    "Rocco Richardson",
-    "Harris Glenn"
-  ];
-  const [selectedNames, setSelectedNames] = useState([]);
+
 
   console.log('KMOwnerListRedux', KMOwnerListRedux)
 
   function renderRatingEditInputCell(params) {
     console.log("params", params)
-    const { id, value, api } = params;
+    let { id, value, api } = params;
+    value = typeof value === "string" ? [value] :  value;
+
     return (
       <Select
       multiple
@@ -80,31 +70,7 @@ const Deshboard = ({ }: any) => {
         </MenuItem>
       ))}
     </Select>
-      // <Autocomplete
-      //   multiple
-      //   fullWidth
-      //   disableCloseOnSelect
-      //   size="medium"
-      //   getOptionLabel={(option) => option.pstAssign}
-      //   options={KMOwnerListRedux}
-      //   // onDoubleClick={handleDoubleClick} // Handle double click event
-      //   // open={open}
-      //   // // onOpen={() => setOpen(true)}
-      //   // onClose={() => setOpen(false)}
-      //   // value={params?.value?.filter(e => e?.pstAssign) || []}
-      //   value={value || []}
-      //   // renderInput={(params) => (
-      //   //   <TextField
-      //   //     {...params}
-      //   //   />
-      //   //   // <p key={params.pstAssign}>{params.pstAssign},</p>
-      //   // )}
-      //   onChange={(e, nv) => {
-      //     console.log("New", nv);
-      //     api.setEditCellValue({ id, field: 'pstAssign', value: nv });
-      //     setOpen(false); // Close Autocomplete after selection
-      //   }}
-      // />
+   
     );
   }
 
@@ -112,23 +78,10 @@ const Deshboard = ({ }: any) => {
   function renderRatingEditInputCell1(params) {
     console.log("params", params)
     const { id, value, api } = params;
-    const text =  value.join(",");
+    const text = typeof value === "string" ? value :  value.join(",");
     
     return (
-      // <Autocomplete
-      //   multiple
-      //   fullWidth
-      //   disableCloseOnSelect
-      //   size="small"
-      //   getOptionLabel={(option) => option.pstAssign}
-      //   options={KMOwnerListRedux}
-      //   value={value || []}
-      //   renderInput={(params) => (
-      //     <TextField
-      //     {...params}
-      //     />
-      //   )}
-      // />
+
        <Tooltip title={text}>
       <div>{text}</div>
     </Tooltip>
@@ -324,7 +277,7 @@ const Deshboard = ({ }: any) => {
       key: "projectLevel",
       name: "Project Level", suggested_mappings: ["Project Level"]
     },
-    // { key: "tat", name: "TAT" }, suggested_mappings: ["TAT"] }
+    { key: "tat", name: "TAT" , suggested_mappings: ["TAT"] },
     { key: "projectLWC", name: "Project Life (Work Days)", suggested_mappings: ["Project Life (Work Days)"] },
     {
       key: "status", name: "Status/Dependencies",
@@ -341,7 +294,7 @@ const Deshboard = ({ }: any) => {
     },
     {
       key: "kamOwner", name: "KAM/ Owner",
-      required: true, suggested_mappings: ["KAM / Owner"]
+      required: true, suggested_mappings: ["KAM / Owner","KAM/ Owner"]
     },
     {
       key: "sector", name: "Sector",
@@ -359,9 +312,9 @@ const Deshboard = ({ }: any) => {
     },
     { key: "psrUpdates", name: "Pre-Sales Remarks / Updates", suggested_mappings: ["Pre-Sales Remarks / Updates"] },
     { key: "proposedSolution", name: "Proposed Solution", suggested_mappings: ["Proposed Solution"] },
-    // { key: "srdiother", name: "Sale/ Rental/ Demo/ In-House/ Other", suggested_mappings: ["Sale / Rental / Demo / In-House / Other"]  },
-    { key: "submissionTo", name: "Submission to KAM/ Owner", suggested_mappings: ["Submission to KAM / Owner"] },
-    // { key: "additionR", name: "Additional Remarks", suggested_mappings: ["Additional Remarks"] },
+    { key: "srdiother", name: "Sale/ Rental/ Demo/ In-House/ Other", suggested_mappings: ["Sale / Rental / Demo / In-House / Other"]  },
+    { key: "submissionTo", name: "Submission to KAM/ Owner", suggested_mappings: ["Submission to KAM / Owner","Submission to KAM/ Owner"] },
+    { key: "additionR", name: "Additional Remarks", suggested_mappings: ["Additional Remarks"] },
   ];
 
   return (
