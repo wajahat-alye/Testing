@@ -57,6 +57,7 @@ import brandDark from "assets/images/logo-ct-dark.png";
 import MyDocument from "./PDF/MyDocument";
 import DeshboardScreen from "DeshboardScreen";
 import Basic from "layouts/authentication/sign-in";
+import LLogin from "Login/LLogin";
 // import Basic from "layouts/authentication/sign-in";
 
 const MDBox = ({ children}: any)=>{
@@ -161,8 +162,9 @@ export default function App() {
   
 
   return <>
-  <DeshboardScreen />
+  {/* <DeshboardScreen /> */}
   {/* <Basic/> */}
+  <LLogin />
   </>
   
 }

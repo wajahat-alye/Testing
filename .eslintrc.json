@@ -19,6 +19,7 @@
     //     "endOfLine": "auto"
     //   }
     // ],
+    "react/prop-types": 0,
     "prettier/prettier": "off",
     "react/display-name": "off",
     "default-param-last": "off",
