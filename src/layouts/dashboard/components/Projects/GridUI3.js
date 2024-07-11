@@ -30,6 +30,24 @@ const generateRandomId = () => {
   return randomId;
 };
 
+
+function excelSerialNumberToFirebaseTimestamp(serial) {
+  const utcDays = Math.floor(serial - 25569);
+  const utcValue = utcDays * 86400; // Convert days to seconds
+  const dateInfo = new Date(utcValue * 1000);
+
+  const fraction = serial - Math.floor(serial);
+  const milliseconds = Math.round(fraction * 86400000);
+
+  dateInfo.setUTCMilliseconds(milliseconds);
+
+  // Convert JavaScript Date to Firebase Timestamp
+  const timestamp = Timestamp.fromDate(dateInfo);
+
+  return timestamp;
+}
+
+
 const getDayCount = (startDateString) => {
 
   // Convert the start date string to a Date object
@@ -107,7 +125,39 @@ function EditToolbar({ setRows, headers, fileName, setRowModesModel, rows, field
         showDownloadTemplateButton={false}
         waitOnComplete={false}
         onComplete={(data) => {
-          setRows(data.rows.map((e) => e.values));
+          // Timestamp.fromDate(new Date())
+          // submissionTo
+          // projectLevel
+          // dateReceived
+          setRows(data.rows.map((e) => {
+            let submissionTo = e.values.submissionTo;
+            if (typeof submissionTo === 'number') {
+              submissionTo = excelSerialNumberToFirebaseTimestamp(submissionTo);
+            } else {
+              submissionTo = Timestamp.fromDate(new Date(submissionTo))
+
+            }
+            if (e?.values?.projectLevel) {
+              let projectLevel = e.values.projectLevel;
+              if (typeof projectLevel === 'number') {
+                projectLevel = excelSerialNumberToFirebaseTimestamp(projectLevel);
+
+              } else {
+                projectLevel = Timestamp.fromDate(new Date(projectLevel))
+
+              }
+            }
+            let dateReceived = e.values.dateReceived;
+            if (typeof dateReceived === 'number') {
+              dateReceived = excelSerialNumberToFirebaseTimestamp(dateReceived);
+
+            } else {
+              dateReceived = Timestamp.fromDate(new Date(dateReceived))
+
+            }
+            let final =  { ...e.values, submissionTo, dateReceived };
+            return final;
+          }));
           console.log('importing data', data);
           setIsOpen(false);
         }}
