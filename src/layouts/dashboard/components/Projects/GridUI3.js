@@ -131,31 +131,55 @@ function EditToolbar({ setRows, headers, fileName, setRowModesModel, rows, field
           // dateReceived
           setRows(data.rows.map((e) => {
             let submissionTo = e.values.submissionTo;
-            if (typeof submissionTo === 'number') {
-              submissionTo = excelSerialNumberToFirebaseTimestamp(submissionTo);
-            } else {
-              submissionTo = Timestamp.fromDate(new Date(submissionTo))
+            try {
+              if (typeof submissionTo === 'number') {
+                submissionTo = excelSerialNumberToFirebaseTimestamp(submissionTo);
+              } else if (["-"].includes(submissionTo)) {
+                submissionTo = 'Timestamp(seconds=0, nanoseconds=0)';
 
+              } else {
+                submissionTo = Timestamp.fromDate(new Date(submissionTo))
+
+              }
+            } catch (error) {
+              submissionTo = 'Timestamp(seconds=0, nanoseconds=0)';
             }
             if (e?.values?.projectLevel) {
               let projectLevel = e.values.projectLevel;
-              if (typeof projectLevel === 'number') {
-                projectLevel = excelSerialNumberToFirebaseTimestamp(projectLevel);
+              try {
+                if (typeof projectLevel === 'number') {
+                  projectLevel = excelSerialNumberToFirebaseTimestamp(projectLevel);
 
-              } else {
-                projectLevel = Timestamp.fromDate(new Date(projectLevel))
+                } else if (["-"].includes(projectLevel)) {
+                  projectLevel = 'Timestamp(seconds=0, nanoseconds=0)';
+
+                } else {
+                  projectLevel = Timestamp.fromDate(new Date(projectLevel))
+
+                }
+              } catch (error) {
+                projectLevel = 'Timestamp(seconds=0, nanoseconds=0)';
 
               }
             }
             let dateReceived = e.values.dateReceived;
-            if (typeof dateReceived === 'number') {
-              dateReceived = excelSerialNumberToFirebaseTimestamp(dateReceived);
+            try {
+              if (typeof dateReceived === 'number') {
+                dateReceived = excelSerialNumberToFirebaseTimestamp(dateReceived);
 
-            } else {
-              dateReceived = Timestamp.fromDate(new Date(dateReceived))
+              } else if (["-"].includes(dateReceived)) {
+                dateReceived = 'Timestamp(seconds=0, nanoseconds=0)';
+
+              } else {
+                dateReceived = Timestamp.fromDate(new Date(dateReceived))
+
+              }
+            } catch (error) {
+              dateReceived = 'Timestamp(seconds=0, nanoseconds=0)';
+
 
             }
-            let final =  { ...e.values, submissionTo, dateReceived };
+            let final = { ...e.values, submissionTo, dateReceived };
             return final;
           }));
           console.log('importing data', data);

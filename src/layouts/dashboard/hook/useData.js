@@ -11,6 +11,7 @@ import {
   doc,
   setDoc,
   getDocs,
+  writeBatch,
   getDoc,
   documentId,
 } from "firebase/firestore";
@@ -101,15 +102,56 @@ const useData = () => {
     return [];
   };
 
+  async function clearCollection(path) {
+
+  }
+
+
+  async function deleteAllDocumentsFromCollection(collectionName) {
+    const batchSize = 100; // Number of documents to delete per batch
+    const collectionRef = collection(db, collectionName);
+  
+    let querySnapshot;
+    let lastVisibleDoc = null;
+  
+    try {
+      do {
+        // Fetch documents in batches
+        querySnapshot = await getDocs(collectionRef);
+  
+        // Process each document
+        const batch = writeBatch(db); // Create a new batch object
+        querySnapshot.forEach((document) => {
+          const docRef = doc(db, collectionName, document.id);
+          batch.delete(docRef);
+        });
+  
+        // Commit the batch
+        await batch.commit();
+  
+        console.log(`Deleted ${querySnapshot.size} documents from ${collectionName}.`);
+  
+        // Check if there are more documents to delete
+        lastVisibleDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
+      } while (querySnapshot.size >= batchSize); // Continue if the batch size is met or exceeded
+      
+      console.log('All documents deleted.');
+    } catch (error) {
+      console.error('Error deleting documents: ', error);
+    }
+  }
+  // Call the function to delete all documents from a specific collection
+
   const saveToFirebase = async () => {
     try {
       const chunkSize = 500;
       const chunks = [];
-      let _gridData = [ ...gridData ]
+      let _gridData = [...gridData]
       while (_gridData.length > 0) {
         const chunk = _gridData.splice(0, chunkSize); // TODO: test this case
         chunks.push(chunk);
       }
+
       // if (_gridData.length > 500) {
       //   while (_gridData.length > 0) {
       //     const chunk = _gridData.splice(0, chunkSize); // TODO: test this case
@@ -118,6 +160,8 @@ const useData = () => {
       // } else {
       //   chunks.push(_gridData);
       // }
+      await deleteAllDocumentsFromCollection('DeshboardData');
+
       chunks.forEach((chunk, index) => {
         const docRef = doc(db, `DeshboardData`, `documentId${index}`);
         setDoc(docRef, { grid: chunk });

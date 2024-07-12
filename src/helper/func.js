@@ -71,6 +71,7 @@ export const getCurrentMonthEndDate = () => {
 
 
 export const makeDate = (date) => {
+ try {
   if (!date) return '';
   if (typeof date === 'number') {
     try {
@@ -91,4 +92,7 @@ export const makeDate = (date) => {
     }
   }
   return date;
+ } catch (error) {
+    console.log('Errors',errros)
+ }
 }
