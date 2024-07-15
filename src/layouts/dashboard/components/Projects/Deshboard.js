@@ -357,12 +357,11 @@ const Deshboard = ({ }: any) => {
   ];
 
   const headers = [
-    { key: "id", name: "S/N",
-       required: true, suggested_mappings: ["S/N"] },
+    { key: "id", name: "S/N", required: true, suggested_mappings: ["S/N"] },
     {
       key: "dateReceived",
       name: "Date Received",
-      // required: true,
+      required: true,
       suggested_mappings: ["Date Received"]
     },
     // {
@@ -377,41 +376,33 @@ const Deshboard = ({ }: any) => {
     { key: "projectLWC", name: "Project Life (Work Days)", suggested_mappings: ["Project Life (Work Days)"] },
     {
       key: "status", name: "Status/Dependencies",
-      // required: true,
-       suggested_mappings: ["Status/Dependencies"]
+      required: true, suggested_mappings: ["Status/Dependencies"]
     },
     {
       key: "customer", name: "Customer",
-      // required: true, 
-      suggested_mappings: ["Customer"]
+      required: true, suggested_mappings: ["Customer"]
     },
     {
       key: "region", name: "Region",
-      // required: true, 
-      suggested_mappings: ["Region"]
+      required: true, suggested_mappings: ["Region"]
 
     },
     {
       key: "kamOwner", name: "KAM/ Owner",
-      // required: true,
-       suggested_mappings: ["KAM / Owner", "KAM/ Owner"]
+      required: true, suggested_mappings: ["KAM / Owner", "KAM/ Owner"]
     },
     {
       key: "sector", name: "Sector",
-      // required: true,
-       suggested_mappings: ["Sector"]
+      required: true, suggested_mappings: ["Sector"]
 
     },
     {
-      key: "pstAssign",
-      //  required: true, 
-      name: "Pre-Sales task Assigned to", suggested_mappings: ["Pre-Sales task Assigned to"]
+      key: "pstAssign", required: true, name: "Pre-Sales task Assigned to", suggested_mappings: ["Pre-Sales task Assigned to"]
       // required: true
     },
     {
       key: "requirement", name: "Requirement / Query",
-      // required: true,
-       suggested_mappings: ["Requirement / Query"]
+      required: true, suggested_mappings: ["Requirement / Query"]
 
     },
     { key: "psrUpdates", name: "Pre-Sales Remarks / Updates", suggested_mappings: ["Pre-Sales Remarks / Updates"] },
