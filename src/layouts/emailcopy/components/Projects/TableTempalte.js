@@ -40,7 +40,7 @@ import useData from "./../../../dashboard/hook/useData";
 import data from "./data/index";
 // Data
 
-function TableTempalte({ title,isShow=true }: any) {
+function TableTempalte({ title, isShow = true }: any) {
   const { columns, columns1, columns2 } = data();
   const [controller, dispatch] = reduxData.useGlobalController();
   const [rows, setRows] = useState([]);
@@ -153,10 +153,11 @@ function TableTempalte({ title,isShow=true }: any) {
     let previous_week_kamOwnerKV = {}
 
     for (let i = 0; i < gridd.length; i++) {
+      const isPstAssignString = typeof gridd[i].pstAssign === 'string';
       const dateReceived = moment(makeDate(gridd[i].dateReceived));
       const isBetweenCurrentweek = (dateReceived >= current_week_start && dateReceived <= current_week_end);
-      const pstCount = gridd[i].pstAssign.length - 1;
-      const pstApply = gridd[i].pstAssign.length > 1;
+      const pstCount = isPstAssignString ? 1 : gridd[i].pstAssign.length - 1;
+      const pstApply = isPstAssignString ? false : gridd[i].pstAssign.length > 1;
       if (isBetweenCurrentweek) {
         if (gridd[i].status === "In Progress") {
           current_week_in_progress_counter++;
@@ -189,13 +190,26 @@ function TableTempalte({ title,isShow=true }: any) {
             current_week_rfp_cancelled_counter += pstCount
           }
         }
-        gridd[i]?.pstAssign?.forEach((item) => {
-          if (current_week_kamOwnerKV[item]) {
-            current_week_kamOwnerKV[item].value++;
+
+        if (typeof gridd[i]?.pstAssign === 'string') {
+          if (current_week_kamOwnerKV[gridd[i]?.pstAssign]) {
+            current_week_kamOwnerKV[gridd[i]?.pstAssign].value++;
           } else {
-            current_week_kamOwnerKV[item] = { value: 1, label: item }
+            current_week_kamOwnerKV[gridd[i]?.pstAssign] = { value: 1, label: gridd[i]?.pstAssign }
           }
-        })
+        } else {
+
+          gridd[i]?.pstAssign?.forEach((item) => {
+            if (current_week_kamOwnerKV[item]) {
+              current_week_kamOwnerKV[item].value++;
+            } else {
+              current_week_kamOwnerKV[item] = { value: 1, label: item }
+            }
+          })
+        }
+
+
+
 
       } else if (dateReceived >= previous_week_start && dateReceived <= previous_week_end) {
         if (gridd[i].status.includes("Completed")) {
@@ -211,14 +225,22 @@ function TableTempalte({ title,isShow=true }: any) {
           }
         }
 
-
-        gridd[i]?.pstAssign?.forEach((item) => {
-          if (previous_week_kamOwnerKV[item]) {
-            previous_week_kamOwnerKV[item].value++;
+        if (typeof gridd[i]?.pstAssign === 'string') {
+          if (previous_week_kamOwnerKV[gridd[i]?.pstAssign]) {
+            previous_week_kamOwnerKV[gridd[i]?.pstAssign].value++;
           } else {
-            previous_week_kamOwnerKV[item] = { value: 1, label: item }
+            previous_week_kamOwnerKV[gridd[i]?.pstAssign] = { value: 1, label: gridd[i]?.pstAssign }
           }
-        })
+        } else {
+          gridd[i]?.pstAssign?.forEach((item) => {
+            if (previous_week_kamOwnerKV[item]) {
+              previous_week_kamOwnerKV[item].value++;
+            } else {
+              previous_week_kamOwnerKV[item] = { value: 1, label: item }
+            }
+          })
+        }
+
 
       }
       const isBetweenCurrentMonth = (dateReceived >= current_month_start && dateReceived <= current_month_end);
@@ -244,13 +266,23 @@ function TableTempalte({ title,isShow=true }: any) {
         }
 
 
-        gridd[i]?.pstAssign?.forEach((item) => {
-          if (current_month_kamOwnerKV[item]) {
-            current_month_kamOwnerKV[item].value++;
+
+        if (typeof gridd[i]?.pstAssign === 'string') {
+          if (current_month_kamOwnerKV[gridd[i]?.pstAssign]) {
+            current_month_kamOwnerKV[gridd[i]?.pstAssign].value++;
           } else {
-            current_month_kamOwnerKV[item] = { value: 1, label: item }
+            current_month_kamOwnerKV[gridd[i]?.pstAssign] = { value: 1, label: gridd[i]?.pstAssign }
           }
-        })
+        } else {
+          gridd[i]?.pstAssign?.forEach((item) => {
+            if (current_month_kamOwnerKV[item]) {
+              current_month_kamOwnerKV[item].value++;
+            } else {
+              current_month_kamOwnerKV[item] = { value: 1, label: item }
+            }
+          })
+        }
+
 
 
       } else if (dateReceived >= previous_month_start && dateReceived <= previous_month_end) {
@@ -269,13 +301,25 @@ function TableTempalte({ title,isShow=true }: any) {
 
 
 
-        gridd[i]?.pstAssign?.forEach((item) => {
-          if (previous_month_kamOwnerKV[item]) {
-            previous_month_kamOwnerKV[item].value++;
+        if (typeof gridd[i]?.pstAssign === 'string') {
+          if (previous_month_kamOwnerKV[gridd[i]?.pstAssign]) {
+            previous_month_kamOwnerKV[gridd[i]?.pstAssign].value++;
           } else {
-            previous_month_kamOwnerKV[item] = { value: 1, label: item }
+            previous_month_kamOwnerKV[gridd[i]?.pstAssign] = { value: 1, label: gridd[i]?.pstAssign }
           }
-        })
+        } else {
+          gridd[i]?.pstAssign?.forEach((item) => {
+            if (previous_month_kamOwnerKV[item]) {
+              previous_month_kamOwnerKV[item].value++;
+            } else {
+              previous_month_kamOwnerKV[item] = { value: 1, label: item }
+            }
+          })
+        }
+
+
+
+
 
       }
     }
@@ -538,46 +582,46 @@ function TableTempalte({ title,isShow=true }: any) {
     ]);
   };
 
-   
+
   return isShow ? <>
-      Dashboard Summary
-      <Card>
-        <MDBox>
-          <DataTable
-            table={{ columns, rows }}
-            showTotalEntries={false}
-            isSorted={false}
-            noEndBorder
-            entriesPerPage={false}
-          />
-        </MDBox>
-      </Card>
-      Pre-Sales Weekly Summary
-      <Card>
-        <MDBox>
-          <DataTable
-            table={{ columns: columns1, rows: rows1 }}
-            showTotalEntries={false}
-            isSorted={false}
-            noEndBorder
-            entriesPerPage={false}
-          />
-        </MDBox>
-      </Card>
-      Monthly Summary
-      <Card>
-        <MDBox>
-          <DataTable
-            table={{ columns: columns2, rows: rows2 }}
-            showTotalEntries={false}
-            isSorted={false}
-            noEndBorder
-            entriesPerPage={false}
-          />
-        </MDBox>
-      </Card>
-    </> : <></>
-  
+    Dashboard Summary
+    <Card>
+      <MDBox>
+        <DataTable
+          table={{ columns, rows }}
+          showTotalEntries={false}
+          isSorted={false}
+          noEndBorder
+          entriesPerPage={false}
+        />
+      </MDBox>
+    </Card>
+    Pre-Sales Weekly Summary
+    <Card>
+      <MDBox>
+        <DataTable
+          table={{ columns: columns1, rows: rows1 }}
+          showTotalEntries={false}
+          isSorted={false}
+          noEndBorder
+          entriesPerPage={false}
+        />
+      </MDBox>
+    </Card>
+    Monthly Summary
+    <Card>
+      <MDBox>
+        <DataTable
+          table={{ columns: columns2, rows: rows2 }}
+          showTotalEntries={false}
+          isSorted={false}
+          noEndBorder
+          entriesPerPage={false}
+        />
+      </MDBox>
+    </Card>
+  </> : <></>
+
 }
 
 export default TableTempalte;

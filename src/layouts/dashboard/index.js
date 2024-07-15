@@ -48,9 +48,9 @@ function Dashboard() {
         <MDSnackbar
           color="success"
           icon="check"
-          title="Material Dashboard"
-          content="Hello, world! This is a success notification message"
-          dateTime="11 mins ago"
+          title="Save Data"
+          content="Successfuly save data"
+          // dateTime=""
           open={successSB}
           onClose={closeSuccessSB}
           close={closeSuccessSB}

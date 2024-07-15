@@ -77,7 +77,7 @@ function EditToolbar({ setRows, headers, fileName, setRowModesModel, rows, field
     if (rows && rows.length > 0) {
       rows.forEach(e => {
         if (e.id > maxID) {
-          maxID = e.id
+          maxID = +e.id
         }
       })
     }
@@ -108,10 +108,10 @@ function EditToolbar({ setRows, headers, fileName, setRowModesModel, rows, field
       <GridToolbarExport
         slotProps={{
           tooltip: { title: "Export data" },
-          csvOptions: { fileName: fileName },
-          printOptions: { fileName: fileName }
-        }}
 
+        }}
+        csvOptions={{ fileName: fileName }}
+        printOptions={{ fileName: fileName }}
       />
       {/* <Button color="primary" startIcon={<DownloadIcon />}>
         <ExportJsonCsv headers={headers} items={rows}>
@@ -134,7 +134,7 @@ function EditToolbar({ setRows, headers, fileName, setRowModesModel, rows, field
             try {
               if (typeof submissionTo === 'number') {
                 submissionTo = excelSerialNumberToFirebaseTimestamp(submissionTo);
-              } else if (["-"].includes(submissionTo)) {
+              } else if (["", "-"].includes(submissionTo)) {
                 submissionTo = 'Timestamp(seconds=0, nanoseconds=0)';
 
               } else {
@@ -150,7 +150,7 @@ function EditToolbar({ setRows, headers, fileName, setRowModesModel, rows, field
                 if (typeof projectLevel === 'number') {
                   projectLevel = excelSerialNumberToFirebaseTimestamp(projectLevel);
 
-                } else if (["-"].includes(projectLevel)) {
+                } else if (["", "-"].includes(projectLevel)) {
                   projectLevel = 'Timestamp(seconds=0, nanoseconds=0)';
 
                 } else {
@@ -167,7 +167,7 @@ function EditToolbar({ setRows, headers, fileName, setRowModesModel, rows, field
               if (typeof dateReceived === 'number') {
                 dateReceived = excelSerialNumberToFirebaseTimestamp(dateReceived);
 
-              } else if (["-"].includes(dateReceived)) {
+              } else if (["", "-"].includes(dateReceived)) {
                 dateReceived = 'Timestamp(seconds=0, nanoseconds=0)';
 
               } else {
