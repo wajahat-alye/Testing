@@ -153,7 +153,7 @@ function TableTempalte({ title, isShow = true }: any) {
     let previous_week_kamOwnerKV = {}
 
     for (let i = 0; i < gridd.length; i++) {
-      const dateReceived = moment(makeDate(gridd[i].dateReceived));
+      const dateReceived = moment(new Date(gridd[i].dateReceived));
       const isBetweenCurrentweek = (dateReceived >= current_week_start && dateReceived <= current_week_end);
 
       const pstAssign = gridd[i].pstAssign.split("/");

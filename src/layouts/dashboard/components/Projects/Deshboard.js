@@ -9,6 +9,11 @@ import { Box, MenuItem, OutlinedInput, Select, Tooltip } from "@mui/material";
 import { FormControl, styled } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
+import { DatePicker } from "@mui/x-date-pickers";
+import { getGridDateOperators, GRID_DATE_COL_DEF, GridEditDateCell } from "@mui/x-data-grid";
+import moment from "moment";
+// import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+
 
 const Deshboard = ({ }: any) => {
   const { getDeshboardData, customerListRedux, KMOwnerListRedux, sectorListRedux } = useData();
@@ -98,11 +103,85 @@ const Deshboard = ({ }: any) => {
 
 
 
+
+  function GridFilterDateInput(
+    props: any
+  ) {
+    const { item, showTime, applyValue, apiRef } = props;
+
+    const Component = showTime ? DateTimePicker : DatePicker;
+
+    const handleFilterChange = (newValue) => {
+      applyValue({ ...item, value: newValue });
+    };
+
+    return (
+      <Component
+        value={item.value ? new Date(item.value) : null}
+        autoFocus
+        label={apiRef.current.getLocaleText('filterPanelInputLabel')}
+        slotProps={{
+          textField: {
+            variant: 'standard',
+          },
+          inputAdornment: {
+            sx: {
+              '& .MuiButtonBase-root': {
+                marginRight: -1,
+              },
+            },
+          },
+        }}
+        onChange={handleFilterChange}
+      />
+    );
+  }
+
+
+
+  const makeDate1 = (date) => {
+    // try {/
+    if (!date) return '';
+    return date;
+  }
+
+
+  const dateee = {
+    resizable: false,
+      renderEditCell: (params) => {
+        console.log("renderEditCell", params);
+        let { id, value, api }: any = params;
+
+
+        return <GridEditDateCell {...params} />;
+      },
+
+      filterOperators: getGridDateOperators(false).map((item) => {
+        console.log("filterOperators", item);
+
+        return {
+          ...item,
+          InputComponent: GridFilterDateInput,
+          InputComponentProps: { showTime: false },
+        }
+      }),
+      valueFormatter: (value) => {
+        console.log("valueFormatter", value);
+        if (value) {
+          // return dateAdapter.format(value, 'keyboardDate');
+          return value;
+        }
+        return '';
+      },
+  }
+
+
   const columns = [
     { editable: false, field: "id", headerName: "S/N", width: 70 },
     {
       editable: true,
-      valueGetter: makeDate,
+      // valueGetter: makeDate1,
+      ...dateee,
       type: "date",
       field: "dateReceived",
       headerName: "Date Received",
@@ -117,21 +196,27 @@ const Deshboard = ({ }: any) => {
     //   width: 130,
     // },
     {
-      editable: true,
-      valueGetter: makeDate,
-      type: "date",
       field: "projectLevel",
+
+
+
+      ...dateee,
+
+      
+      editable: true,
+      // valueGetter: makeDate,
+      // type: "date",
       headerName: "Project Level",
       width: 130,
     },
     // { editable: true, field: "tat", headerName: "TAT", width: 130 },
-    {
-      editable: true,
-      type: "number",
-      field: "projectLWC",
-      headerName: "Project Life (Work Days)",
-      width: 130,
-    },
+    // {
+    //   editable: true,
+    //   type: "number",
+    //   field: "projectLWC",
+    //   headerName: "Project Life (Work Days)",
+    //   width: 130,
+    // },
     {
       editable: true,
       type: "singleSelect",
@@ -254,7 +339,9 @@ const Deshboard = ({ }: any) => {
     {
       editable: true,
       // type: "number",
-      valueGetter: makeDate,
+      // valueGetter: makeDate1,
+      ...dateee,
+
       type: "date",
       field: "submissionTo",
       headerName: "Submission to KAM/ Owner",
@@ -270,11 +357,12 @@ const Deshboard = ({ }: any) => {
   ];
 
   const headers = [
-    { key: "id", name: "S/N", required: true, suggested_mappings: ["S/N"] },
+    { key: "id", name: "S/N",
+       required: true, suggested_mappings: ["S/N"] },
     {
       key: "dateReceived",
       name: "Date Received",
-      required: true,
+      // required: true,
       suggested_mappings: ["Date Received"]
     },
     // {
@@ -289,33 +377,41 @@ const Deshboard = ({ }: any) => {
     { key: "projectLWC", name: "Project Life (Work Days)", suggested_mappings: ["Project Life (Work Days)"] },
     {
       key: "status", name: "Status/Dependencies",
-      required: true, suggested_mappings: ["Status/Dependencies"]
+      // required: true,
+       suggested_mappings: ["Status/Dependencies"]
     },
     {
       key: "customer", name: "Customer",
-      required: true, suggested_mappings: ["Customer"]
+      // required: true, 
+      suggested_mappings: ["Customer"]
     },
     {
       key: "region", name: "Region",
-      required: true, suggested_mappings: ["Region"]
+      // required: true, 
+      suggested_mappings: ["Region"]
 
     },
     {
       key: "kamOwner", name: "KAM/ Owner",
-      required: true, suggested_mappings: ["KAM / Owner", "KAM/ Owner"]
+      // required: true,
+       suggested_mappings: ["KAM / Owner", "KAM/ Owner"]
     },
     {
       key: "sector", name: "Sector",
-      required: true, suggested_mappings: ["Sector"]
+      // required: true,
+       suggested_mappings: ["Sector"]
 
     },
     {
-      key: "pstAssign", required: true, name: "Pre-Sales task Assigned to", suggested_mappings: ["Pre-Sales task Assigned to"]
+      key: "pstAssign",
+      //  required: true, 
+      name: "Pre-Sales task Assigned to", suggested_mappings: ["Pre-Sales task Assigned to"]
       // required: true
     },
     {
       key: "requirement", name: "Requirement / Query",
-      required: true, suggested_mappings: ["Requirement / Query"]
+      // required: true,
+       suggested_mappings: ["Requirement / Query"]
 
     },
     { key: "psrUpdates", name: "Pre-Sales Remarks / Updates", suggested_mappings: ["Pre-Sales Remarks / Updates"] },

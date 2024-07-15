@@ -24,6 +24,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 import { GRID_KEYS } from "./data";
 import { db } from "layouts/authentication/firebase/firebase";
 import { Timestamp } from "@firebase/firestore";
+import moment from "moment/moment";
 
 const generateRandomId = () => {
   const randomId = Math.random().toString(36).substr(2, 6);
@@ -131,52 +132,41 @@ function EditToolbar({ setRows, headers, fileName, setRowModesModel, rows, field
           // dateReceived
           setRows(data.rows.map((e) => {
             let submissionTo = e.values.submissionTo;
-            try {
-              if (typeof submissionTo === 'number') {
-                submissionTo = excelSerialNumberToFirebaseTimestamp(submissionTo);
-              } else if (["", "-"].includes(submissionTo)) {
-                submissionTo = 'Timestamp(seconds=0, nanoseconds=0)';
+            if (typeof submissionTo === 'number') {
+              submissionTo = excelSerialNumberToFirebaseTimestamp(submissionTo);
+            } else if (["", "-"].includes(submissionTo)) {
+              submissionTo = '';
 
-              } else {
-                submissionTo = Timestamp.fromDate(new Date(submissionTo))
+            } else {
+              // submissionTo = Timestamp.fromDate(new Date(submissionTo))
 
-              }
-            } catch (error) {
-              submissionTo = 'Timestamp(seconds=0, nanoseconds=0)';
             }
+
             if (e?.values?.projectLevel) {
               let projectLevel = e.values.projectLevel;
-              try {
-                if (typeof projectLevel === 'number') {
-                  projectLevel = excelSerialNumberToFirebaseTimestamp(projectLevel);
+              if (typeof projectLevel === 'number') {
+                projectLevel = excelSerialNumberToFirebaseTimestamp(projectLevel);
 
-                } else if (["", "-"].includes(projectLevel)) {
-                  projectLevel = 'Timestamp(seconds=0, nanoseconds=0)';
+              } else if (["", "-"].includes(projectLevel)) {
+                projectLevel = '';
 
-                } else {
-                  projectLevel = Timestamp.fromDate(new Date(projectLevel))
-
-                }
-              } catch (error) {
-                projectLevel = 'Timestamp(seconds=0, nanoseconds=0)';
+              } else {
+                // projectLevel = Timestamp.fromDate(new Date(projectLevel))
 
               }
             }
+
+
+
             let dateReceived = e.values.dateReceived;
-            try {
-              if (typeof dateReceived === 'number') {
-                dateReceived = excelSerialNumberToFirebaseTimestamp(dateReceived);
+            if (typeof dateReceived === 'number') {
+              dateReceived = excelSerialNumberToFirebaseTimestamp(dateReceived);
 
-              } else if (["", "-"].includes(dateReceived)) {
-                dateReceived = 'Timestamp(seconds=0, nanoseconds=0)';
+            } else if (["", "-"].includes(dateReceived)) {
+              dateReceived = '';
 
-              } else {
-                dateReceived = Timestamp.fromDate(new Date(dateReceived))
-
-              }
-            } catch (error) {
-              dateReceived = 'Timestamp(seconds=0, nanoseconds=0)';
-
+            } else {
+              // dateReceived = Timestamp.fromDate(new Date(dateReceived))
 
             }
             let final = { ...e.values, submissionTo, dateReceived };
@@ -342,11 +332,21 @@ const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows, vh =
 
     for (let i = 0; i < headers.length; i++) {
 
+      if (updatedRow.submissionTo) {
+        let b = moment;
+        updatedRow.submissionTo = moment(updatedRow.submissionTo).format("MM-DD-YYYY")
+      }
+      if (updatedRow.projectLevel) {
+        updatedRow.projectLevel = moment(updatedRow.projectLevel).format("MM-DD-YYYY")
+      }
+      if (updatedRow.dateReceived) {
+        updatedRow.dateReceived = moment(updatedRow.dateReceived).format("MM-DD-YYYY")
+      }
       if (fileName === 'Deshboard') {
         if (headers[i].key == "status") {
           if (["Completed", "RFP Cancelled"].includes(updatedRow.status)) {
-            updatedRow.submissionTo = Timestamp.fromDate(new Date());
-            updatedRow.projectLWC = getDayCount(updatedRow.dateReceived);
+            updatedRow.submissionTo = moment().format("MM-DD-YYYY");
+            updatedRow.projectLWC = updatedRow?.dateReceived ? getDayCount(updatedRow.dateReceived) : "";
 
 
 
