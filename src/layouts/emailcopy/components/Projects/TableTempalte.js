@@ -153,11 +153,13 @@ function TableTempalte({ title, isShow = true }: any) {
     let previous_week_kamOwnerKV = {}
 
     for (let i = 0; i < gridd.length; i++) {
-      const isPstAssignString = typeof gridd[i].pstAssign === 'string';
       const dateReceived = moment(makeDate(gridd[i].dateReceived));
       const isBetweenCurrentweek = (dateReceived >= current_week_start && dateReceived <= current_week_end);
-      const pstCount = isPstAssignString ? 1 : gridd[i].pstAssign.length - 1;
-      const pstApply = isPstAssignString ? false : gridd[i].pstAssign.length > 1;
+
+      const pstAssign = gridd[i].pstAssign.split("/");
+      const pstCount = pstAssign.length - 1;
+      const pstApply = pstAssign.length > 1;
+
       if (isBetweenCurrentweek) {
         if (gridd[i].status === "In Progress") {
           current_week_in_progress_counter++;
@@ -191,22 +193,13 @@ function TableTempalte({ title, isShow = true }: any) {
           }
         }
 
-        if (typeof gridd[i]?.pstAssign === 'string') {
-          if (current_week_kamOwnerKV[gridd[i]?.pstAssign]) {
-            current_week_kamOwnerKV[gridd[i]?.pstAssign].value++;
+        pstAssign?.forEach((item) => {
+          if (current_week_kamOwnerKV[item]) {
+            current_week_kamOwnerKV[item].value++;
           } else {
-            current_week_kamOwnerKV[gridd[i]?.pstAssign] = { value: 1, label: gridd[i]?.pstAssign }
+            current_week_kamOwnerKV[item] = { value: 1, label: item }
           }
-        } else {
-
-          gridd[i]?.pstAssign?.forEach((item) => {
-            if (current_week_kamOwnerKV[item]) {
-              current_week_kamOwnerKV[item].value++;
-            } else {
-              current_week_kamOwnerKV[item] = { value: 1, label: item }
-            }
-          })
-        }
+        })
 
 
 
@@ -225,21 +218,13 @@ function TableTempalte({ title, isShow = true }: any) {
           }
         }
 
-        if (typeof gridd[i]?.pstAssign === 'string') {
-          if (previous_week_kamOwnerKV[gridd[i]?.pstAssign]) {
-            previous_week_kamOwnerKV[gridd[i]?.pstAssign].value++;
+        pstAssign?.forEach((item) => {
+          if (previous_week_kamOwnerKV[item]) {
+            previous_week_kamOwnerKV[item].value++;
           } else {
-            previous_week_kamOwnerKV[gridd[i]?.pstAssign] = { value: 1, label: gridd[i]?.pstAssign }
+            previous_week_kamOwnerKV[item] = { value: 1, label: item }
           }
-        } else {
-          gridd[i]?.pstAssign?.forEach((item) => {
-            if (previous_week_kamOwnerKV[item]) {
-              previous_week_kamOwnerKV[item].value++;
-            } else {
-              previous_week_kamOwnerKV[item] = { value: 1, label: item }
-            }
-          })
-        }
+        })
 
 
       }
@@ -267,21 +252,13 @@ function TableTempalte({ title, isShow = true }: any) {
 
 
 
-        if (typeof gridd[i]?.pstAssign === 'string') {
-          if (current_month_kamOwnerKV[gridd[i]?.pstAssign]) {
-            current_month_kamOwnerKV[gridd[i]?.pstAssign].value++;
+        pstAssign?.forEach((item) => {
+          if (current_month_kamOwnerKV[item]) {
+            current_month_kamOwnerKV[item].value++;
           } else {
-            current_month_kamOwnerKV[gridd[i]?.pstAssign] = { value: 1, label: gridd[i]?.pstAssign }
+            current_month_kamOwnerKV[item] = { value: 1, label: item }
           }
-        } else {
-          gridd[i]?.pstAssign?.forEach((item) => {
-            if (current_month_kamOwnerKV[item]) {
-              current_month_kamOwnerKV[item].value++;
-            } else {
-              current_month_kamOwnerKV[item] = { value: 1, label: item }
-            }
-          })
-        }
+        })
 
 
 
@@ -301,21 +278,13 @@ function TableTempalte({ title, isShow = true }: any) {
 
 
 
-        if (typeof gridd[i]?.pstAssign === 'string') {
-          if (previous_month_kamOwnerKV[gridd[i]?.pstAssign]) {
-            previous_month_kamOwnerKV[gridd[i]?.pstAssign].value++;
+        pstAssign?.forEach((item) => {
+          if (previous_month_kamOwnerKV[item]) {
+            previous_month_kamOwnerKV[item].value++;
           } else {
-            previous_month_kamOwnerKV[gridd[i]?.pstAssign] = { value: 1, label: gridd[i]?.pstAssign }
+            previous_month_kamOwnerKV[item] = { value: 1, label: item }
           }
-        } else {
-          gridd[i]?.pstAssign?.forEach((item) => {
-            if (previous_month_kamOwnerKV[item]) {
-              previous_month_kamOwnerKV[item].value++;
-            } else {
-              previous_month_kamOwnerKV[item] = { value: 1, label: item }
-            }
-          })
-        }
+        })
 
 
 

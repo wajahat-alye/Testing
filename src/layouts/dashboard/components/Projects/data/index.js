@@ -50,7 +50,7 @@ export const TABLE_ROWS = [
         region: '',
         kamOwner: '',
         sector: '',
-        pstAssign: [],
+        pstAssign: "",
         requirement: '',
         psrUpdates: 0,
         proposedSolution: 0,
@@ -70,7 +70,7 @@ export const TABLE_ROWS = [
         region: '',
         kamOwner: '',
         sector: '',
-        pstAssign: [],
+        pstAssign: "",
         requirement: '',
         psrUpdates: 0,
         proposedSolution: 0,
@@ -89,7 +89,7 @@ export const TABLE_ROWS = [
         region: '',
         kamOwner: '',
         sector: '',
-        pstAssign: [],
+        pstAssign: "",
         requirement: '',
         psrUpdates: 0,
         proposedSolution: 0,
@@ -108,7 +108,7 @@ export const TABLE_ROWS = [
         region: '',
         kamOwner: '',
         sector: '',
-        pstAssign: [],
+        pstAssign: "",
         requirement: '',
         psrUpdates: 0,
         proposedSolution: 0,
@@ -127,7 +127,7 @@ export const TABLE_ROWS = [
         region: '',
         kamOwner: '',
         sector: '',
-        pstAssign: [],
+        pstAssign: "",
         requirement: '',
         psrUpdates: 0,
         proposedSolution: 0,
@@ -158,7 +158,7 @@ export const GRID_KEYS = {
   region: '', // dropdown
   kamOwner: '', // dropdown
   sector: '', // dropdown
-  pstAssign: [], // dropdown
+  pstAssign: "", // dropdown
   requirement: '',
   psrUpdates: "",
   proposedSolution: '',
