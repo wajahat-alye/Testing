@@ -241,7 +241,7 @@ const MyDocument = () => {
 
                 <View style={styles.container}>
                   {/* First PieChart */}
-                  <View style={styles.chartContainer}>
+                  {controller?.currentWeekPie.length > 0 && <View style={styles.chartContainer}>
                     <View style={styles.legendContainer}>
                       <Text style={styles.legendText}>Current Week Work Load Distribution</Text>
                     </View>
@@ -266,10 +266,10 @@ const MyDocument = () => {
                         <Legend />
                       </PieChart>
                     </ReactPDFChart>
-                  </View>
+                  </View>}
 
                   {/* Second PieChart */}
-                  <View style={styles.chartContainer}>
+                  {controller?.previousWeekPie.length > 0 && <View style={styles.chartContainer}>
                     <View style={styles.legendContainer}>
                       <Text style={styles.legendText}>Previous Week Work Load Distribution</Text>
                     </View>
@@ -294,12 +294,15 @@ const MyDocument = () => {
                         <Legend />
                       </PieChart>
                     </ReactPDFChart>
-                  </View>
+                  </View>}
+
+
+
                 </View>
 
                 <View style={styles.container}>
                   {/* Current Month */}
-                  <View style={styles.chartContainer}>
+                 {controller?.currentMonthPie.length > 0 && <View style={styles.chartContainer}>
                     <View style={styles.legendContainer}>
                       <Text style={styles.legendText}>Current Month Work Load Distribution</Text>
                     </View>
@@ -324,10 +327,10 @@ const MyDocument = () => {
                         <Legend />
                       </PieChart>
                     </ReactPDFChart>
-                  </View>
+                  </View>}
 
                   {/* Previous Month */}
-                  <View style={styles.chartContainer}>
+                 {controller?.previousMonthPie.length > 0 && <View style={styles.chartContainer}>
                     <View style={styles.legendContainer}>
                       <Text style={styles.legendText}>Previous Month Work Load Distribution</Text>
                     </View>
@@ -352,7 +355,9 @@ const MyDocument = () => {
                         <Legend />
                       </PieChart>
                     </ReactPDFChart>
-                  </View>
+                  </View>}
+
+
                 </View>
 
               </Page>
