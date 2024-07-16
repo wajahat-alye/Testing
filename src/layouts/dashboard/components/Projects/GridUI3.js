@@ -25,6 +25,7 @@ import { GRID_KEYS } from "./data";
 import { db } from "layouts/authentication/firebase/firebase";
 import { Timestamp } from "@firebase/firestore";
 import moment from "moment/moment";
+import { convertToDate } from "helper/func";
 
 const generateRandomId = () => {
   const randomId = Math.random().toString(36).substr(2, 6);
@@ -126,7 +127,6 @@ function EditToolbar({ setRows, headers, fileName, setRowModesModel, rows, field
         showDownloadTemplateButton={false}
         waitOnComplete={false}
         onComplete={(data) => {
-          // Timestamp.fromDate(new Date())
           // submissionTo
           // projectLevel
           // dateReceived
@@ -333,14 +333,13 @@ const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows, vh =
     for (let i = 0; i < headers.length; i++) {
 
       if (updatedRow.submissionTo) {
-        let b = moment;
-        updatedRow.submissionTo = moment(updatedRow.submissionTo).format("MM-DD-YYYY")
+        updatedRow.submissionTo = convertToDate(updatedRow.submissionTo).format("MM-DD-YYYY")
       }
       if (updatedRow.projectLevel) {
-        updatedRow.projectLevel = moment(updatedRow.projectLevel).format("MM-DD-YYYY")
+        updatedRow.projectLevel = convertToDate(updatedRow.projectLevel).format("MM-DD-YYYY")
       }
       if (updatedRow.dateReceived) {
-        updatedRow.dateReceived = moment(updatedRow.dateReceived).format("MM-DD-YYYY")
+        updatedRow.dateReceived = convertToDate(updatedRow.dateReceived).format("MM-DD-YYYY")
       }
       if (fileName === 'Deshboard') {
         if (headers[i].key == "status") {
