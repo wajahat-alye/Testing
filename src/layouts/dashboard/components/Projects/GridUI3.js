@@ -69,7 +69,7 @@ const getDayCount = (startDateString) => {
 
 
 
-function EditToolbar({ setRows, headers, fileName, setRowModesModel, rows, fieldToFocus }: any) {
+function EditToolbar({ setRows, headers, fileName, setRowModesModel, rows, fieldToFocus, handleDeleteSelected }: any) {
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -115,6 +115,13 @@ function EditToolbar({ setRows, headers, fileName, setRowModesModel, rows, field
         csvOptions={{ fileName: fileName }}
         printOptions={{ fileName: fileName }}
       />
+      <Button
+        color="primary"
+        startIcon={<DeleteIcon  />}
+        onClick={handleDeleteSelected}
+      >
+        Delete Records
+      </Button>
       {/* <Button color="primary" startIcon={<DownloadIcon />}>
         <ExportJsonCsv headers={headers} items={rows}>
           Export
@@ -379,6 +386,29 @@ const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows, vh =
   };
 
 
+  const [selectionModel, setSelectionModel] = useState([]);
+
+  const handleSelectionModelChange = (newSelection) => {
+    setSelectionModel(newSelection);
+  };
+
+  const [rowSelectionModel, setRowSelectionModel] = React.useState([]);
+
+  const handleDeleteSelected = () => {
+    // Implement logic to delete selected rows
+    const updatedRows = rows.filter((row) => !rowSelectionModel.includes(row.id));
+    // Optionally perform API calls or other operations here
+
+    // Update state with remaining rows and clear selection
+    setRows(rows.filter((row) => !rowSelectionModel.includes(row.id)));
+
+    // Update your data source with updatedRows or perform deletion logic
+  };
+
+
+  console.log("rowSelectionModel",rowSelectionModel)
+
+
   return (
     <>
       {/* <div style={{ height: '100vh', width: '100%' }}> */}
@@ -396,12 +426,17 @@ const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows, vh =
         onRowModesModelChange={handleRowModesModelChange}
         onRowEditStop={handleRowEditStop}
         processRowUpdate={processRowUpdate}
+        onRowSelectionModelChange={(newRowSelectionModel) => {
+          setRowSelectionModel(newRowSelectionModel);
+        }}
+        rowSelectionModel={rowSelectionModel}
+
         slots={{
           toolbar: EditToolbar,
           loadingOverlay: LinearProgress,
         }}
         slotProps={{
-          toolbar: { setRows, headers, fileName, setRowModesModel, rows, fieldToFocus },
+          toolbar: { setRows, headers, fileName, setRowModesModel, rows, fieldToFocus, handleDeleteSelected },
         }}
         initialState={{
           pagination: { paginationModel: { pageSize: 20 } },

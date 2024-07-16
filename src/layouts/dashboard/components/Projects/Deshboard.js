@@ -12,6 +12,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import { DatePicker } from "@mui/x-date-pickers";
 import { getGridDateOperators, GRID_DATE_COL_DEF, GridEditDateCell } from "@mui/x-data-grid";
 import moment from "moment";
+import { useLoader } from "hook/useLoader";
 // import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 
@@ -24,6 +25,9 @@ const Deshboard = ({ }: any) => {
     maxWidth: 300,
     margin: "8px"
   });
+
+  const { showLoader, hideLoader } = useLoader();
+
   useEffect(() => {
     console.log('asdfasdfasdfasdf', rows)
     reduxData.setGridData(dispatch, rows);
@@ -31,10 +35,22 @@ const Deshboard = ({ }: any) => {
 
   useEffect(() => {
     const fetch = async () => {
-      const data = await getDeshboardData();
+      
+
+
+      try {
+        showLoader();
+        const data = await getDeshboardData();
       setRows(data);
+       } catch (error) {
+        
+       }finally{
+        hideLoader();
+       }
+
     };
     fetch();
+   
   }, []);
 
 
