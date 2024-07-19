@@ -43,7 +43,7 @@ function excelSerialNumberToFirebaseTimestamp(serial) {
   dateInfo.setUTCMilliseconds(milliseconds);
 
   // Convert JavaScript Date to Firebase Timestamp
-  const timestamp = Timestamp.fromDate(dateInfo);
+  const timestamp = moment(new Date(dateInfo)).format("MM-DD-YYYY");
 
   return timestamp;
 }
