@@ -56,7 +56,11 @@ export const getPreviousMonthStartDate = () => {
 };
 
 export const getPreviousMonthEndDate = () => {
-  return moment(new Date()).subtract(1, 'months').endOf('month')
+  let date = new Date();
+  date.setMonth(date.getMonth());
+  date.setDate(0);
+  date.setHours(0, 0, 0, 0);
+  return moment(date);
 };
 
 export const getCurrentMonthStartDate = () => {
@@ -66,8 +70,30 @@ export const getCurrentMonthStartDate = () => {
 };
 
 export const getCurrentMonthEndDate = () => {
-  return moment().endOf('month');
+  let date = new Date();
+  date.setMonth(date.getMonth() + 1);
+  date.setDate(0);
+  date.setHours(0, 0, 0, 0);
+  return moment(date);
 };
+
+
+
+export const getCurrentDate = () => {
+  let date = new Date();
+ 
+  date.setHours(0, 0, 0, 0);
+  return moment(date);
+};
+
+
+export const convertToDate = (_date) => {
+  let date = new Date(_date);
+ 
+  date.setHours(0, 0, 0, 0);
+  return moment(date);
+};
+
 
 
 export const makeDate = (date) => {

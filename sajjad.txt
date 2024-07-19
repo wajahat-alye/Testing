@@ -1,3 +1,8 @@
+new issue
+1) assigned task dropdown when unselect we have to click to perform the unselect operation
+
+
+
 1) submition date issue (done)
 2) complete info color (done)
 3) presale assign task dropdown (done)

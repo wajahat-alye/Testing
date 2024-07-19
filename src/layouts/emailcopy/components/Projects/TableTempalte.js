@@ -26,6 +26,8 @@ import DataTable from "examples/Tables/DataTable";
 import moment from "moment/moment";
 import { useEffect, useState } from "react";
 import {
+  convertToDate,
+  getCurrentDate,
   getCurrentMonthEndDate,
   getCurrentMonthStartDate,
   getCurrentWeekEndDate,
@@ -129,7 +131,7 @@ function TableTempalte({ title, isShow = true }: any) {
 
 
 
-    const currentDate = new Date();
+    const currentDate = getCurrentDate();
 
 
     const current_week_start = getCurrentWeekStartDate();
@@ -153,7 +155,8 @@ function TableTempalte({ title, isShow = true }: any) {
     let previous_week_kamOwnerKV = {}
 
     for (let i = 0; i < gridd.length; i++) {
-      const dateReceived = moment(new Date(gridd[i].dateReceived));
+      // const dateReceived = moment(new Date(gridd[i].dateReceived));
+      const dateReceived = convertToDate(gridd[i].dateReceived);
       const isBetweenCurrentweek = (dateReceived >= current_week_start && dateReceived <= current_week_end);
 
       const pstAssign = gridd[i].pstAssign.split("/");
@@ -173,7 +176,7 @@ function TableTempalte({ title, isShow = true }: any) {
             current_week_parked_counter += pstCount
           }
         }
-        if (dateReceived === currentDate) { // New
+        if (dateReceived.isSame(currentDate)) { // New
           current_week_new_counter++;
           if (pstApply) {
             current_week_new_counter += pstCount
@@ -230,7 +233,7 @@ function TableTempalte({ title, isShow = true }: any) {
       }
       const isBetweenCurrentMonth = (dateReceived >= current_month_start && dateReceived <= current_month_end);
       if (isBetweenCurrentMonth) {
-        if (dateReceived === currentDate) { // New
+        if (dateReceived.isSame(currentDate)) { // New
           current_month_new_counter++;
           if (pstApply) {
             current_month_new_counter += pstCount

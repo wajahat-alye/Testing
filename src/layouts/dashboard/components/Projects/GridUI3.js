@@ -25,6 +25,7 @@ import { GRID_KEYS } from "./data";
 import { db } from "layouts/authentication/firebase/firebase";
 import { Timestamp } from "@firebase/firestore";
 import moment from "moment/moment";
+import { convertToDate } from "helper/func";
 
 const generateRandomId = () => {
   const randomId = Math.random().toString(36).substr(2, 6);
@@ -68,7 +69,7 @@ const getDayCount = (startDateString) => {
 
 
 
-function EditToolbar({ setRows, headers, fileName, setRowModesModel, rows, fieldToFocus }: any) {
+function EditToolbar({ setRows, headers, fileName, setRowModesModel, rows, fieldToFocus, handleDeleteSelected }: any) {
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -114,6 +115,13 @@ function EditToolbar({ setRows, headers, fileName, setRowModesModel, rows, field
         csvOptions={{ fileName: fileName }}
         printOptions={{ fileName: fileName }}
       />
+      <Button
+        color="primary"
+        startIcon={<DeleteIcon  />}
+        onClick={handleDeleteSelected}
+      >
+        Delete Records
+      </Button>
       {/* <Button color="primary" startIcon={<DownloadIcon />}>
         <ExportJsonCsv headers={headers} items={rows}>
           Export
@@ -126,7 +134,6 @@ function EditToolbar({ setRows, headers, fileName, setRowModesModel, rows, field
         showDownloadTemplateButton={false}
         waitOnComplete={false}
         onComplete={(data) => {
-          // Timestamp.fromDate(new Date())
           // submissionTo
           // projectLevel
           // dateReceived
@@ -333,14 +340,13 @@ const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows, vh =
     for (let i = 0; i < headers.length; i++) {
 
       if (updatedRow.submissionTo) {
-        let b = moment;
-        updatedRow.submissionTo = moment(updatedRow.submissionTo).format("MM-DD-YYYY")
+        updatedRow.submissionTo = convertToDate(updatedRow.submissionTo).format("MM-DD-YYYY")
       }
       if (updatedRow.projectLevel) {
-        updatedRow.projectLevel = moment(updatedRow.projectLevel).format("MM-DD-YYYY")
+        updatedRow.projectLevel = convertToDate(updatedRow.projectLevel).format("MM-DD-YYYY")
       }
       if (updatedRow.dateReceived) {
-        updatedRow.dateReceived = moment(updatedRow.dateReceived).format("MM-DD-YYYY")
+        updatedRow.dateReceived = convertToDate(updatedRow.dateReceived).format("MM-DD-YYYY")
       }
       if (fileName === 'Deshboard') {
         if (headers[i].key == "status") {
@@ -380,6 +386,29 @@ const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows, vh =
   };
 
 
+  const [selectionModel, setSelectionModel] = useState([]);
+
+  const handleSelectionModelChange = (newSelection) => {
+    setSelectionModel(newSelection);
+  };
+
+  const [rowSelectionModel, setRowSelectionModel] = React.useState([]);
+
+  const handleDeleteSelected = () => {
+    // Implement logic to delete selected rows
+    const updatedRows = rows.filter((row) => !rowSelectionModel.includes(row.id));
+    // Optionally perform API calls or other operations here
+
+    // Update state with remaining rows and clear selection
+    setRows(rows.filter((row) => !rowSelectionModel.includes(row.id)));
+
+    // Update your data source with updatedRows or perform deletion logic
+  };
+
+
+  console.log("rowSelectionModel",rowSelectionModel)
+
+
   return (
     <>
       {/* <div style={{ height: '100vh', width: '100%' }}> */}
@@ -397,12 +426,17 @@ const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows, vh =
         onRowModesModelChange={handleRowModesModelChange}
         onRowEditStop={handleRowEditStop}
         processRowUpdate={processRowUpdate}
+        onRowSelectionModelChange={(newRowSelectionModel) => {
+          setRowSelectionModel(newRowSelectionModel);
+        }}
+        rowSelectionModel={rowSelectionModel}
+
         slots={{
           toolbar: EditToolbar,
           loadingOverlay: LinearProgress,
         }}
         slotProps={{
-          toolbar: { setRows, headers, fileName, setRowModesModel, rows, fieldToFocus },
+          toolbar: { setRows, headers, fileName, setRowModesModel, rows, fieldToFocus, handleDeleteSelected },
         }}
         initialState={{
           pagination: { paginationModel: { pageSize: 20 } },
