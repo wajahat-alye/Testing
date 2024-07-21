@@ -16,7 +16,7 @@ Coded by www.creative-tim.com
 import { useState, useEffect } from "react";
 
 // react-router components
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, Navigate, useNavigate } from "react-router-dom";
 
 // prop-types is a library for typechecking of props.
 import PropTypes from "prop-types";
@@ -53,6 +53,7 @@ import {
   setMiniSidenav,
   setOpenConfigurator,
 } from "context";
+import { signOut } from "Login/utils/firebase";
 
 function DashboardNavbar({ absolute, light, isMini }) {
   const [navbarType, setNavbarType] = useState();
@@ -91,7 +92,21 @@ function DashboardNavbar({ absolute, light, isMini }) {
   const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
   const handleOpenMenu = (event) => setOpenMenu(event.currentTarget);
   const handleCloseMenu = () => setOpenMenu(false);
+  const navigate = useNavigate();
 
+  
+ async function handleSignOut() {
+   
+   await signOut();
+   navigate("/login");
+   // signOut()
+  //   .then(() => {
+  //     console.log("Signed Out");
+  //   })
+  //   .catch(e => {
+  //     console.log("Error signing out", e);
+  //   });
+}
   // Render the notifications menu
   const renderMenu = () => (
     <Menu
@@ -106,11 +121,11 @@ function DashboardNavbar({ absolute, light, isMini }) {
       sx={{ mt: 2 }}
     >
       <NotificationItem icon={<Link to="/authentication/sign-in/basic">
-                {/* <IconButton sx={navbarIconButton} size="small" disableRipple> */}
-                  {/* <Icon sx={iconsStyle}>account_circle</Icon> */}
-                  <ExitToAppIcon />
-                {/* </IconButton> */}
-              </Link>} title="Logout" />
+        {/* <IconButton sx={navbarIconButton} size="small" disableRipple> */}
+        {/* <Icon sx={iconsStyle}>account_circle</Icon> */}
+        <ExitToAppIcon />
+        {/* </IconButton> */}
+      </Link>} title="Logout" onClick={handleSignOut}/>
       {/* <NotificationItem icon={<Icon>podcasts</Icon>} title="Manage Podcast sessions" />
       <NotificationItem icon={<Icon>shopping_cart</Icon>} title="Payment successfully completed" /> */}
     </Menu>
@@ -179,7 +194,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
                 variant="contained"
                 onClick={handleOpenMenu}
               >
-                 <Icon sx={iconsStyle}>account_circle</Icon>
+                <Icon sx={iconsStyle}>account_circle</Icon>
               </IconButton>
               <IconButton
                 size="small"

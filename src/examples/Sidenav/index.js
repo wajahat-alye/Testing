@@ -105,7 +105,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
           />
         </Link>
       ) : (
-        <NavLink key={key} to={route}>
+        <NavLink key={key} to={route} onClick={()=>localStorage.setItem("route",route)}>
           <SidenavCollapse name={name} icon={icon} active={key === collapseName} />
         </NavLink>
       );

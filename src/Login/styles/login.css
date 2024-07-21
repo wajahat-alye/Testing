@@ -1,0 +1,27 @@
+.UInput {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.Ubutton {
+  background-color: #635f9a;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+.Ubutton:hover {
+  opacity: 0.8;
+}
+
+.error {
+  color: red;
+  font-size: 0.75em;
+}

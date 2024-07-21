@@ -54,9 +54,15 @@ import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "co
 import brandWhite from "assets/images/logo-ct.png";
 import brandDark from "assets/images/logo-ct-dark.png";
 import MyDocument from "./PDF/MyDocument";
+import Home from "Login/pages/home";
+import Login from "Login/pages/login";
+import Signup from "Login/pages/signup";
+import { withAuth } from "Login/components/auth";
+import Loader from "Login/components/loader";
+import { authStates } from "Login/components/auth";
 
 
-export default function DeshboardScreen() {
+const DeshboardScreen = (props:any) => {
   const [controller, dispatch] = useMaterialUIController();
   const {
     miniSidenav,
@@ -98,6 +104,8 @@ export default function DeshboardScreen() {
     }
   };
 
+  
+
   // Change the openConfigurator state
   const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
 
@@ -105,6 +113,11 @@ export default function DeshboardScreen() {
   useEffect(() => {
     document.body.setAttribute("dir", direction);
   }, [direction]);
+
+
+  useEffect(()=>{
+let route_ = localStorage.getItem("route")
+  },[])
 
   // Setting page scroll to 0 when changing the route
   useEffect(() => {
@@ -149,59 +162,103 @@ export default function DeshboardScreen() {
     </MDBox>
   );
   
+  if (props.authState === authStates.INITIAL_VALUE) {
+    return <Loader />;
+  }
+  /* eslint-disable react/prop-types */
 
-  return direction === "rtl" ? (
-    <CacheProvider value={rtlCache}>
-      <ThemeProvider theme={darkMode ? themeDarkRTL : themeRTL}>
-        <CssBaseline />
-        {layout === "dashboard" && (
-          <>
-            <Sidenav
-              color={sidenavColor}
-              brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-              // brandName="Material Dashboard 2"
-              brandName="Super"
-              routes={routes}
-              onMouseEnter={handleOnMouseEnter}
-              onMouseLeave={handleOnMouseLeave}
-            />
-            <Configurator />
-            {/* {configsButton} */}
-          </>
-        )}
-        {layout === "vr" && <Configurator />}
-        <Routes>
-          {getRoutes(routes)}
-          <Route path="*" element={<Navigate to="/dashboard" />} />
-        </Routes>
-      </ThemeProvider>
-    </CacheProvider>
-  ) : (
-    <ThemeProvider theme={darkMode ? themeDark : theme}>
-      <CssBaseline />
-      {/* <MyDocument /> */}
+  if (props.authState === authStates.LOGGED_OUT) {
+    return <Navigate to="/login" />;
+  }
 
-      {layout === "dashboard" && (
-        <>
-          <Sidenav
-            color={sidenavColor}
-            brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-            // brandName="Material Dashboard 2"
-            brandName="Super"
 
-            routes={routes}
-            onMouseEnter={handleOnMouseEnter}
-            onMouseLeave={handleOnMouseLeave}
-          />
-          <Configurator />
-          {/* {configsButton} */}
-        </>
-      )}
-      {layout === "vr" && <Configurator />}
-      <Routes>
-        {getRoutes(routes)}
-        <Route path="*" element={<Navigate to="/dashboard" />} />
-      </Routes>
-    </ThemeProvider>
-  );
+return <>
+<ThemeProvider theme={darkMode ? themeDark : theme}>
+<CssBaseline />
+{/* <MyDocument /> */}
+
+{layout === "dashboard" && (
+  <>
+    <Sidenav
+      color={sidenavColor}
+      brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
+      // brandName="Material Dashboard 2"
+      brandName="Super"
+
+      routes={routes}
+      onMouseEnter={handleOnMouseEnter}
+      onMouseLeave={handleOnMouseLeave}
+    />
+    <Configurator />
+    {/* {configsButton} */}
+  </>
+)}
+{layout === "vr" && <Configurator />}
+<Routes>
+{/* <Route element={<Home />} path="/" /> */}
+{/* <Route element={<Login />} path="/login" />
+    <Route element={<Signup />} path="/signup" /> */}
+  {getRoutes(routes)}
+       <Route path="*" element={<Navigate to="/dashboard" />} />
+
+</Routes>
+</ThemeProvider>
+
+
+</>
+
+  // return direction === "rtl" ? (
+  //   <CacheProvider value={rtlCache}>
+  //     <ThemeProvider theme={darkMode ? themeDarkRTL : themeRTL}>
+  //       <CssBaseline />
+  //       {layout === "dashboard" && (
+  //         <>
+          
+  //           <Sidenav
+  //             color={sidenavColor}
+  //             brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
+  //             // brandName="Material Dashboard 2"
+  //             brandName="Supernet Presale"
+  //             routes={routes}
+  //             onMouseEnter={handleOnMouseEnter}
+  //             onMouseLeave={handleOnMouseLeave}
+  //           />
+  //           <Configurator />
+  //           {/* {configsButton} */}
+  //         </>
+  //       )}
+  //       {layout === "vr" && <Configurator />}
+  //       <Routes>
+  //         {getRoutes(routes)}
+  //       </Routes>
+  //     </ThemeProvider>
+  //   </CacheProvider>
+  // ) : (
+  //   <ThemeProvider theme={darkMode ? themeDark : theme}>
+  //     <CssBaseline />
+  //     {/* <MyDocument /> */}
+
+  //     {layout === "dashboard" && (
+  //       <>
+  //         <Sidenav
+  //           color={sidenavColor}
+  //           brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
+  //           // brandName="Material Dashboard 2"
+  //           brandName="Super"
+
+  //           routes={routes}
+  //           onMouseEnter={handleOnMouseEnter}
+  //           onMouseLeave={handleOnMouseLeave}
+  //         />
+  //         <Configurator />
+  //         {/* {configsButton} */}
+  //       </>
+  //     )}
+  //     {layout === "vr" && <Configurator />}
+  //     <Routes>
+  //       {getRoutes(routes)}
+  //     </Routes>
+  //   </ThemeProvider>
+  // );
 }
+export default withAuth(DeshboardScreen);

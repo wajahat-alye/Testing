@@ -36,12 +36,12 @@ root.render(
   <BrowserRouter>
     <MaterialUIControllerProvider>
       <GlobalControllerProvider>
-<Notifications1Provider >
-  <LoaderProvider >
-        <App />
-  </LoaderProvider >
+        <Notifications1Provider >
+          <LoaderProvider >
+            <App />
+          </LoaderProvider >
 
-      </Notifications1Provider >
+        </Notifications1Provider >
 
       </GlobalControllerProvider>
 
