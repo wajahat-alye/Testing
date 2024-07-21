@@ -6,8 +6,12 @@ import en from "../utils/i18n";
 import { createNewUser } from "../utils/firebase";
 import Loader from "../components/loader";
 import { validateEmailPassword } from "../utils/helpers";
+import { Avatar, Button, TextField, Grid, Box, Typography, Container, CssBaseline, Alert } from '@mui/material';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import "../styles/login.css";
+import theme from "assets/theme";
 
 class SignUp extends React.Component {
   constructor(props) {
@@ -93,47 +97,79 @@ class SignUp extends React.Component {
     const errorMsg = this.state.error;
 
     return (
-      <form onSubmit={this.handleSubmit}>
-        <div className="container">
-          <h2>{en.GREETINGS.SIGNUP}</h2>
+      <ThemeProvider theme={theme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            {en.GREETINGS.SIGNUP}
+          </Typography>
+          <Box component="form" onSubmit={this.handleSubmit} noValidate sx={{ mt: 1 }}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label={en.FORM_FIELDS.EMAIL}
+              name="email"
+              autoComplete="email"
+              autoFocus
+              onChange={this.handleInputChange}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label={en.FORM_FIELDS.PASSWORD}
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              onChange={this.handleInputChange}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="retype"
+              label={en.FORM_FIELDS.RETYPE_PASSWORD}
+              type="password"
+              id="retype"
+              autoComplete="current-password"
+              onChange={this.handleInputChange}
+            />
+            {errorMsg && <Alert severity="error">Error: {errorMsg}</Alert>}
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2, color: "white" }}
+              style={{ color: 'white' }}
 
-          <input
-            type="text"
-            placeholder={en.FORM_FIELDS.EMAIL}
-            name="email"
-            onChange={this.handleInputChange}
-            required
-            className="UInput"
-
-          />
-
-          <input
-            type="password"
-            placeholder={en.FORM_FIELDS.PASSWORD}
-            name="password"
-            onChange={this.handleInputChange}
-            required
-            className="UInput"
-          
-          />
-
-          <input
-            type="password"
-            placeholder={en.FORM_FIELDS.RETYPE_PASSWORD}
-            name="retype"
-            onChange={this.handleInputChange}
-            required
-            className="UInput"
-
-          />
-
-          {errorMsg && <p className="error">Error: {errorMsg}</p>}
-          <button className="Ubutton" type="submit">Signup</button>
-
-          <p>Already a member?</p>
-          <Link to="/login">Login</Link>
-        </div>
-      </form>
+            >
+              Signup
+            </Button>
+            <Grid container>
+              <Grid item>
+                <Link to="/login" variant="body2">
+                  Already a member? Login
+                </Link>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+      </Container>
+    </ThemeProvider>
     );
   }
 }

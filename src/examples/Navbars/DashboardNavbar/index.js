@@ -16,7 +16,7 @@ Coded by www.creative-tim.com
 import { useState, useEffect } from "react";
 
 // react-router components
-import { useLocation, Link, Navigate } from "react-router-dom";
+import { useLocation, Link, Navigate, useNavigate } from "react-router-dom";
 
 // prop-types is a library for typechecking of props.
 import PropTypes from "prop-types";
@@ -92,12 +92,14 @@ function DashboardNavbar({ absolute, light, isMini }) {
   const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
   const handleOpenMenu = (event) => setOpenMenu(event.currentTarget);
   const handleCloseMenu = () => setOpenMenu(false);
+  const navigate = useNavigate();
 
   
- function handleSignOut() {
-   signOut();
-   <Navigate to="/login" />
-  // signOut()
+ async function handleSignOut() {
+   
+   await signOut();
+   navigate("/login");
+   // signOut()
   //   .then(() => {
   //     console.log("Signed Out");
   //   })

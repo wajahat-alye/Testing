@@ -9,6 +9,7 @@ import { validateEmailPassword } from "../utils/helpers";
 import { Avatar, Button, TextField, Grid, Box, Typography, Container, CssBaseline, Alert } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import theme from "assets/theme";
 
 import "../styles/login.css";
 import routes from "routes";
@@ -94,41 +95,76 @@ class Login extends React.Component {
       });
 
     return (
-      <form onSubmit={this.handleSubmit}>
-         <Routes>
-          {getRoutes(routes)}
-         
-        </Routes>  
-        <div className="container">
-          <h2>{en.GREETINGS.LOGIN}</h2>
+      <ThemeProvider theme={theme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            {en.GREETINGS.LOGIN}
+          </Typography>
+          <Box component="form" onSubmit={this.handleSubmit} noValidate sx={{ mt: 1 }}>
+            <Routes>
+              {getRoutes(routes)}
+            </Routes>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label={en.FORM_FIELDS.EMAIL}
+              name="email"
+              autoComplete="email"
+              autoFocus
+              onChange={this.handleInputChange}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label={en.FORM_FIELDS.PASSWORD}
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              onChange={this.handleInputChange}
+            />
+            {errorMsg && <Alert severity="error">{errorMsg}</Alert>}
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2, color: "white" }}
+              style={{ color: 'white' }}
 
-          <input
-            type="text"
-            placeholder={en.FORM_FIELDS.EMAIL}
-            name="email"
-            onChange={this.handleInputChange}
-            required
-            className="UInput"
-
-          />
-
-          <input
-            type="password"
-            placeholder={en.FORM_FIELDS.PASSWORD}
-            name="password"
-            onChange={this.handleInputChange}
-            required
-            className="UInput"
-          />
-          {errorMsg && <p className="error">{errorMsg}</p>}
-          <button className="Ubutton" id="login-button" type="submit">
-            Login
-          </button>
-
-          <p>{en.FORM_FIELDS.LOGIN_ALT_TEXT}</p>
-          <Link to="/signup">Sign up</Link>
-        </div>
-      </form>
+            >
+              Login
+            </Button>
+            <Grid container>
+              <Grid item xs>
+                <Link to="#" variant="body2">
+                  Forgot password?
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link to="/signup" variant="body2">
+                  {en.FORM_FIELDS.LOGIN_ALT_TEXT}
+                </Link>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+      </Container>
+    </ThemeProvider>
     );
   }
 }
