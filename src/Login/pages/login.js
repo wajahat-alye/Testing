@@ -1,13 +1,17 @@
 import React from "react";
-import { Link, Navigate  } from "react-router-dom";
+import { Link, Navigate, Route, Routes  } from "react-router-dom";
 
 import { authStates, withAuth } from "../components/auth";
 import en from "../utils/i18n";
 import Loader from "../components/loader";
 import { signIn } from "../utils/firebase";
 import { validateEmailPassword } from "../utils/helpers";
+import { Avatar, Button, TextField, Grid, Box, Typography, Container, CssBaseline, Alert } from '@mui/material';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import "../styles/login.css";
+import routes from "routes";
 
 class Login extends React.Component {
   constructor(props) {
@@ -71,13 +75,30 @@ class Login extends React.Component {
     }
 /* eslint-disable react/prop-types */
     if (this?.props?.authState === authStates.LOGGED_IN) {
-      return <Navigate  to="/" />;
+      console.log("come to login")
+      return <Navigate  to="/dashboard" />;
     }
 
     const errorMsg = this.state.error;
+    const getRoutes = (allRoutes) =>
+      allRoutes.map((route) => {
+        if (route.collapse) {
+          return getRoutes(route.collapse);
+        }
+  
+        if (route.route) {
+          return <Route exact path={route.route} element={route.component} key={route.key} />;
+        }
+  
+        return null;
+      });
 
     return (
       <form onSubmit={this.handleSubmit}>
+         <Routes>
+          {getRoutes(routes)}
+         
+        </Routes>  
         <div className="container">
           <h2>{en.GREETINGS.LOGIN}</h2>
 
@@ -87,6 +108,8 @@ class Login extends React.Component {
             name="email"
             onChange={this.handleInputChange}
             required
+            className="UInput"
+
           />
 
           <input
@@ -95,9 +118,10 @@ class Login extends React.Component {
             name="password"
             onChange={this.handleInputChange}
             required
+            className="UInput"
           />
           {errorMsg && <p className="error">{errorMsg}</p>}
-          <button id="login-button" type="submit">
+          <button className="Ubutton" id="login-button" type="submit">
             Login
           </button>
 

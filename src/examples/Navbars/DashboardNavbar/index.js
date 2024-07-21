@@ -16,7 +16,7 @@ Coded by www.creative-tim.com
 import { useState, useEffect } from "react";
 
 // react-router components
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, Navigate } from "react-router-dom";
 
 // prop-types is a library for typechecking of props.
 import PropTypes from "prop-types";
@@ -94,14 +94,16 @@ function DashboardNavbar({ absolute, light, isMini }) {
   const handleCloseMenu = () => setOpenMenu(false);
 
   
-function handleSignOut() {
-  signOut()
-    .then(() => {
-      console.log("Signed Out");
-    })
-    .catch(e => {
-      console.log("Error signing out", e);
-    });
+ function handleSignOut() {
+   signOut();
+   <Navigate to="/login" />
+  // signOut()
+  //   .then(() => {
+  //     console.log("Signed Out");
+  //   })
+  //   .catch(e => {
+  //     console.log("Error signing out", e);
+  //   });
 }
   // Render the notifications menu
   const renderMenu = () => (

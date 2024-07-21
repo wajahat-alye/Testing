@@ -1,10 +1,11 @@
 import React from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 
 import { authStates, withAuth } from "../components/auth";
 import { signOut } from "../utils/firebase";
 import Loader from "../components/loader";
 import DeshboardScreen from "DeshboardScreen";
+import routes from "routes";
 
 
 
@@ -20,8 +21,32 @@ class Home extends React.Component {
       return <Navigate to="/login" />;
     }
 
+
+
+    const getRoutes = (allRoutes) =>
+      allRoutes.map((route) => {
+        if (route.collapse) {
+          return getRoutes(route.collapse);
+        }
+  
+        if (route.route) {
+          return <Route exact path={route.route} element={route.component} key={route.key} />;
+        }
+  
+        return null;
+      });
+
+
+    // return <Navigate to="/dashboard" />;
+
     return (
-      <DeshboardScreen />
+    <>
+      {/* <Routes>
+          {getRoutes(routes)}
+         
+        </Routes>  */}
+      {/* <DeshboardScreen /> */}
+    </>
     );
   }
 }

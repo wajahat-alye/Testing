@@ -103,6 +103,8 @@ class SignUp extends React.Component {
             name="email"
             onChange={this.handleInputChange}
             required
+            className="UInput"
+
           />
 
           <input
@@ -111,6 +113,8 @@ class SignUp extends React.Component {
             name="password"
             onChange={this.handleInputChange}
             required
+            className="UInput"
+          
           />
 
           <input
@@ -119,10 +123,12 @@ class SignUp extends React.Component {
             name="retype"
             onChange={this.handleInputChange}
             required
+            className="UInput"
+
           />
 
           {errorMsg && <p className="error">Error: {errorMsg}</p>}
-          <button type="submit">Signup</button>
+          <button className="Ubutton" type="submit">Signup</button>
 
           <p>Already a member?</p>
           <Link to="/login">Login</Link>

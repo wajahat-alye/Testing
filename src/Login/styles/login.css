@@ -1,6 +1,4 @@
-/* Full-width inputs */
-input[type="text"],
-input[type="password"] {
+.UInput {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -9,8 +7,7 @@ input[type="password"] {
   box-sizing: border-box;
 }
 
-/* Set a style for all buttons */
-button {
+.Ubutton {
   background-color: #635f9a;
   color: white;
   padding: 14px 20px;
@@ -20,8 +17,7 @@ button {
   width: 100%;
 }
 
-/* Add a hover effect for buttons */
-button:hover {
+.Ubutton:hover {
   opacity: 0.8;
 }
 
