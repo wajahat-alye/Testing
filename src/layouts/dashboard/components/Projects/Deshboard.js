@@ -227,13 +227,13 @@ const Deshboard = ({ }: any) => {
       width: 130,
     },
     // { editable: true, field: "tat", headerName: "TAT", width: 130 },
-    // {
-    //   editable: true,
-    //   type: "number",
-    //   field: "projectLWC",
-    //   headerName: "Project Life (Work Days)",
-    //   width: 130,
-    // },
+    {
+      editable: true,
+      type: "number",
+      field: "projectLWC",
+      headerName: "Project Life (Work Days)",
+      width: 130,
+    },
     {
       editable: true,
       type: "singleSelect",

@@ -348,7 +348,7 @@ const GridUI3 = ({ headers, fileName, columns, fieldToFocus, rows, setRows, vh =
       if (updatedRow.dateReceived) {
         updatedRow.dateReceived = convertToDate(updatedRow.dateReceived).format("MM-DD-YYYY")
       }
-      if (fileName === 'Deshboard') {
+      if (fileName === 'Deshboard Entries') {
         if (headers[i].key == "status") {
           if (["Completed", "RFP Cancelled"].includes(updatedRow.status)) {
             updatedRow.submissionTo = moment().format("MM-DD-YYYY");
