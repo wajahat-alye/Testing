@@ -38,7 +38,7 @@ class SignUp extends React.Component {
 
     //Verify that password fields match
     if (target.type === "password") {
-      this.setState(function(state) {
+      this.setState(function (state) {
         if (state.password !== state.retype) {
           return {
             error: en.ERRORS.PASSWORD_MISMATCH,
@@ -78,6 +78,10 @@ class SignUp extends React.Component {
           this.setState({
             error: "Email already in use",
           });
+        }else{
+          this.setState({
+            error: `${e}`,
+          });
         }
       });
   }
@@ -98,78 +102,87 @@ class SignUp extends React.Component {
 
     return (
       <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            {en.GREETINGS.SIGNUP}
-          </Typography>
-          <Box component="form" onSubmit={this.handleSubmit} noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label={en.FORM_FIELDS.EMAIL}
-              name="email"
-              autoComplete="email"
-              autoFocus
-              onChange={this.handleInputChange}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label={en.FORM_FIELDS.PASSWORD}
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              onChange={this.handleInputChange}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="retype"
-              label={en.FORM_FIELDS.RETYPE_PASSWORD}
-              type="password"
-              id="retype"
-              autoComplete="current-password"
-              onChange={this.handleInputChange}
-            />
-            {errorMsg && <Alert severity="error">Error: {errorMsg}</Alert>}
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2, color: "white" }}
-              style={{ color: 'white' }}
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <Box
+            sx={{
+              marginTop: 8,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              {en.GREETINGS.SIGNUP}
+            </Typography>
+            <Box component="form" onSubmit={this.handleSubmit} noValidate sx={{ mt: 1 }}>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label={en.FORM_FIELDS.EMAIL}
+                name="email"
+                autoComplete="email"
+                autoFocus
+                onChange={this.handleInputChange}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label={en.FORM_FIELDS.PASSWORD}
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                onChange={this.handleInputChange}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="retype"
+                label={en.FORM_FIELDS.RETYPE_PASSWORD}
+                type="password"
+                id="retype"
+                autoComplete="current-password"
+                onChange={this.handleInputChange}
+              />
+              {errorMsg && <Alert severity="error">Error: {errorMsg}</Alert>}
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2, color: "white" }}
+                style={{ color: 'white' }}
 
-            >
-              Signup
-            </Button>
-            <Grid container>
-              <Grid item>
-                <Link to="/login" variant="body2">
-                  Already a member? Login
-                </Link>
+              >
+                Signup
+              </Button>
+
+
+
+              <Grid container>
+                <Grid item xs>
+                  <Link to="#" variant="body2">
+                    Already a member?
+                  </Link>
+                </Grid>
+                <Grid item>
+                  <Link to="/login" variant="body2">
+                    Login
+                  </Link>
+                </Grid>
               </Grid>
-            </Grid>
+
+            </Box>
           </Box>
-        </Box>
-      </Container>
-    </ThemeProvider>
+        </Container>
+      </ThemeProvider>
     );
   }
 }

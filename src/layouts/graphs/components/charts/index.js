@@ -49,7 +49,7 @@ export function MRWSChart({ dataset }: any) {
 }
 
 export function TQRRWChart({ series }: any) {
-  return <PieChart series={series} width={400} height={200} />;
+  return <PieChart series={series} width={600} height={400} />;
 }
 
 export const MVWSChart = ({ series }: any) => {
