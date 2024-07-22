@@ -168,12 +168,21 @@ class SignUp extends React.Component {
 
               <Grid container>
                 <Grid item xs>
-                  <Link to="#" variant="body2">
+                  <Link
+                   style={{ color: 'rgb(73, 80, 87)', fontSize: '16px' }}
+                  
+                  to="#"
+                  //  variant="body2"
+                  
+                  >
                     Already a member?
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link to="/login" variant="body2">
+                  <Link 
+                   style={{ color: 'rgb(73, 80, 87)', fontSize: '16px' }}
+                  
+                  to="/login" >
                     Login
                   </Link>
                 </Grid>

@@ -152,9 +152,9 @@ class Login extends React.Component {
               <Grid container>
                 <Grid item xs>
                   <Link
-                  //  style={{ color: 'inherit', textDecoration: 'none' }}
+                   style={{ color: 'rgb(73, 80, 87)', fontSize: '16px' }}
 underline="hover"
-component="button"
+// component="button"
                     to="#"
                   // variant=""
                   >
@@ -162,7 +162,10 @@ component="button"
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link to="/signup" variant="body2">
+                  <Link
+                   style={{ color: 'rgb(73, 80, 87)', fontSize: '16px' }}
+                  
+                  to="/signup" >
                     {en.FORM_FIELDS.LOGIN_ALT_TEXT}
                   </Link>
                 </Grid>
